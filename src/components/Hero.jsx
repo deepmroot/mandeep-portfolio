@@ -38,9 +38,8 @@ export function Hero() {
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-400 leading-relaxed max-w-xl mb-8">
-              A Computing Science student at TRU building user‑centered tools for
-              learning — from mobile apps and CMS sites to VR experiences and
-              AI‑assisted workflows.
+              A Product-Focused Software Engineer combining technical expertise with business strategy. 
+              I build scalable, revenue-generating platforms using Next.js, AI, and modern cloud solutions.
             </p>
 
             <div className="flex flex-wrap gap-4">

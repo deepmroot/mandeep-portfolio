@@ -8,6 +8,18 @@ export const LINKS = {
 
 export const PROJECTS = [
   {
+    title: "Generic Alternatives",
+    timeframe: "2025",
+    summary:
+      "A consumer-focused platform for finding generic product alternatives. Features data visualization, PDF generation, and a robust Express/PostgreSQL backend.",
+    tags: ["React", "Express", "PostgreSQL", "Tailwind", "Recharts"],
+    links: [
+      { label: "Live Demo", href: "https://genericalternatives.co.uk/" },
+      { label: "GitHub", href: "https://github.com/matthewdonsemail-lab/GenericAlternatives.git" },
+    ],
+    featured: true,
+  },
+  {
     title: "RentSpace – Modern Rental Platform",
     timeframe: "2025",
     summary:
