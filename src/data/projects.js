@@ -8,6 +8,18 @@ export const LINKS = {
 
 export const PROJECTS = [
   {
+    title: "QuickTest AI",
+    timeframe: "2025",
+    summary:
+      "A comprehensive exam system featuring automatic question generation and answer checking using an LLM. Supports source material upload (.txt, .docx, .pptx) and various question types.",
+    tags: ["React", "Node.js", "Express", "MongoDB", "AI Agents", "Stripe", "MUI"],
+    links: [
+      { label: "Live Demo", href: "https://quicktest-ai-374261b0a08e.herokuapp.com/" },
+      { label: "GitHub", href: "https://github.com/deepmroot/QuickTest.ai" },
+    ],
+    featured: true,
+  },
+  {
     title: "RentSpace – Modern Rental Platform",
     timeframe: "2025",
     summary:
