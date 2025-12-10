@@ -69,13 +69,12 @@ export function Hero() {
                 <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-[2rem] opacity-30 blur-2xl animate-pulse" />
                 
                 <div className="relative h-full w-full rounded-[2rem] overflow-hidden border border-white/10 bg-slate-800 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
-                    <img 
-                        src={HERO_IMAGE} 
-                        alt="Mandeep Singh" 
-                        className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                </div>
+                                         <img 
+                                            src={HERO_IMAGE} 
+                                            alt="Mandeep Singh" 
+                                            className="w-full h-full object-cover brightness-110"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />                </div>
             </div>
           </motion.div>
 
