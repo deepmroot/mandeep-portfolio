@@ -11,8 +11,8 @@ export const PROJECTS = [
     title: "Generic Alternatives",
     timeframe: "2025",
     summary:
-      "A consumer-focused platform for finding generic product alternatives. Features data visualization, PDF generation, and a robust Express/PostgreSQL backend.",
-    tags: ["React", "Express", "PostgreSQL", "Tailwind", "Recharts"],
+      "A distributed sourcing, automation, and logistics enablement platform that replaces traditional sourcing agents with a data-driven, AI-powered workflow for global supply chains.",
+    tags: ["Distributed Sourcing", "Automation", "Logistics", "AI Agents", "Microservices", "TypeScript", "React", "Express", "PostgreSQL", "Docker", "CI/CD", "Scraping"],
     links: [
       { label: "Live Demo", href: "https://genericalternatives.co.uk/" },
       { label: "GitHub", href: "https://github.com/matthewdonsemail-lab/GenericAlternatives.git" },
