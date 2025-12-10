@@ -14,7 +14,7 @@ export const PROJECTS = [
       "A distributed sourcing, automation, and logistics enablement platform that replaces traditional sourcing agents with a data-driven, AI-powered workflow for global supply chains.",
     tags: ["Distributed Sourcing", "Automation", "Logistics", "AI Agents", "Microservices", "TypeScript", "React", "Express", "PostgreSQL", "Docker", "CI/CD", "Scraping"],
     links: [
-      { label: "Live Demo", href: "https://genericalternatives.co.uk/" },
+      { label: "Visit Site", href: "https://genericalternatives.co.uk/" },
       { label: "GitHub", href: "https://github.com/matthewdonsemail-lab/GenericAlternatives.git" },
     ],
     featured: true,
@@ -26,7 +26,7 @@ export const PROJECTS = [
       "A full-featured rental property platform built with Next.js 16 & Supabase. Features AI-powered chat (Gemini 2.0), real-time messaging, Zillow property syncing, and a comprehensive landlord/tenant dashboard.",
     tags: ["Next.js 16", "Supabase", "TypeScript", "Tailwind", "AI Agents", "Google Maps"],
     links: [
-      { label: "Live Demo", href: "https://rent-space-iota.vercel.app/" }, 
+      { label: "Visit Site", href: "https://rent-space-iota.vercel.app/" }, 
       { label: "GitHub", href: "https://github.com/deepmroot/RentSpace" },
     ],
     featured: true,
@@ -38,7 +38,7 @@ export const PROJECTS = [
       "A Rust-based CLI tool that brings agentic AI capabilities to your terminal. Supports OpenAI & Ollama, safe file operations, and intelligent project scaffolding.",
     tags: ["Rust", "CLI", "AI Agents", "OpenAI", "Ollama"],
     links: [
-        { label: "Website", href: "https://promptline-gold.vercel.app/" },
+        { label: "Visit Site", href: "https://promptline-gold.vercel.app/" },
         { label: "GitHub", href: "https://github.com/deepmroot/promptline-rust" }
     ],
     featured: true,
@@ -50,7 +50,7 @@ export const PROJECTS = [
       "Shopify storefront for 3D‑printed décor; designed interactive assets and embedded NFC for post‑purchase experiences.",
     tags: ["Shopify", "NFC", "Brand", "3D Print"],
     links: [
-      { label: "Store", href: "https://hypershape.ca" },
+      { label: "Visit Site", href: "https://hypershape.ca" },
       { label: "Instagram", href: "#" },
     ],
   },
@@ -61,7 +61,7 @@ export const PROJECTS = [
       "A comprehensive exam system featuring automatic question generation and answer checking using an LLM. Supports source material upload (.txt, .docx, .pptx) and various question types.",
     tags: ["React", "Node.js", "Express", "MongoDB", "AI Agents", "Stripe", "MUI"],
     links: [
-      { label: "Live Demo", href: "https://quicktest-ai-374261b0a08e.herokuapp.com/" },
+      { label: "Visit Site", href: "https://quicktest-ai-374261b0a08e.herokuapp.com/" },
       { label: "GitHub", href: "https://github.com/deepmroot/QuickTest.ai" },
     ],
     featured: true,
