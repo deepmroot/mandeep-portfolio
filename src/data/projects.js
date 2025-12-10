@@ -32,53 +32,31 @@ export const PROJECTS = [
     featured: true,
   },
   {
-    title: "BudgetBuddy – Mobile Finance App",
-    timeframe: "2024 – Present",
-    summary:
-      "Student‑first expense tracker with Google Sign‑In, biometrics, SQLite + Firebase sync, and polished UI.",
-    tags: ["Android", "Java", "SQLite", "Firebase", "Auth"],
-    links: [
-      { label: "Repo", href: LINKS.github },
-      { label: "Demo", href: "#" },
-    ],
-  },
-  {
     title: "Hypershape Canada – 3D Printing Store",
     timeframe: "2024 – Present",
     summary:
       "Shopify storefront for 3D‑printed décor; designed interactive assets and embedded NFC for post‑purchase experiences.",
     tags: ["Shopify", "NFC", "Brand", "3D Print"],
     links: [
-      { label: "Store", href: "#" },
+      { label: "Store", href: "https://hypershape.ca" },
       { label: "Instagram", href: "#" },
     ],
   },
   {
-    title: "Freelance – School & CMS Sites",
+    title: "Terra Mare Education",
     timeframe: "2022 – Present",
     summary:
-      "Custom WordPress/CMS builds including a Croatian school site (Tara One); trained staff to self‑publish content.",
+      "Custom WordPress/CMS builds including a Croatian school site; trained staff to self‑publish content.",
     tags: ["WordPress", "CMS", "Accessibility"],
-    links: [{ label: "Live Example", href: "#" }],
+    links: [{ label: "Visit Site", href: "https://www.terramareeducation.com/" }],
   },
   {
-    title: "VR Indoor Tour (TRU)",
-    timeframe: "2023 – Current",
+    title: "BudgetBuddy – Mobile Finance App",
+    timeframe: "2024 – Present",
     summary:
-      "Immersive 360° exploration using React + A‑Frame/Three.js; supports guided learning and discovery.",
-    tags: ["React", "A‑Frame", "Three.js", "UX"],
-    links: [{ label: "Repo", href: "#" }],
-  },
-  {
-    title: "AI Image → 3D Conversion",
-    timeframe: "2025",
-    summary:
-      "Pipeline that turns 2D images into printable 3D meshes (Hanyuan3D wrapper). Targeted ~92% match on test set.",
-    tags: ["AI", "3D Mesh", "Python"],
-    links: [
-      { label: "Demo", href: "#" },
-      { label: "Write‑up", href: "#" },
-    ],
+      "Student‑first expense tracker with Google Sign‑In, biometrics, SQLite + Firebase sync, and polished UI.",
+    tags: ["Android", "Java", "SQLite", "Firebase", "Auth"],
+    links: [], // No links yet
   },
 ];
 
