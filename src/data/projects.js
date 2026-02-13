@@ -4,101 +4,176 @@ export const LINKS = {
   github: "https://github.com/deepmroot",
   linkedin: "https://www.linkedin.com/in/mandeep-singh-b855972a7/",
   email: "mailto:mandeepsinghwani@gmail.com",
+  resume: "/resume.pdf", 
 };
 
 export const PROJECTS = [
   {
+    title: "SyntaxArk",
+    category: "flagship",
+    timeframe: "2025",
+    summary: "A full-stack browser-based IDE supporting multi-file editing, runtime execution, challenge testing, and real-time collaboration.",
+    techStack: {
+      frontend: "React, TypeScript, Vite, Tailwind",
+      state: "Zustand",
+      editor: "Monaco",
+      terminal: "xterm.js",
+      backend: "Convex",
+      deployment: "Vercel + CI/CD Workflow"
+    },
+    highlights: [
+      "Designed scalable state architecture using Zustand",
+      "Built runtime execution pipeline with console streaming",
+      "Implemented real-time collaboration using Convex",
+      "Added CI/CD pipeline with deploy lint gate and smoke tests",
+      "Structured project for production deployment on Vercel",
+      "Optimized Monaco Editor performance with worker-based tokenization"
+    ],
+    links: [
+      { label: "Live Demo", href: "https://syntaxark.vercel.app/" }, 
+      { label: "GitHub Repo", href: "https://github.com/deepmroot/SyntaxArk" },
+    ],
+  },
+  {
+    title: "RentSpace",
+    category: "selected",
+    timeframe: "2025",
+    summary: "Modern rental property platform featuring AI-powered automated screening and real-time property synchronization.",
+    theme: "orange",
+    techStack: {
+      frontend: "Next.js 16, TypeScript, Tailwind",
+      backend: "Supabase (Auth, DB, Storage)",
+      ai: "Google Gemini 2.0 (LLM Agents)",
+      realtime: "Supabase Realtime / Webhooks",
+      integrations: "Zillow Property API",
+      deployment: "Vercel"
+    },
+    highlights: [
+      "Integrated Zillow API for real-time rental property synchronization",
+      "Architected AI agent workflow for automated tenant screening and scoring",
+      "Implemented Supabase Realtime for instant landlord-tenant messaging",
+      "Engineered secure file processing pipeline for rental documentation",
+      "Designed comprehensive dashboard for multi-property management",
+      "Optimized geolocation search performance using PostGIS and Supabase"
+    ],
+    links: [
+      { label: "Live Demo", href: "https://rentspace4u.ca/" }, 
+      { label: "GitHub Repo", href: "https://github.com/deepmroot/RentSpace" },
+    ],
+  },
+  {
     title: "Generic Alternatives",
+    category: "selected",
     timeframe: "2025",
-    summary:
-      "A distributed sourcing, automation, and logistics enablement platform that replaces traditional sourcing agents with a data-driven, AI-powered workflow for global supply chains.",
-    tags: ["Distributed Sourcing", "Automation", "Logistics", "AI Agents", "Microservices", "TypeScript", "React", "Express", "PostgreSQL", "Docker", "CI/CD", "Scraping"],
-    links: [
-      { label: "Visit Site", href: "https://genericalternatives.co.uk/" },
-      { label: "GitHub", href: "https://github.com/matthewdonsemail-lab/GenericAlternatives.git" },
+    summary: "AI-powered global supply chain automation and distributed sourcing platform. Replaces traditional agents with data-driven workflows.",
+    theme: "olive",
+    techStack: {
+      frontend: "TypeScript, React, Manrope",
+      backend: "Node.js, Express, PostgreSQL",
+      automation: "AI Agents, Job Queues",
+      devops: "Docker, CI/CD, Microservices",
+      intelligence: "Web Scraping, Price Prediction",
+      brand: "Manrope + DM Serif Display"
+    },
+    highlights: [
+      "Built distributed sourcing engine with AI-powered supplier matching",
+      "Automated logistics workflows using background job processing",
+      "Containerized microservices architecture for scalable deployment",
+      "Implemented high-weight geometric sans visual language",
+      "Developed price prediction algorithms for supply chain risk",
+      "Preserved production palette system: Olive/Lime contrast"
     ],
-    featured: true,
+    links: [
+      { label: "Live Demo", href: "https://genericalternatives.co.uk/" },
+      { label: "GitHub Repo", href: "https://github.com/matthewdonsemail-lab/GenericAlternatives.git" },
+    ],
   },
   {
-    title: "RentSpace – Modern Rental Platform",
-    timeframe: "2025",
-    summary:
-      "A full-featured rental property platform built with Next.js 16 & Supabase. Features AI-powered chat (Gemini 2.0), real-time messaging, Zillow property syncing, and a comprehensive landlord/tenant dashboard.",
-    tags: ["Next.js 16", "Supabase", "TypeScript", "Tailwind", "AI Agents", "Google Maps"],
-    links: [
-      { label: "Visit Site", href: "https://rent-space-iota.vercel.app/" }, 
-      { label: "GitHub", href: "https://github.com/deepmroot/RentSpace" },
+    title: "PromptLine",
+    category: "core",
+    asciiLogo: `   ____  ____   ___  __  __ ____ _____ _     ___ _   _ _____ 
+  |  _ \\|  _ \\ / _ \\|  \\/  |  _ \\_   _| |   |_ _| \\ | | ____|
+  | |_) | |_) | | | | |\\/| | |_) || | | |    | ||  \\| |  _|  
+  |  __/|  _ <| |_| | |  | |  __/ | | | |___ | || |\\  | |___ 
+  |_|   |_| \\_\\___/|_|  |_|_|    |_| |_____|___|_| \\_|_____|`,
+    summary: "High-performance AI-Native Runtime Terminal interface built in Rust. Bringing agentic AI capabilities directly to the local dev environment.",
+    stack: "Rust, OpenAI API, Ollama, CLI Architectures, Tokio",
+    highlights: [
+      "Engineered safe file operation protocols for AI-driven modifications",
+      "Implemented multi-provider support (OpenAI & Ollama)",
+      "Optimized terminal UI performance using Rust's concurrency model",
+      "Built custom project scaffolding engine for rapid prototyping",
+      "Designed secure API key management with local encrypted storage",
+      "Implemented asynchronous streaming for real-time AI responses"
     ],
-    featured: true,
+    links: [
+        { label: "Live Demo", href: "https://promptline-gold.vercel.app/" },
+        { label: "GitHub Repo", href: "https://github.com/deepmroot/promptline-rust" }
+    ],
   },
   {
-    title: "PromptLine – AI Agent CLI",
-    timeframe: "2025",
-    summary:
-      "A Rust-based CLI tool that brings agentic AI capabilities to your terminal. Supports OpenAI & Ollama, safe file operations, and intelligent project scaffolding.",
-    tags: ["Rust", "CLI", "AI Agents", "OpenAI", "Ollama"],
-    links: [
-        { label: "Visit Site", href: "https://promptline-gold.vercel.app/" },
-        { label: "GitHub", href: "https://github.com/deepmroot/promptline-rust" }
+    title: "Project_Genesis [WIP]",
+    category: "core",
+    isWIP: true,
+    summary: "A next-generation distributed systems monitoring tool designed for high-throughput microservice architectures. Currently in the architectural design phase.",
+    stack: "Go, gRPC, Prometheus, Kubernetes, Redis",
+    highlights: [
+      "Defining high-availability consensus protocols",
+      "Designing zero-copy data transfer pipelines",
+      "Architecting distributed trace aggregation",
+      "Implementing custom eBPF kernel probes",
+      "Optimizing time-series indexing for scale",
+      "Drafting technical whitepaper for v1.0 release"
     ],
-    featured: true,
-  },
-  {
-    title: "Hypershape Canada – 3D Printing Store",
-    timeframe: "2024 – Present",
-    summary:
-      "Shopify storefront for 3D‑printed décor; designed interactive assets and embedded NFC for post‑purchase experiences.",
-    tags: ["Shopify", "NFC", "Brand", "3D Print"],
     links: [
-      { label: "Visit Site", href: "https://hypershape.ca" },
-      { label: "Instagram", href: "#" },
+        { label: "Status: Research", href: "#" },
     ],
   },
   {
     title: "QuickTest AI",
-    timeframe: "2025",
-    summary:
-      "A comprehensive exam system featuring automatic question generation and answer checking using an LLM. Supports source material upload (.txt, .docx, .pptx) and various question types.",
-    tags: ["React", "Node.js", "Express", "MongoDB", "AI Agents", "Stripe", "MUI"],
-    links: [
-      { label: "Visit Site", href: "https://quicktest-ai-374261b0a08e.herokuapp.com/" },
-      { label: "GitHub", href: "https://github.com/deepmroot/QuickTest.ai" },
-    ],
-    featured: true,
+    category: "additional",
+    summary: "Exam system with automatic question generation using LLMs.",
+    stack: "React, Node.js, MongoDB, Stripe",
+    links: [{ label: "Site", href: "https://quicktest-ai-374261b0a08e.herokuapp.com/" }, { label: "GitHub", href: "https://github.com/deepmroot/QuickTest.ai" }],
+  },
+  {
+    title: "Hypershape Canada",
+    category: "additional",
+    summary: "Shopify storefront for 3D-printed décor with NFC integration.",
+    stack: "Shopify, NFC, 3D Design",
+    links: [{ label: "Site", href: "https://hypershape.ca" }],
+  },
+  {
+    title: "BudgetBuddy",
+    category: "additional",
+    summary: "Android expense tracker with Firebase sync and biometrics.",
+    stack: "Java, Android SDK, Firebase",
+    links: [{ label: "GitHub", href: "https://github.com/deepmroot/BudgetBuddy.git" }],
   },
   {
     title: "Terra Mare Education",
-    timeframe: "2022 – Present",
-    summary:
-      "Custom WordPress/CMS builds including a Croatian school site; trained staff to self‑publish content.",
-    tags: ["WordPress", "CMS", "Accessibility"],
-    links: [{ label: "Visit Site", href: "https://www.terramareeducation.com/" }],
-  },
-  {
-    title: "BudgetBuddy – Mobile Finance App",
-    timeframe: "2024 – Present",
-    summary:
-      "Student‑first expense tracker with Google Sign‑In, biometrics, SQLite + Firebase sync, and polished UI.",
-    tags: ["Android", "Java", "SQLite", "Firebase", "Auth"],
-    links: [], // No links yet
+    category: "additional",
+    summary: "Custom WordPress/CMS build for an international school.",
+    stack: "WordPress, CMS, Accessibility",
+    links: [{ label: "Site", href: "https://www.terramareeducation.com/" }],
   },
 ];
 
 export const SKILLS = [
   {
-    category: "Languages & Frameworks",
-    items: ["TypeScript", "JavaScript", "Rust", "Java", "Python", "React", "Next.js", "Node.js"],
+    category: "Frontend",
+    items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion", "Zustand"],
   },
   {
-    category: "Backend & Cloud",
-    items: ["Supabase", "Firebase", "PostgreSQL", "AWS (CCP)", "Vercel", "Docker"],
+    category: "Backend",
+    items: ["Node.js", "Express", "PostgreSQL", "Supabase", "Convex", "Firebase"],
   },
   {
-    category: "Tools & Design",
-    items: ["Git", "Figma", "Tailwind CSS", "Framer Motion", "Three.js", "A-Frame"],
+    category: "Tools",
+    items: ["Git", "Docker", "Figma", "Rust CLI", "Vite", "Monaco Editor"],
   },
   {
-    category: "Other",
-    items: ["AI/LLM Integration", "CI/CD", "Agile", "System Design"],
+    category: "DevOps",
+    items: ["CI/CD Workflows", "Vercel", "AWS (CCP)", "Deployment Monitoring", "Production Debugging", "System Orchestration"],
   },
 ];
