@@ -1,21 +1,52 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, Command, ArrowRight, Code2 } from "lucide-react";
 import { PROJECTS } from "../data/projects";
 
-export function GlobalSearch() {
+const QUERY_DEBOUNCE_MS = 200;
+
+function normalizeSearchValue(value) {
+  if (value == null) return "";
+  if (Array.isArray(value)) return value.map(normalizeSearchValue).join(" ");
+  if (typeof value === "object") return Object.values(value).map(normalizeSearchValue).join(" ");
+  return String(value);
+}
+
+export function GlobalSearch({ renderTrigger }) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const inputRef = useRef(null);
 
-  // Filter projects based on query
-  const results = query.length > 1 
-    ? PROJECTS.filter(p => 
-        p.title.toLowerCase().includes(query.toLowerCase()) || 
-        (p.stack && p.stack.toLowerCase().includes(query.toLowerCase())) ||
-        (p.techStack && Object.values(p.techStack).some(v => v.toLowerCase().includes(query.toLowerCase())))
-      )
-    : [];
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedQuery(query);
+    }, QUERY_DEBOUNCE_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [query]);
+
+  const normalizedQuery = debouncedQuery.trim().toLowerCase();
+
+  const results = useMemo(() => {
+    if (normalizedQuery.length <= 1) return [];
+
+    return PROJECTS.filter((project) => {
+      const searchableText = [
+        project.title,
+        project.stack,
+        project.summary,
+        project.category,
+        project.tags,
+        project.techStack,
+      ]
+        .map(normalizeSearchValue)
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(normalizedQuery);
+    });
+  }, [normalizedQuery]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -42,22 +73,30 @@ export function GlobalSearch() {
     }
   };
 
+  const renderDefaultTrigger = () => (
+    <div className="fixed top-6 right-6 z-50">
+      <button
+        onClick={() => setIsOpen(true)}
+        className="flex items-center gap-3 px-4 py-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-slate-400 hover:text-white hover:border-indigo-500/50 transition-all shadow-2xl"
+      >
+        <Search className="w-4 h-4" />
+        <span className="text-xs font-mono tracking-widest hidden sm:inline">Search Projects...</span>
+        <div className="hidden md:flex items-center gap-1 bg-white/5 px-1.5 py-0.5 rounded border border-white/10">
+          <Command className="w-2 h-2" />
+          <span className="text-[10px]">K</span>
+        </div>
+      </button>
+    </div>
+  );
+
   return (
     <>
-      {/* Floating Trigger Button */}
-      <div className="fixed top-6 right-6 z-50">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="flex items-center gap-3 px-4 py-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-slate-400 hover:text-white hover:border-indigo-500/50 transition-all shadow-2xl"
-        >
-          <Search className="w-4 h-4" />
-          <span className="text-xs font-mono tracking-widest hidden sm:inline">Search Projects...</span>
-          <div className="hidden md:flex items-center gap-1 bg-white/5 px-1.5 py-0.5 rounded border border-white/10">
-            <Command className="w-2 h-2" />
-            <span className="text-[10px]">K</span>
-          </div>
-        </button>
-      </div>
+      {renderTrigger
+        ? renderTrigger({
+            onClick: () => setIsOpen(true),
+            isOpen,
+          })
+        : renderDefaultTrigger()}
 
       <AnimatePresence>
         {isOpen && (
@@ -96,7 +135,7 @@ export function GlobalSearch() {
                     {results.map((project) => (
                       <button
                         key={project.title}
-                        onClick={() => scrollToProject(project.title === 'SyntaxArk' ? 'flagship' : project.title)}
+                        onClick={() => scrollToProject(project.title === "SyntaxArk" ? "flagship" : project.title)}
                         className="w-full flex items-center justify-between p-4 rounded-xl hover:bg-indigo-500/10 border border-transparent hover:border-indigo-500/20 transition-all text-left group"
                       >
                         <div className="flex items-center gap-4">
@@ -105,14 +144,14 @@ export function GlobalSearch() {
                           </div>
                           <div>
                             <h4 className="text-sm font-bold text-white tracking-tight">{project.title}</h4>
-                            <p className="text-[10px] font-mono text-slate-500 uppercase mt-1">{project.category} // {project.timeframe || 'Active'}</p>
+                            <p className="text-[10px] font-mono text-slate-500 uppercase mt-1">{project.category} // {project.timeframe || "Active"}</p>
                           </div>
                         </div>
                         <ArrowRight className="w-4 h-4 text-slate-700 group-hover:text-indigo-500 transition-colors" />
                       </button>
                     ))}
                   </div>
-                ) : query.length > 1 ? (
+                ) : normalizedQuery.length > 1 ? (
                   <div className="py-12 text-center">
                     <p className="text-slate-500 font-mono text-xs uppercase tracking-widest">No matching clusters found for: {query}</p>
                   </div>
@@ -121,10 +160,10 @@ export function GlobalSearch() {
                     <div>
                       <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-4">Jump_To</p>
                       <div className="grid grid-cols-2 gap-3">
-                        {['SyntaxArk', 'RentSpace', 'Generic Alternatives', 'PromptLine'].map(nav => (
+                        {["SyntaxArk", "RentSpace", "Generic Alternatives", "PromptLine"].map((nav) => (
                           <button
                             key={nav}
-                            onClick={() => scrollToProject(nav === 'SyntaxArk' ? 'flagship' : nav)}
+                            onClick={() => scrollToProject(nav === "SyntaxArk" ? "flagship" : nav)}
                             className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5 hover:border-indigo-500/30 text-xs text-slate-400 hover:text-white transition-all text-left"
                           >
                             <div className="w-1 h-1 rounded-full bg-indigo-500" /> {nav}
@@ -139,7 +178,7 @@ export function GlobalSearch() {
               <div className="p-4 bg-black/20 border-t border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-4 text-[10px] font-mono text-slate-600">
                   <span className="flex items-center gap-1"><kbd className="bg-white/5 px-1 rounded border border-white/10">ESC</kbd> Close</span>
-                  <span className="flex items-center gap-1"><kbd className="bg-white/5 px-1 rounded border border-white/10">↵</kbd> Select</span>
+                  <span className="flex items-center gap-1"><kbd className="bg-white/5 px-1 rounded border border-white/10">Enter</kbd> Select</span>
                 </div>
                 <div className="text-[10px] font-mono text-indigo-500/50 uppercase tracking-widest">System_Navigation_v1.0</div>
               </div>

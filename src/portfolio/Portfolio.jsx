@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PROJECTS, LINKS } from "../data/projects";
 import { Hero } from "../components/Hero";
 import { Skills } from "../components/Skills";
@@ -24,11 +24,18 @@ import {
   ShieldCheck,
   Server,
   Palette,
-  Type
+  Type,
+  Pause,
+  Play
 } from "lucide-react";
 
 export default function Portfolio() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [previewStates, setPreviewStates] = useState({});
+  const [previewVisibility, setPreviewVisibility] = useState({});
+  const [lowMotionMode, setLowMotionMode] = useState(false);
+  const previewObserverRef = useRef(null);
+  const previewNodeMapRef = useRef(new Map());
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -39,15 +46,120 @@ export default function Portfolio() {
     return () => clearTimeout(timer);
   }, []);
 
-  const flagship = PROJECTS.find(p => p.category === "flagship");
-  const selectedProjects = PROJECTS.filter(p => p.category === "selected");
-  const coreProjects = PROJECTS.filter(p => p.category === "core");
-  const additionalProjects = PROJECTS.filter(p => p.category === "additional");
+  useEffect(() => {
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileQuery = window.matchMedia("(max-width: 1024px)");
+    const updateLowMotion = () => setLowMotionMode(reducedMotionQuery.matches || mobileQuery.matches);
+    updateLowMotion();
+
+    if (typeof reducedMotionQuery.addEventListener === "function") {
+      reducedMotionQuery.addEventListener("change", updateLowMotion);
+      mobileQuery.addEventListener("change", updateLowMotion);
+    } else {
+      reducedMotionQuery.addListener(updateLowMotion);
+      mobileQuery.addListener(updateLowMotion);
+    }
+
+    return () => {
+      if (typeof reducedMotionQuery.removeEventListener === "function") {
+        reducedMotionQuery.removeEventListener("change", updateLowMotion);
+        mobileQuery.removeEventListener("change", updateLowMotion);
+      } else {
+        reducedMotionQuery.removeListener(updateLowMotion);
+        mobileQuery.removeListener(updateLowMotion);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setPreviewVisibility((previous) => {
+          let changed = false;
+          const next = { ...previous };
+
+          entries.forEach((entry) => {
+            const previewKey = entry.target.getAttribute("data-preview-key");
+            if (!previewKey) return;
+            const isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+            if (next[previewKey] !== isVisible) {
+              next[previewKey] = isVisible;
+              changed = true;
+            }
+          });
+
+          return changed ? next : previous;
+        });
+      },
+      {
+        root: null,
+        rootMargin: "350px 0px",
+        threshold: 0.01,
+      }
+    );
+
+    previewObserverRef.current = observer;
+    previewNodeMapRef.current.forEach((node) => {
+      if (node) observer.observe(node);
+    });
+
+    return () => {
+      observer.disconnect();
+      if (previewObserverRef.current === observer) {
+        previewObserverRef.current = null;
+      }
+    };
+  }, []);
+
+  const flagship = useMemo(() => PROJECTS.find(p => p.category === "flagship"), []);
+  const selectedProjects = useMemo(() => PROJECTS.filter(p => p.category === "selected"), []);
+  const coreProjects = useMemo(() => PROJECTS.filter(p => p.category === "core"), []);
+  const additionalProjects = useMemo(() => PROJECTS.filter(p => p.category === "additional"), []);
+  const flagshipPreviewKey = flagship ? `flagship-${flagship.title}` : "";
+  const flagshipLiveDemoHref = flagship?.links.find((link) => link.label === "Live Demo")?.href;
+  const flagshipPreviewRunning = isPreviewRunning(flagshipPreviewKey);
+  const flagshipPreviewVisible = previewVisibility[flagshipPreviewKey] ?? true;
+  const flagshipPreviewActive = flagshipPreviewRunning && flagshipPreviewVisible && Boolean(flagshipLiveDemoHref);
+
+  function isPreviewRunning(previewKey) {
+    if (!previewKey) return true;
+    return previewStates[previewKey] ?? true;
+  }
+
+  const setPreviewRunning = (previewKey, shouldRun) => {
+    if (!previewKey) return;
+    setPreviewStates((previous) => (
+      previous[previewKey] === shouldRun ? previous : { ...previous, [previewKey]: shouldRun }
+    ));
+  };
+
+  const registerPreviewNode = useCallback((previewKey, node) => {
+    if (!previewKey) return;
+
+    const nodeMap = previewNodeMapRef.current;
+    const previousNode = nodeMap.get(previewKey);
+    if (previousNode && previewObserverRef.current) {
+      previewObserverRef.current.unobserve(previousNode);
+    }
+
+    if (!node) {
+      nodeMap.delete(previewKey);
+      return;
+    }
+
+    node.setAttribute("data-preview-key", previewKey);
+    nodeMap.set(previewKey, node);
+
+    if (previewObserverRef.current) {
+      previewObserverRef.current.observe(node);
+    }
+  }, []);
 
   return (
     <main className="min-h-screen bg-[#0a0b10] text-slate-200 font-sans selection:bg-indigo-500/30 relative">
       <LiquidBackground />
-      <GlobalSearch />
 
       <div className="relative z-10">
         <Hero onOpenResume={() => setIsResumeOpen(true)} />
@@ -55,11 +167,27 @@ export default function Portfolio() {
         {/* PROJECTS HEADER */}
         <section className="pt-24 pb-12 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-col">
-              <span className="text-indigo-500 font-mono text-[10px] uppercase tracking-[0.5em] mb-4 block animate-pulse">Initializing Projects_DB...</span>
-              <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase">
-                Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">Works</span>
-              </h2>
+            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div className="flex flex-col">
+                <span className="text-indigo-500 font-mono text-[10px] uppercase tracking-[0.5em] mb-4 block animate-pulse">Initializing Projects_DB...</span>
+                <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase">
+                  Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">Works</span>
+                </h2>
+              </div>
+
+              <GlobalSearch
+                renderTrigger={({ onClick }) => (
+                  <button
+                    onClick={onClick}
+                    className="w-full md:w-auto flex items-center justify-center gap-3 px-4 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all shadow-2xl"
+                  >
+                    <span className="text-xs font-mono tracking-widest uppercase">Search Projects</span>
+                    <span className="text-[10px] font-mono text-slate-500 border border-white/10 bg-white/5 px-2 py-0.5 rounded">
+                      Ctrl/Cmd + K
+                    </span>
+                  </button>
+                )}
+              />
             </div>
           </div>
         </section>
@@ -85,6 +213,10 @@ export default function Portfolio() {
                     <img
                       src="/logo.png"
                       alt="SyntaxArk"
+                      width="256"
+                      height="256"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover/brand:scale-110"
                     />
                   </div>
@@ -127,13 +259,13 @@ export default function Portfolio() {
                     </div>
                     
                     <div className="relative flex items-center justify-between gap-1 h-28 px-6 bg-black/60 rounded-2xl border border-white/5 shadow-inner group-hover:border-indigo-500/20 transition-colors duration-500">
-                      <ArchitectureNode label="Client" icon={<Layout className="w-5 h-5" />} />
-                      <ArchitectureLine />
-                      <ArchitectureNode label="State" icon={<Cpu className="w-5 h-5" />} highlight />
-                      <ArchitectureLine />
-                      <ArchitectureNode label="Runner" icon={<Zap className="w-5 h-5" />} />
-                      <ArchitectureLine />
-                      <ArchitectureNode label="Backend" icon={<Cloud className="w-5 h-5" />} highlight />
+                      <ArchitectureNode label="Client" icon={<Layout className="w-5 h-5" />} lowMotion={lowMotionMode} />
+                      <ArchitectureLine lowMotion={lowMotionMode} />
+                      <ArchitectureNode label="State" icon={<Cpu className="w-5 h-5" />} highlight lowMotion={lowMotionMode} />
+                      <ArchitectureLine lowMotion={lowMotionMode} />
+                      <ArchitectureNode label="Runner" icon={<Zap className="w-5 h-5" />} lowMotion={lowMotionMode} />
+                      <ArchitectureLine lowMotion={lowMotionMode} />
+                      <ArchitectureNode label="Backend" icon={<Cloud className="w-5 h-5" />} highlight lowMotion={lowMotionMode} />
                     </div>
                   </div>
 
@@ -214,15 +346,45 @@ export default function Portfolio() {
                               <span className="text-[8px] text-emerald-500/70 font-bold uppercase tracking-tighter">Live</span>
                            </div>
                         </div>
+                        <button
+                          type="button"
+                          onClick={() => setPreviewRunning(flagshipPreviewKey, !flagshipPreviewRunning)}
+                          disabled={!flagshipLiveDemoHref}
+                          className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-white/10 bg-white/5 text-[9px] font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:border-indigo-500/40 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          {flagshipPreviewRunning ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+                          {flagshipPreviewRunning ? "Stop" : "Run"}
+                        </button>
                      </div>
-                     <div className="flex-grow relative bg-[#0a0b10]">
-                        <iframe 
-                          src={flagship.links.find(l => l.label === "Live Demo")?.href} 
-                          className="absolute inset-0 w-full h-full border-none grayscale-[0.2] contrast-[1.1] hover:grayscale-0 transition-all duration-700"
-                          title="SyntaxArk Live Preview"
-                          loading="lazy"
-                          tabIndex="-1"
-                        />
+                     <div ref={(node) => registerPreviewNode(flagshipPreviewKey, node)} className="flex-grow relative bg-[#0a0b10]">
+                        {flagshipPreviewActive ? (
+                          <iframe
+                            src={flagshipLiveDemoHref}
+                            className="absolute inset-0 w-full h-full border-none grayscale-[0.2] contrast-[1.1] hover:grayscale-0 transition-all duration-700"
+                            title="SyntaxArk Live Preview"
+                            loading="lazy"
+                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                            tabIndex="-1"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#0d0e14] via-[#0a0b10] to-[#06070c] p-8">
+                            <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.25),transparent_45%),radial-gradient(circle_at_80%_75%,rgba(217,70,239,0.18),transparent_40%)]" />
+                            <div className="relative z-10 max-w-lg text-center">
+                              <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-indigo-400/80 mb-3">
+                                {flagshipPreviewRunning ? "Preview Auto-Suspended" : "Live Preview Paused"}
+                              </p>
+                              <h4 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">SyntaxArk</h4>
+                              <p className="text-sm text-slate-400 leading-relaxed mb-6">{flagship.summary}</p>
+                              <button
+                                onClick={() => flagshipLiveDemoHref && setPreviewRunning(flagshipPreviewKey, true)}
+                                disabled={!flagshipLiveDemoHref}
+                                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-indigo-500 text-white text-xs font-black uppercase tracking-widest shadow-[0_8px_0_rgb(30,58,138)] active:shadow-none active:translate-y-[8px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                              >
+                                {flagshipPreviewRunning ? "Resume in View" : "Resume Live Preview"} <ArrowUpRight className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        )}
                         <div className="absolute bottom-4 right-4 pointer-events-none">
                            <div className="px-3 py-1.5 rounded-lg bg-indigo-500/20 border border-indigo-500/30 backdrop-blur-md text-indigo-300 text-[10px] font-bold uppercase tracking-widest shadow-xl">
                               Beta Version 1.0
@@ -245,6 +407,11 @@ export default function Portfolio() {
           const secondaryColor = isOlive ? "#282a1e" : "#7d6650";
           const wordmarkColor = isOlive ? "#fdfff9" : "#724B1D";
           const shadowColor = isOlive ? "rgba(211, 245, 76, 0.4)" : "rgba(132, 45, 22, 0.4)";
+          const selectedPreviewKey = `selected-${project.title}`;
+          const selectedLiveDemoHref = project.links.find((link) => link.label === "Live Demo")?.href;
+          const selectedPreviewRunning = isPreviewRunning(selectedPreviewKey);
+          const selectedPreviewVisible = previewVisibility[selectedPreviewKey] ?? true;
+          const selectedPreviewActive = selectedPreviewRunning && selectedPreviewVisible && Boolean(selectedLiveDemoHref);
           
           return (
             <div key={project.title} id={project.title}>
@@ -279,6 +446,10 @@ export default function Portfolio() {
                            <img
                             src="/generic-alternatives-wordmark.svg"
                             alt="Generic Alternatives"
+                            width="640"
+                            height="160"
+                            loading="lazy"
+                            decoding="async"
                             className="h-20 md:h-28 w-auto drop-shadow-2xl transition-transform duration-500 group-hover/brand:scale-105"
                           />
                         </div>
@@ -288,6 +459,10 @@ export default function Portfolio() {
                             <img
                               src="/RentSpace.png"
                               alt="RentSpace"
+                              width="320"
+                              height="320"
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover/brand:scale-110"
                             />
                           </div>
@@ -321,18 +496,58 @@ export default function Portfolio() {
                             </div>
                             <div className="mx-auto w-1/2 h-5 bg-white/5 rounded-md border border-white/5 flex items-center justify-center relative">
                                <span className="text-[10px] text-slate-500 font-mono truncate px-2">
-                                 {project.links.find(l => l.label === "Live Demo")?.href || "rentspace.app"}
+                                 {selectedLiveDemoHref || "rentspace.app"}
                                </span>
                             </div>
+                            <button
+                              type="button"
+                              onClick={() => setPreviewRunning(selectedPreviewKey, !selectedPreviewRunning)}
+                              disabled={!selectedLiveDemoHref}
+                              className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-white/10 bg-white/5 text-[9px] font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                              style={{ borderColor: `${brandColor}40` }}
+                            >
+                              {selectedPreviewRunning ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+                              {selectedPreviewRunning ? "Stop" : "Run"}
+                            </button>
                          </div>
-                         <div className="flex-grow relative bg-[#0a0b10]">
-                            <iframe 
-                              src={project.links.find(l => l.label === "Live Demo")?.href} 
-                              className="absolute inset-0 w-full h-full border-none grayscale-[0.1] contrast-[1.05] hover:grayscale-0 transition-all duration-700"
-                              title={`${project.title} Preview`}
-                              loading="lazy"
-                              tabIndex="-1"
-                            />
+                         <div ref={(node) => registerPreviewNode(selectedPreviewKey, node)} className="flex-grow relative bg-[#0a0b10]">
+                            {selectedPreviewActive ? (
+                              <iframe
+                                src={selectedLiveDemoHref}
+                                className="absolute inset-0 w-full h-full border-none grayscale-[0.1] contrast-[1.05] hover:grayscale-0 transition-all duration-700"
+                                title={`${project.title} Preview`}
+                                loading="lazy"
+                                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                tabIndex="-1"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center p-8 bg-gradient-to-br from-[#111317] via-[#0a0b10] to-[#070809]">
+                                <div
+                                  className="absolute inset-0 opacity-30"
+                                  style={{
+                                    background: `radial-gradient(circle at 20% 25%, ${brandColor}40, transparent 45%), radial-gradient(circle at 80% 75%, ${secondaryColor}50, transparent 40%)`,
+                                  }}
+                                />
+                                <div className="relative z-10 max-w-md text-center">
+                                  <p className="text-[10px] font-mono uppercase tracking-[0.3em] mb-3" style={{ color: `${brandColor}CC` }}>
+                                    {selectedPreviewRunning ? "Preview Auto-Suspended" : "Live Preview Paused"}
+                                  </p>
+                                  <h4 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">{project.title}</h4>
+                                  <p className="text-sm text-slate-400 leading-relaxed mb-6">{project.summary}</p>
+                                  <button
+                                    onClick={() => selectedLiveDemoHref && setPreviewRunning(selectedPreviewKey, true)}
+                                    disabled={!selectedLiveDemoHref}
+                                    className="inline-flex items-center gap-2 px-5 py-3 rounded-lg text-xs font-black uppercase tracking-widest shadow-[0_8px_0_rgba(15,23,42,0.7)] active:shadow-none active:translate-y-[8px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    style={{
+                                      backgroundColor: brandColor,
+                                      color: isOlive ? "#282a1e" : "#ffffff",
+                                    }}
+                                  >
+                                    {selectedPreviewRunning ? "Resume in View" : "Resume Live Preview"} <ArrowUpRight className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </div>
+                            )}
                          </div>
                       </div>
                     </motion.div>
@@ -360,23 +575,23 @@ export default function Portfolio() {
                         <div className="relative flex items-center justify-between gap-1 h-28 px-6 bg-black/60 rounded-2xl border border-white/5 shadow-inner transition-colors duration-500">
                           {isOlive ? (
                             <>
-                              <ArchitectureNode label="Source" icon={<Globe className="w-5 h-5" />} color="olive" />
-                              <ArchitectureLine color="olive" />
-                              <ArchitectureNode label="Agent" icon={<Cpu className="w-5 h-5" />} highlight color="olive" />
-                              <ArchitectureLine color="olive" />
-                              <ArchitectureNode label="Logic" icon={<Zap className="w-5 h-5" />} />
-                              <ArchitectureLine color="olive" />
-                              <ArchitectureNode label="Fulfillment" icon={<Database className="w-5 h-5" />} highlight color="olive" />
+                              <ArchitectureNode label="Source" icon={<Globe className="w-5 h-5" />} color="olive" lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="olive" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="Agent" icon={<Cpu className="w-5 h-5" />} highlight color="olive" lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="olive" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="Logic" icon={<Zap className="w-5 h-5" />} lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="olive" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="Fulfillment" icon={<Database className="w-5 h-5" />} highlight color="olive" lowMotion={lowMotionMode} />
                             </>
                           ) : (
                             <>
-                              <ArchitectureNode label="UI" icon={<Layout className="w-5 h-5" />} color="orange" />
-                              <ArchitectureLine color="orange" />
-                              <ArchitectureNode label="Auth" icon={<ShieldCheck className="w-5 h-5" />} highlight color="orange" />
-                              <ArchitectureLine color="orange" />
-                              <ArchitectureNode label="AI" icon={<Cpu className="w-5 h-5" />} color="orange" />
-                              <ArchitectureLine color="orange" />
-                              <ArchitectureNode label="DB" icon={<Database className="w-5 h-5" />} highlight color="orange" />
+                              <ArchitectureNode label="UI" icon={<Layout className="w-5 h-5" />} color="orange" lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="orange" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="Auth" icon={<ShieldCheck className="w-5 h-5" />} highlight color="orange" lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="orange" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="AI" icon={<Cpu className="w-5 h-5" />} color="orange" lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="orange" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="DB" icon={<Database className="w-5 h-5" />} highlight color="orange" lowMotion={lowMotionMode} />
                             </>
                           )}
                         </div>
@@ -632,7 +847,7 @@ function CompactProjectCard({ project }) {
   );
 }
 
-function ArchitectureNode({ label, icon, highlight, color = "indigo" }) {
+function ArchitectureNode({ label, icon, highlight, color = "indigo", lowMotion = false }) {
   const colorMap = {
     indigo: "bg-indigo-500/10 border-indigo-500/50 shadow-[0_0_25px_rgba(99,102,241,0.2)] text-indigo-400",
     emerald: "bg-emerald-500/10 border-emerald-500/50 shadow-[0_0_25px_rgba(16,185,129,0.2)] text-emerald-400",
@@ -655,7 +870,7 @@ function ArchitectureNode({ label, icon, highlight, color = "indigo" }) {
         : "bg-white/5 border-white/10 text-slate-500 group-hover:border-white/20 group-hover:text-slate-300"
       }`}>
         {highlight && (
-          <div className={`absolute inset-0 ${glowMap[color]} blur-xl rounded-full animate-pulse -z-10`} />
+          <div className={`absolute inset-0 ${glowMap[color]} blur-xl rounded-full ${lowMotion ? "" : "animate-pulse"} -z-10`} />
         )}
         {icon}
       </div>
@@ -664,13 +879,24 @@ function ArchitectureNode({ label, icon, highlight, color = "indigo" }) {
   );
 }
 
-function ArchitectureLine({ color = "indigo" }) {
+function ArchitectureLine({ color = "indigo", lowMotion = false }) {
   const pulseMap = {
     indigo: "bg-indigo-400 shadow-[0_0_8px_#818cf8]",
     emerald: "bg-emerald-400 shadow-[0_0_8px_#34d399]",
     orange: "bg-[#e86a4a] shadow-[0_0_8px_#e86a4a]",
     olive: "bg-[#d3f54c] shadow-[0_0_8px_#d3f54c]",
   };
+
+  if (lowMotion) {
+    return (
+      <div className="flex-grow h-px relative min-w-[30px] mx-1">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 flex items-center justify-center">
+          <div className={`w-1 h-1 rounded-full ${pulseMap[color]}`} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-grow h-px relative min-w-[30px] mx-1">

@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Download, Send, FileText } from "lucide-react";
 import { LINKS } from "../data/projects";
 
 export function ResumeModal({ isOpen, onClose }) {
+  const [isResumeLoading, setIsResumeLoading] = useState(true);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsResumeLoading(true);
+    }
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -56,17 +64,22 @@ export function ResumeModal({ isOpen, onClose }) {
 
             {/* PDF Viewer Body */}
             <div className="flex-grow bg-[#050608] relative overflow-hidden flex items-center justify-center">
-              <iframe 
-                src={`${LINKS.resume}#view=FitH&scrollbar=1&toolbar=1&navpanes=0`}
-                className="absolute inset-0 w-full h-full border-none bg-white"
+              <iframe
+                src={isOpen ? `${LINKS.resume}#view=FitH&scrollbar=1&toolbar=1&navpanes=0` : undefined}
+                onLoad={() => setIsResumeLoading(false)}
+                className={`absolute inset-0 w-full h-full border-none bg-white transition-opacity duration-300 ${
+                  isResumeLoading ? "opacity-0" : "opacity-100"
+                }`}
                 title="Mandeep Singh Resume"
               />
-              <div className="absolute inset-0 flex items-center justify-center -z-10">
-                <div className="flex flex-col items-center gap-4">
-                  <div className="w-12 h-12 rounded-full border-2 border-indigo-500/20 border-t-indigo-500 animate-spin" />
-                  <p className="text-slate-500 font-mono text-[10px] uppercase tracking-widest">Initialising_PDF_Stream...</p>
+              {isResumeLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-[#050608]">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 rounded-full border-2 border-indigo-500/20 border-t-indigo-500 animate-spin" />
+                    <p className="text-slate-500 font-mono text-[10px] uppercase tracking-widest">Initialising_PDF_Stream...</p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Mobile Footer Actions */}
