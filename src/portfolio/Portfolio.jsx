@@ -39,8 +39,10 @@ export default function Portfolio() {
   const [previewVisibility, setPreviewVisibility] = useState({});
   const [lowMotionMode, setLowMotionMode] = useState(false);
   const [projectFilter, setProjectFilter] = useState("all");
+  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const previewObserverRef = useRef(null);
   const previewNodeMapRef = useRef(new Map());
+  const filterMenuRef = useRef(null);
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -117,6 +119,19 @@ export default function Portfolio() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (!isFilterMenuOpen) return undefined;
+
+    const handlePointerDown = (event) => {
+      if (!filterMenuRef.current?.contains(event.target)) {
+        setIsFilterMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("pointerdown", handlePointerDown);
+    return () => window.removeEventListener("pointerdown", handlePointerDown);
+  }, [isFilterMenuOpen]);
 
   const getProjectYear = useCallback((project) => {
     const parsedYear = Number.parseInt(project?.timeframe ?? "0", 10);
@@ -206,25 +221,52 @@ export default function Portfolio() {
               </div>
 
               <div className="w-full md:w-auto flex flex-col sm:flex-row gap-3 md:items-center">
-                <div className="flex flex-wrap gap-2">
-                  {projectFilterOptions.map((option) => {
-                    const isActive = projectFilter === option.value;
-                    return (
-                      <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => setProjectFilter(option.value)}
-                        className={`inline-flex items-center justify-center gap-2 px-3 py-3 rounded-xl border text-[10px] font-mono uppercase tracking-[0.2em] transition-all shadow-2xl ${
-                          isActive
-                            ? "bg-indigo-500/15 border-indigo-500/50 text-white"
-                            : "bg-black/30 border-white/10 text-slate-400 hover:text-white hover:border-white/20"
-                        }`}
-                      >
-                        {option.icon}
-                        {option.label}
-                      </button>
-                    );
-                  })}
+                <div ref={filterMenuRef} className="relative w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => setIsFilterMenuOpen((previous) => !previous)}
+                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-4 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all shadow-2xl"
+                  >
+                    <SlidersHorizontal className="w-4 h-4 text-indigo-400" />
+                    <span className="text-xs font-mono tracking-widest uppercase">Explore Options</span>
+                    <span className="text-[10px] font-mono text-indigo-300 border border-indigo-500/20 bg-indigo-500/10 px-2 py-0.5 rounded uppercase">
+                      {projectFilterOptions.find((option) => option.value === projectFilter)?.label}
+                    </span>
+                  </button>
+
+                  {isFilterMenuOpen && (
+                    <div className="absolute top-full left-0 mt-3 w-full sm:w-[280px] rounded-2xl border border-white/10 bg-[#0d0e14]/95 backdrop-blur-xl shadow-2xl p-3 z-30">
+                      <div className="mb-2 px-2 pt-1 pb-2 border-b border-white/5">
+                        <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-slate-500">Project Views</p>
+                      </div>
+                      <div className="grid gap-2">
+                        {projectFilterOptions.map((option) => {
+                          const isActive = projectFilter === option.value;
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                setProjectFilter(option.value);
+                                setIsFilterMenuOpen(false);
+                              }}
+                              className={`w-full flex items-center justify-between gap-3 rounded-xl border px-3 py-3 text-left transition-all ${
+                                isActive
+                                  ? "bg-indigo-500/15 border-indigo-500/40 text-white"
+                                  : "bg-white/[0.02] border-white/5 text-slate-400 hover:text-white hover:border-white/15"
+                              }`}
+                            >
+                              <span className="flex items-center gap-3">
+                                <span className={`${isActive ? 'text-indigo-300' : 'text-slate-500'}`}>{option.icon}</span>
+                                <span className="text-[11px] font-mono uppercase tracking-[0.2em]">{option.label}</span>
+                              </span>
+                              {isActive && <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-indigo-300">Active</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <GlobalSearch
@@ -233,7 +275,6 @@ export default function Portfolio() {
                       onClick={onClick}
                       className="w-full md:w-auto flex items-center justify-center gap-3 px-4 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all shadow-2xl"
                     >
-                      <SlidersHorizontal className="w-4 h-4 text-indigo-400" />
                       <span className="text-xs font-mono tracking-widest uppercase">Search Projects</span>
                       <span className="text-[10px] font-mono text-slate-500 border border-white/10 bg-white/5 px-2 py-0.5 rounded">
                         Ctrl/Cmd + K
