@@ -462,14 +462,14 @@ export default function Portfolio() {
           const secondaryColor = isOlive ? "#282a1e" : isRose ? "#3a001d" : "#7d6650";
           const wordmarkColor = isOlive ? "#fdfff9" : isRose ? "#3a001d" : "#724B1D";
           const shadowColor = isOlive ? "rgba(211, 245, 76, 0.4)" : isRose ? "rgba(58, 0, 29, 0.45)" : "rgba(132, 45, 22, 0.4)";
-          const sectionTint = isOlive ? 'rgba(40, 42, 30, 0.05)' : isRose ? 'rgba(247, 239, 223, 0.08)' : 'rgba(232, 106, 74, 0.01)';
+          const sectionTint = isOlive ? 'rgba(40, 42, 30, 0.05)' : isRose ? 'rgba(239, 66, 88, 0.025)' : 'rgba(232, 106, 74, 0.01)';
           const connectorGradient = isRentSpace
             ? 'from-indigo-500/50 to-[#e86a4a]/50'
             : isRose
-              ? 'from-[#e86a4a]/50 to-[#ef4258]/50'
+              ? 'from-[#ef4258]/20 via-[#3a001d]/50 to-[#ef4258]/35'
               : 'from-[#e86a4a]/50 to-[#d3f54c]/50';
-          const previewShellBg = isOlive ? 'bg-[#1a1c14]' : isRose ? 'bg-[#f7efdf]' : 'bg-[#0d1410]';
-          const previewStageBg = isRose ? 'bg-[#fcf6ea]' : 'bg-[#0a0b10]';
+          const previewShellBg = isOlive ? 'bg-[#1a1c14]' : isRose ? 'bg-[#0d0e14]' : 'bg-[#0d1410]';
+          const previewStageBg = 'bg-[#0a0b10]';
           const selectedPreviewKey = `selected-${project.title}`;
           const selectedLiveDemoHref = project.links.find((link) => link.label === "Live Demo")?.href;
           const selectedPreviewRunning = isPreviewRunning(selectedPreviewKey);
@@ -483,7 +483,7 @@ export default function Portfolio() {
                 <div className={`absolute h-full w-px bg-gradient-to-b ${connectorGradient}`} />
                 <div className="relative z-10 p-6 rounded-full border border-white/10 bg-[#0d0e14] backdrop-blur-xl group shadow-[0_0_50px_rgba(255,255,255,0.05)]">
                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center relative">
-                    {isOlive ? <Palette className="w-5 h-5" style={{ color: brandColor }} /> : isRose ? <Type className="w-5 h-5" style={{ color: brandColor }} /> : <Database className="w-5 h-5 text-indigo-400" />}
+                    {isOlive ? <Palette className="w-5 h-5" style={{ color: brandColor }} /> : isRose ? <Cpu className="w-5 h-5" style={{ color: brandColor }} /> : <Database className="w-5 h-5 text-indigo-400" />}
                   </div>
                 </div>
               </div>
@@ -606,7 +606,7 @@ export default function Portfolio() {
                                 tabIndex="-1"
                               />
                             ) : (
-                              <div className={`absolute inset-0 flex items-center justify-center p-8 ${isRose ? 'bg-gradient-to-br from-[#fcf6ea] via-[#f7efdf] to-[#ffe7e0]' : 'bg-gradient-to-br from-[#111317] via-[#0a0b10] to-[#070809]'}`}>
+                              <div className={`absolute inset-0 flex items-center justify-center p-8 ${isRose ? 'bg-gradient-to-br from-[#120b12] via-[#0a0b10] to-[#14060d]' : 'bg-gradient-to-br from-[#111317] via-[#0a0b10] to-[#070809]'}`}>
                                 <div
                                   className="absolute inset-0 opacity-30"
                                   style={{
@@ -617,8 +617,8 @@ export default function Portfolio() {
                                   <p className="text-[10px] font-mono uppercase tracking-[0.3em] mb-3" style={{ color: `${brandColor}CC` }}>
                                     {selectedPreviewRunning ? "Preview Auto-Suspended" : "Live Preview Paused"}
                                   </p>
-                                  <h4 className={`text-2xl md:text-3xl font-black tracking-tight mb-3 ${isRose ? 'text-[#3a001d]' : 'text-white'}`}>{project.title}</h4>
-                                  <p className={`text-sm leading-relaxed mb-6 ${isRose ? 'text-[#3a001d]/70' : 'text-slate-400'}`}>{project.summary}</p>
+                                  <h4 className={`text-2xl md:text-3xl font-black tracking-tight mb-3 ${isRose ? 'text-white' : 'text-white'}`}>{project.title}</h4>
+                                  <p className={`text-sm leading-relaxed mb-6 ${isRose ? 'text-slate-400' : 'text-slate-400'}`}>{project.summary}</p>
                                   <button
                                     onClick={() => selectedLiveDemoHref && setPreviewRunning(selectedPreviewKey, true)}
                                     disabled={!selectedLiveDemoHref}
