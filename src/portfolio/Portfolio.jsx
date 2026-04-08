@@ -26,7 +26,11 @@ import {
   Palette,
   Type,
   Pause,
-  Play
+  Play,
+  SlidersHorizontal,
+  Clock3,
+  Layers3,
+  Boxes
 } from "lucide-react";
 
 export default function Portfolio() {
@@ -34,6 +38,7 @@ export default function Portfolio() {
   const [previewStates, setPreviewStates] = useState({});
   const [previewVisibility, setPreviewVisibility] = useState({});
   const [lowMotionMode, setLowMotionMode] = useState(false);
+  const [projectFilter, setProjectFilter] = useState("all");
   const previewObserverRef = useRef(null);
   const previewNodeMapRef = useRef(new Map());
 
@@ -113,10 +118,27 @@ export default function Portfolio() {
     };
   }, []);
 
+  const getProjectYear = useCallback((project) => {
+    const parsedYear = Number.parseInt(project?.timeframe ?? "0", 10);
+    return Number.isNaN(parsedYear) ? 0 : parsedYear;
+  }, []);
+
+  const sortProjectsForLatest = useCallback((projects) => (
+    [...projects].sort((a, b) => {
+      if (a.title === "InferenceSaver") return -1;
+      if (b.title === "InferenceSaver") return 1;
+      return getProjectYear(b) - getProjectYear(a);
+    })
+  ), [getProjectYear]);
+
   const flagship = useMemo(() => PROJECTS.find(p => p.category === "flagship"), []);
-  const selectedProjects = useMemo(() => PROJECTS.filter(p => p.category === "selected"), []);
-  const coreProjects = useMemo(() => PROJECTS.filter(p => p.category === "core"), []);
-  const additionalProjects = useMemo(() => PROJECTS.filter(p => p.category === "additional"), []);
+  const selectedProjects = useMemo(() => sortProjectsForLatest(PROJECTS.filter(p => p.category === "selected")), [sortProjectsForLatest]);
+  const coreProjects = useMemo(() => sortProjectsForLatest(PROJECTS.filter(p => p.category === "core")), [sortProjectsForLatest]);
+  const additionalProjects = useMemo(() => sortProjectsForLatest(PROJECTS.filter(p => p.category === "additional")), [sortProjectsForLatest]);
+  const shouldShowFlagship = projectFilter === "all" || projectFilter === "latest" || projectFilter === "selected";
+  const shouldShowSelected = projectFilter === "all" || projectFilter === "latest" || projectFilter === "selected";
+  const shouldShowCore = projectFilter === "all" || projectFilter === "latest" || projectFilter === "core";
+  const shouldShowAdditional = projectFilter === "all" || projectFilter === "latest" || projectFilter === "additional";
   const flagshipPreviewKey = flagship ? `flagship-${flagship.title}` : "";
   const flagshipLiveDemoHref = flagship?.links.find((link) => link.label === "Live Demo")?.href;
   const flagshipPreviewRunning = isPreviewRunning(flagshipPreviewKey);
@@ -157,6 +179,14 @@ export default function Portfolio() {
     }
   }, []);
 
+  const projectFilterOptions = [
+    { value: "all", label: "All", icon: <Layers3 className="w-3.5 h-3.5" /> },
+    { value: "latest", label: "Latest", icon: <Clock3 className="w-3.5 h-3.5" /> },
+    { value: "selected", label: "Selected", icon: <ShieldCheck className="w-3.5 h-3.5" /> },
+    { value: "core", label: "Core", icon: <Cpu className="w-3.5 h-3.5" /> },
+    { value: "additional", label: "Lab", icon: <Boxes className="w-3.5 h-3.5" /> },
+  ];
+
   return (
     <main className="min-h-screen bg-[#0a0b10] text-slate-200 font-sans selection:bg-indigo-500/30 relative">
       <LiquidBackground />
@@ -175,25 +205,49 @@ export default function Portfolio() {
                 </h2>
               </div>
 
-              <GlobalSearch
-                renderTrigger={({ onClick }) => (
-                  <button
-                    onClick={onClick}
-                    className="w-full md:w-auto flex items-center justify-center gap-3 px-4 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all shadow-2xl"
-                  >
-                    <span className="text-xs font-mono tracking-widest uppercase">Search Projects</span>
-                    <span className="text-[10px] font-mono text-slate-500 border border-white/10 bg-white/5 px-2 py-0.5 rounded">
-                      Ctrl/Cmd + K
-                    </span>
-                  </button>
-                )}
-              />
+              <div className="w-full md:w-auto flex flex-col sm:flex-row gap-3 md:items-center">
+                <div className="flex flex-wrap gap-2">
+                  {projectFilterOptions.map((option) => {
+                    const isActive = projectFilter === option.value;
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => setProjectFilter(option.value)}
+                        className={`inline-flex items-center justify-center gap-2 px-3 py-3 rounded-xl border text-[10px] font-mono uppercase tracking-[0.2em] transition-all shadow-2xl ${
+                          isActive
+                            ? "bg-indigo-500/15 border-indigo-500/50 text-white"
+                            : "bg-black/30 border-white/10 text-slate-400 hover:text-white hover:border-white/20"
+                        }`}
+                      >
+                        {option.icon}
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <GlobalSearch
+                  renderTrigger={({ onClick }) => (
+                    <button
+                      onClick={onClick}
+                      className="w-full md:w-auto flex items-center justify-center gap-3 px-4 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all shadow-2xl"
+                    >
+                      <SlidersHorizontal className="w-4 h-4 text-indigo-400" />
+                      <span className="text-xs font-mono tracking-widest uppercase">Search Projects</span>
+                      <span className="text-[10px] font-mono text-slate-500 border border-white/10 bg-white/5 px-2 py-0.5 rounded">
+                        Ctrl/Cmd + K
+                      </span>
+                    </button>
+                  )}
+                />
+              </div>
             </div>
           </div>
         </section>
 
         {/* FLAGSHIP: SyntaxArk */}
-        {flagship && (
+        {flagship && shouldShowFlagship && (
           <section id="flagship" className="pb-32 relative overflow-hidden">
             <div className="absolute inset-0 bg-indigo-500/[0.01] -z-10" />
             <div className="max-w-7xl mx-auto px-6">
@@ -399,14 +453,23 @@ export default function Portfolio() {
         )}
 
         {/* 2.5️⃣ SELECTED PROJECTS (Secondary Flagships) */}
-        {selectedProjects.map((project, index) => {
+        {shouldShowSelected && selectedProjects.map((project, index) => {
           const isRentSpace = project.title === "RentSpace";
-          const isInverted = isRentSpace; // RentSpace on Left, GenericAlt on Right
           const isOlive = project.theme === "olive";
-          const brandColor = isOlive ? "#d3f54c" : "#e86a4a";
-          const secondaryColor = isOlive ? "#282a1e" : "#7d6650";
-          const wordmarkColor = isOlive ? "#fdfff9" : "#724B1D";
-          const shadowColor = isOlive ? "rgba(211, 245, 76, 0.4)" : "rgba(132, 45, 22, 0.4)";
+          const isRose = project.theme === "rose";
+          const isInverted = isRentSpace; // RentSpace on Left, others on Right
+          const brandColor = isOlive ? "#d3f54c" : isRose ? "#ef4258" : "#e86a4a";
+          const secondaryColor = isOlive ? "#282a1e" : isRose ? "#3a001d" : "#7d6650";
+          const wordmarkColor = isOlive ? "#fdfff9" : isRose ? "#3a001d" : "#724B1D";
+          const shadowColor = isOlive ? "rgba(211, 245, 76, 0.4)" : isRose ? "rgba(58, 0, 29, 0.45)" : "rgba(132, 45, 22, 0.4)";
+          const sectionTint = isOlive ? 'rgba(40, 42, 30, 0.05)' : isRose ? 'rgba(247, 239, 223, 0.08)' : 'rgba(232, 106, 74, 0.01)';
+          const connectorGradient = isRentSpace
+            ? 'from-indigo-500/50 to-[#e86a4a]/50'
+            : isRose
+              ? 'from-[#e86a4a]/50 to-[#ef4258]/50'
+              : 'from-[#e86a4a]/50 to-[#d3f54c]/50';
+          const previewShellBg = isOlive ? 'bg-[#1a1c14]' : isRose ? 'bg-[#f7efdf]' : 'bg-[#0d1410]';
+          const previewStageBg = isRose ? 'bg-[#fcf6ea]' : 'bg-[#0a0b10]';
           const selectedPreviewKey = `selected-${project.title}`;
           const selectedLiveDemoHref = project.links.find((link) => link.label === "Live Demo")?.href;
           const selectedPreviewRunning = isPreviewRunning(selectedPreviewKey);
@@ -417,15 +480,15 @@ export default function Portfolio() {
             <div key={project.title} id={project.title}>
               {/* Data Bridge Transition */}
               <div className="relative py-24 flex justify-center items-center overflow-hidden">
-                <div className={`absolute h-full w-px bg-gradient-to-b ${isRentSpace ? 'from-indigo-500/50 to-[#e86a4a]/50' : 'from-[#e86a4a]/50 to-[#d3f54c]/50'}`} />
+                <div className={`absolute h-full w-px bg-gradient-to-b ${connectorGradient}`} />
                 <div className="relative z-10 p-6 rounded-full border border-white/10 bg-[#0d0e14] backdrop-blur-xl group shadow-[0_0_50px_rgba(255,255,255,0.05)]">
                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center relative">
-                    {isOlive ? <Palette className="w-5 h-5" style={{ color: brandColor }} /> : <Database className="w-5 h-5 text-indigo-400" />}
+                    {isOlive ? <Palette className="w-5 h-5" style={{ color: brandColor }} /> : isRose ? <Type className="w-5 h-5" style={{ color: brandColor }} /> : <Database className="w-5 h-5 text-indigo-400" />}
                   </div>
                 </div>
               </div>
 
-              <section className="py-32 relative overflow-hidden border-t border-white/5" style={{ backgroundColor: isOlive ? 'rgba(40, 42, 30, 0.05)' : 'rgba(232, 106, 74, 0.01)' }}>
+              <section className="py-32 relative overflow-hidden border-t border-white/5" style={{ backgroundColor: sectionTint }}>
                 <div className="max-w-7xl mx-auto px-6">
                   <div className={`flex flex-col mb-16 ${isInverted ? 'items-start text-left' : 'items-end text-right'}`}>
                     <div className="flex items-center gap-4 mb-8">
@@ -453,19 +516,41 @@ export default function Portfolio() {
                             className="h-20 md:h-28 w-auto drop-shadow-2xl transition-transform duration-500 group-hover/brand:scale-105"
                           />
                         </div>
-                      ) : (
-                        <>
-                          <div className="flex items-center justify-center w-32 h-32 md:w-40 md:h-40 shrink-0 relative z-10 -ml-4 md:-ml-6 -mt-4">
+                      ) : isRose ? (
+                        <div className={`flex flex-col gap-4 ${isInverted ? 'items-start' : 'items-end'}`}>
+                          <div className="inline-flex items-center gap-4 rounded-[28px] border border-[#d9dde5] bg-white px-5 py-4 shadow-[0_8px_0_rgba(58,0,29,0.18)]">
                             <img
-                              src="/RentSpace.png"
-                              alt="RentSpace"
-                              width="320"
-                              height="320"
+                              src="/InferenceSaver.png"
+                              alt="InferenceSaver icon"
+                              width="128"
+                              height="128"
                               loading="lazy"
                               decoding="async"
-                              className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover/brand:scale-110"
+                              className="h-12 w-12 rounded-2xl object-cover transition-transform duration-500 group-hover/brand:scale-105"
                             />
+                            <span className="text-[28px] md:text-[42px] font-black tracking-tight text-[#3a001d] leading-none">
+                              InferenceSaver
+                            </span>
                           </div>
+                          <span className="text-[10px] font-mono uppercase tracking-[0.35em] text-[#ef4258]">
+                            Premium AI Access Layer
+                          </span>
+                        </div>
+                      ) : (
+                        <>
+                          {project.title === "RentSpace" && (
+                            <div className="flex items-center justify-center w-32 h-32 md:w-40 md:h-40 shrink-0 relative z-10 -ml-4 md:-ml-6 -mt-4">
+                              <img
+                                src="/RentSpace.png"
+                                alt="RentSpace"
+                                width="320"
+                                height="320"
+                                loading="lazy"
+                                decoding="async"
+                                className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover/brand:scale-110"
+                              />
+                            </div>
+                          )}
                           <span className={`inline-flex items-baseline gap-0 font-bold leading-none tracking-tight text-[40px] md:text-[72px] relative z-0 font-['Inter',sans-serif]`} style={{ color: wordmarkColor }}>
                             {project.title}
                           </span>
@@ -487,7 +572,7 @@ export default function Portfolio() {
                        className={`lg:col-span-7 relative group flex flex-col ${isInverted ? 'order-2 lg:order-1' : 'order-1 lg:order-2'}`}
                     >
                       <div className={`absolute -inset-1 rounded-2xl opacity-20 blur-xl group-hover:opacity-30 transition-opacity`} style={{ background: `linear-gradient(to right, ${brandColor}, ${secondaryColor})` }} />
-                      <div className={`relative rounded-2xl border border-white/10 overflow-hidden ${isOlive ? 'bg-[#1a1c14]' : 'bg-[#0d1410]'} shadow-2xl flex-grow flex flex-col min-h-[500px] lg:min-h-[600px]`}>
+                      <div className={`relative rounded-2xl border border-white/10 overflow-hidden ${previewShellBg} shadow-2xl flex-grow flex flex-col min-h-[500px] lg:min-h-[600px]`}>
                          <div className="h-10 bg-white/5 border-b border-white/10 flex items-center px-4 gap-2 shrink-0">
                             <div className="flex gap-1.5">
                                <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40" />
@@ -510,7 +595,7 @@ export default function Portfolio() {
                               {selectedPreviewRunning ? "Stop" : "Run"}
                             </button>
                          </div>
-                         <div ref={(node) => registerPreviewNode(selectedPreviewKey, node)} className="flex-grow relative bg-[#0a0b10]">
+                         <div ref={(node) => registerPreviewNode(selectedPreviewKey, node)} className={`flex-grow relative ${previewStageBg}`}>
                             {selectedPreviewActive ? (
                               <iframe
                                 src={selectedLiveDemoHref}
@@ -521,7 +606,7 @@ export default function Portfolio() {
                                 tabIndex="-1"
                               />
                             ) : (
-                              <div className="absolute inset-0 flex items-center justify-center p-8 bg-gradient-to-br from-[#111317] via-[#0a0b10] to-[#070809]">
+                              <div className={`absolute inset-0 flex items-center justify-center p-8 ${isRose ? 'bg-gradient-to-br from-[#fcf6ea] via-[#f7efdf] to-[#ffe7e0]' : 'bg-gradient-to-br from-[#111317] via-[#0a0b10] to-[#070809]'}`}>
                                 <div
                                   className="absolute inset-0 opacity-30"
                                   style={{
@@ -532,15 +617,15 @@ export default function Portfolio() {
                                   <p className="text-[10px] font-mono uppercase tracking-[0.3em] mb-3" style={{ color: `${brandColor}CC` }}>
                                     {selectedPreviewRunning ? "Preview Auto-Suspended" : "Live Preview Paused"}
                                   </p>
-                                  <h4 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">{project.title}</h4>
-                                  <p className="text-sm text-slate-400 leading-relaxed mb-6">{project.summary}</p>
+                                  <h4 className={`text-2xl md:text-3xl font-black tracking-tight mb-3 ${isRose ? 'text-[#3a001d]' : 'text-white'}`}>{project.title}</h4>
+                                  <p className={`text-sm leading-relaxed mb-6 ${isRose ? 'text-[#3a001d]/70' : 'text-slate-400'}`}>{project.summary}</p>
                                   <button
                                     onClick={() => selectedLiveDemoHref && setPreviewRunning(selectedPreviewKey, true)}
                                     disabled={!selectedLiveDemoHref}
                                     className="inline-flex items-center gap-2 px-5 py-3 rounded-lg text-xs font-black uppercase tracking-widest shadow-[0_8px_0_rgba(15,23,42,0.7)] active:shadow-none active:translate-y-[8px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     style={{
                                       backgroundColor: brandColor,
-                                      color: isOlive ? "#282a1e" : "#ffffff",
+                                      color: isOlive ? "#282a1e" : isRose ? "#ffffff" : "#ffffff",
                                     }}
                                   >
                                     {selectedPreviewRunning ? "Resume in View" : "Resume Live Preview"} <ArrowUpRight className="w-3.5 h-3.5" />
@@ -566,13 +651,13 @@ export default function Portfolio() {
                           <div>
                             <div className="flex items-center gap-2 mb-1">
                               <div className={`w-1.5 h-1.5 rounded-full`} style={{ backgroundColor: brandColor }} />
-                              <h3 className={`text-[10px] font-bold uppercase tracking-[0.4em]`} style={{ color: brandColor }}>{isOlive ? 'Process Flow' : 'Service Mesh'}</h3>
+                              <h3 className={`text-[10px] font-bold uppercase tracking-[0.4em]`} style={{ color: brandColor }}>{isOlive ? 'Process Flow' : isRose ? 'Access Fabric' : 'Service Mesh'}</h3>
                             </div>
-                            <p className="text-[7px] text-slate-600 font-mono tracking-[0.2em]">TYPE: {isOlive ? 'SUPPLY_CHAIN_AI' : 'SAAS_UTILITY'} // {isOlive ? 'DISTRIBUTED_SOURCING' : 'AI_AGENT_SCREENING'}</p>
+                            <p className="text-[7px] text-slate-600 font-mono tracking-[0.2em]">TYPE: {isOlive ? 'SUPPLY_CHAIN_AI' : isRose ? 'PREMIUM_AI_SAAS' : 'SAAS_UTILITY'} // {isOlive ? 'DISTRIBUTED_SOURCING' : isRose ? 'BILLING_AUTH_ROUTING' : 'AI_AGENT_SCREENING'}</p>
                           </div>
                         </div>
                         
-                        <div className="relative flex items-center justify-between gap-1 h-28 px-6 bg-black/60 rounded-2xl border border-white/5 shadow-inner transition-colors duration-500">
+                        <div className={`relative flex items-center justify-between gap-1 h-28 px-6 rounded-2xl border shadow-inner transition-colors duration-500 ${isRose ? 'bg-[#130811] border-[#4b2231] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]' : 'bg-black/60 border-white/5'}`}>
                           {isOlive ? (
                             <>
                               <ArchitectureNode label="Source" icon={<Globe className="w-5 h-5" />} color="olive" lowMotion={lowMotionMode} />
@@ -582,6 +667,16 @@ export default function Portfolio() {
                               <ArchitectureNode label="Logic" icon={<Zap className="w-5 h-5" />} lowMotion={lowMotionMode} />
                               <ArchitectureLine color="olive" lowMotion={lowMotionMode} />
                               <ArchitectureNode label="Fulfillment" icon={<Database className="w-5 h-5" />} highlight color="olive" lowMotion={lowMotionMode} />
+                            </>
+                          ) : isRose ? (
+                            <>
+                              <ArchitectureNode label="Model" icon={<Cpu className="w-5 h-5" />} color="rose" lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="rose" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="Auth" icon={<ShieldCheck className="w-5 h-5" />} highlight color="rose" lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="rose" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="Billing" icon={<Zap className="w-5 h-5" />} color="rose" lowMotion={lowMotionMode} />
+                              <ArchitectureLine color="rose" lowMotion={lowMotionMode} />
+                              <ArchitectureNode label="Access" icon={<Globe className="w-5 h-5" />} highlight color="rose" lowMotion={lowMotionMode} />
                             </>
                           ) : (
                             <>
@@ -673,25 +768,28 @@ export default function Portfolio() {
           );
         })}
 
-        <section id="core-projects" className="py-24 border-t border-white/5 bg-white/[0.01]">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-col mb-16">
-              <span className="text-indigo-500 font-mono text-[10px] uppercase tracking-[0.5em] mb-4 block animate-pulse">Scanning Advanced_Systems...</span>
-              <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">
-                Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">Engineering</span>
-              </h2>
+        {shouldShowCore && (
+          <section id="core-projects" className="py-24 border-t border-white/5 bg-white/[0.01]">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="flex flex-col mb-16">
+                <span className="text-indigo-500 font-mono text-[10px] uppercase tracking-[0.5em] mb-4 block animate-pulse">Scanning Advanced_Systems...</span>
+                <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">
+                  Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">Engineering</span>
+                </h2>
+              </div>
+              
+              <div className="grid gap-12 lg:grid-cols-2">
+                {coreProjects.map((project) => (
+                  <div key={project.title} id={project.title}>
+                    <ProjectCard project={project} />
+                  </div>
+                ))}
+              </div>
             </div>
-            
-            <div className="grid gap-12 lg:grid-cols-2">
-              {coreProjects.map((project) => (
-                <div key={project.title} id={project.title}>
-                  <ProjectCard project={project} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
+        {shouldShowAdditional && (
         <section id="additional-projects" className="py-24 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col mb-16">
@@ -708,6 +806,7 @@ export default function Portfolio() {
             </div>
           </div>
         </section>
+        )}
 
         <Skills />
 
@@ -853,6 +952,12 @@ function ArchitectureNode({ label, icon, highlight, color = "indigo", lowMotion 
     emerald: "bg-emerald-500/10 border-emerald-500/50 shadow-[0_0_25px_rgba(16,185,129,0.2)] text-emerald-400",
     orange: "bg-[#e86a4a]/10 border-[#e86a4a]/50 shadow-[0_0_25px_rgba(232,106,74,0.2)] text-[#e86a4a]",
     olive: "bg-[#d3f54c]/10 border-[#d3f54c]/50 shadow-[0_0_25px_rgba(211,245,76,0.2)] text-[#d3f54c]",
+    rose: "bg-[#ef4258] border-[#5c2236] shadow-[0_0_25px_rgba(239,66,88,0.18)] text-white",
+  };
+
+  const mutedMap = {
+    default: "bg-white/5 border-white/10 text-slate-500 group-hover:border-white/20 group-hover:text-slate-300",
+    rose: "bg-[#22111b] border-[#4b2231] text-[#f6d7dd] shadow-[0_0_18px_rgba(58,0,29,0.22)] group-hover:border-[#ef4258]/40 group-hover:text-white",
   };
 
   const glowMap = {
@@ -860,21 +965,24 @@ function ArchitectureNode({ label, icon, highlight, color = "indigo", lowMotion 
     emerald: "bg-emerald-500/20",
     orange: "bg-[#e86a4a]/20",
     olive: "bg-[#d3f54c]/20",
+    rose: "bg-[#ef4258]/18",
   };
 
   return (
     <div className="relative z-10 flex flex-col items-center gap-3">
       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border transition-all duration-700 relative group/node ${
-        highlight 
-        ? colorMap[color]
-        : "bg-white/5 border-white/10 text-slate-500 group-hover:border-white/20 group-hover:text-slate-300"
+        highlight
+          ? colorMap[color]
+          : color === "rose"
+            ? mutedMap.rose
+            : mutedMap.default
       }`}>
         {highlight && (
           <div className={`absolute inset-0 ${glowMap[color]} blur-xl rounded-full ${lowMotion ? "" : "animate-pulse"} -z-10`} />
         )}
         {icon}
       </div>
-      <span className="text-[9px] font-bold text-slate-600 uppercase tracking-[0.2em]">{label}</span>
+      <span className={`text-[9px] font-bold uppercase tracking-[0.2em] ${color === "rose" ? 'text-[#f6d7dd]/80' : 'text-slate-600'}`}>{label}</span>
     </div>
   );
 }
@@ -885,12 +993,17 @@ function ArchitectureLine({ color = "indigo", lowMotion = false }) {
     emerald: "bg-emerald-400 shadow-[0_0_8px_#34d399]",
     orange: "bg-[#e86a4a] shadow-[0_0_8px_#e86a4a]",
     olive: "bg-[#d3f54c] shadow-[0_0_8px_#d3f54c]",
+    rose: "bg-[#ef4258] shadow-[0_0_8px_#ef4258]",
   };
+
+  const railClass = color === "rose"
+    ? "bg-gradient-to-r from-transparent via-[#4b2231] to-transparent"
+    : "bg-gradient-to-r from-transparent via-white/10 to-transparent";
 
   if (lowMotion) {
     return (
       <div className="flex-grow h-px relative min-w-[30px] mx-1">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className={`absolute inset-0 ${railClass}`} />
         <div className="absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 flex items-center justify-center">
           <div className={`w-1 h-1 rounded-full ${pulseMap[color]}`} />
         </div>
@@ -900,7 +1013,7 @@ function ArchitectureLine({ color = "indigo", lowMotion = false }) {
 
   return (
     <div className="flex-grow h-px relative min-w-[30px] mx-1">
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className={`absolute inset-0 ${railClass}`} />
       {[0, 1].map((i) => (
         <motion.div 
           key={i}

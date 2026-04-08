@@ -130,6 +130,32 @@ export const PROJECTS = [
     ],
   },
   {
+    title: "InferenceSaver",
+    category: "selected",
+    timeframe: "2026",
+    theme: "rose",
+    summary: "SSR-first AI SaaS platform for unlocking premium AI workflows across flagship models, with subscription billing, checkout flows, and conversion-focused product marketing.",
+    techStack: {
+      frontend: "Next.js 15, React 19, TypeScript, Tailwind",
+      backend: "Server-rendered App Router architecture",
+      billing: "Stripe subscriptions and checkout",
+      auth: "WorkOS identity flows",
+      growth: "Affiliate, guides, partnerships, funnel pages",
+      deployment: "Production-ready SSR delivery"
+    },
+    highlights: [
+      "Built a server-rendered Next.js platform with dynamic no-store delivery for production freshness",
+      "Created subscription and checkout flows for monetized access to premium AI tooling",
+      "Positioned the product around many flagship AI models instead of a single assistant experience",
+      "Structured auth lifecycle routes including signup, login, verification, and password recovery",
+      "Designed conversion-focused landing experiences with pricing, FAQ, guides, partnerships, and affiliate funnels",
+      "Organized scalable App Router architecture across product, content, and checkout journeys"
+    ],
+    links: [
+      { label: "Live Demo", href: "https://inferencesaver.com" }
+    ],
+  },
+  {
     title: "QuickTest AI",
     category: "additional",
     summary: "Exam system with automatic question generation using LLMs.",
