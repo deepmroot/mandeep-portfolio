@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
-import { LINKS, PROJECTS, SKILLS } from "../data/projects";
+import { LINKS, PROJECTS, SKILLS } from "../../data/projects";
 
 const HERO_IMAGE = "/hero.jpg";
 const DEFAULT_CLI_SUGGESTIONS = ["help", "list", "inspect syntaxark", "inspect inferencesaver", "resume", "contact"];
@@ -89,17 +89,17 @@ export function Hero({ onOpenResume }) {
             animate={{ opacity: 1, x: 0 }}
             transition={lowMotionMode ? { duration: 0 } : { duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-bold mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-400/30 bg-sky-400/10 text-sky-300 text-xs font-bold mb-6">
               <span className="relative flex h-2 w-2">
-                <span className={`${lowMotionMode ? "" : "animate-ping"} absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75`} />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500" />
+                <span className={`${lowMotionMode ? "" : "animate-ping"} absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75`} />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400" />
               </span>
               Available for work
             </div>
 
             <h1 className="text-6xl sm:text-8xl font-extrabold tracking-tighter text-white mb-8 leading-none">
               Hi, I&apos;m <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-fuchsia-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-300 to-violet-400">
                 Mandeep Singh.
               </span>
             </h1>
@@ -147,7 +147,7 @@ export function Hero({ onOpenResume }) {
               transition={lowMotionMode ? { duration: 0 } : { duration: 0.8, ease: "easeOut" }}
               className="relative w-72 h-72 sm:w-96 sm:h-96 mx-auto lg:mx-0 transform-style-3d -rotate-y-12 rotate-x-6 shadow-2xl"
             >
-              <div className="absolute inset-0 bg-indigo-500/10 translate-z-[-20px] rounded-3xl blur-md" />
+              <div className="absolute inset-0 bg-sky-400/10 translate-z-[-20px] rounded-3xl blur-md" />
 
               <div className="relative h-full w-full bg-slate-900 rounded-3xl overflow-hidden border border-white/10 shadow-[30px_30px_60px_rgba(0,0,0,0.6)]">
                 <img
@@ -160,13 +160,13 @@ export function Hero({ onOpenResume }) {
                   fetchPriority="high"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-white/5" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-sky-400/20 via-transparent to-white/5" />
               </div>
 
               <div className="absolute -bottom-6 -left-6 bg-slate-900/90 backdrop-blur-xl border border-white/10 px-6 py-3 rounded-2xl translate-z-50 shadow-2xl">
                 <div className="flex items-center gap-3">
                   <div className={`w-2 h-2 rounded-full bg-emerald-500 ${lowMotionMode ? "" : "animate-pulse"}`} />
-                  <div className="text-[11px] font-mono text-indigo-300 font-black tracking-[0.25em] uppercase">
+                  <div className="text-[11px] font-mono text-sky-300 font-black tracking-[0.25em] uppercase">
                     M.Singh // DEV_CORE
                   </div>
                 </div>
@@ -336,7 +336,7 @@ function PortfolioCLI({ onOpenResume }) {
             <span className="text-[10px] text-slate-500">Interactive project inspector</span>
           </div>
         </div>
-        <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-indigo-300/70 border border-indigo-500/20 bg-indigo-500/10 px-2.5 py-1 rounded-md">live</div>
+        <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-sky-300/80 border border-sky-400/20 bg-sky-400/10 px-2.5 py-1 rounded-md">live</div>
       </div>
 
       <div className="relative p-5 md:p-6 font-mono text-[11px] text-slate-300">
@@ -344,7 +344,7 @@ function PortfolioCLI({ onOpenResume }) {
           {history.map((entry, index) => (
             <div key={`${entry.type}-${index}`} className="space-y-1">
               {entry.type === "command" ? (
-                <div className="flex items-center gap-2 text-indigo-300">
+                <div className="flex items-center gap-2 text-sky-300">
                   <span className="text-slate-500">mandeep@portfolio:~$</span>
                   <span className="text-slate-100">{entry.value}</span>
                 </div>
@@ -355,7 +355,7 @@ function PortfolioCLI({ onOpenResume }) {
                       {line.startsWith("PROJECT ::") || line.startsWith("CATEGORY ::") || line.startsWith("YEAR ::") || line.startsWith("SUMMARY ::") || line.startsWith("FLOW ::") || line.startsWith("STACK ::")
                         ? <span className="text-white">{line}</span>
                         : line === "Commands:" || line === "Featured projects:"
-                          ? <span className="text-indigo-300">{line}</span>
+                          ? <span className="text-sky-300">{line}</span>
                           : line}
                     </p>
                   ))}
@@ -364,7 +364,7 @@ function PortfolioCLI({ onOpenResume }) {
                       <button
                         type="button"
                         onClick={() => document.getElementById(entry.projectId)?.scrollIntoView({ behavior: "smooth" })}
-                        className="px-3 py-2 rounded-lg bg-indigo-500 text-white border border-indigo-400/40 shadow-[0_6px_0_rgb(49,46,129)] hover:brightness-110 active:translate-y-[2px] active:shadow-none text-[10px] uppercase tracking-[0.2em]"
+                        className="px-3 py-2 rounded-lg bg-sky-500 text-slate-950 border border-sky-300/40 shadow-[0_6px_0_rgb(12,74,110)] hover:brightness-110 active:translate-y-[2px] active:shadow-none text-[10px] uppercase tracking-[0.2em]"
                       >
                         Jump to section
                       </button>
@@ -408,7 +408,7 @@ function PortfolioCLI({ onOpenResume }) {
           />
           <button
             type="submit"
-            className="shrink-0 px-3 py-2 rounded-lg bg-indigo-500 text-white border border-indigo-400/40 text-[10px] uppercase tracking-[0.2em] shadow-[0_6px_0_rgb(49,46,129)] hover:brightness-110 active:translate-y-[2px] active:shadow-none"
+            className="shrink-0 px-3 py-2 rounded-lg bg-sky-500 text-slate-950 border border-sky-300/40 text-[10px] uppercase tracking-[0.2em] shadow-[0_6px_0_rgb(12,74,110)] hover:brightness-110 active:translate-y-[2px] active:shadow-none"
           >
             Run
           </button>
@@ -431,7 +431,7 @@ function PortfolioCLI({ onOpenResume }) {
                 key={command}
                 type="button"
                 onClick={() => setInput(command)}
-                className="px-3 py-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-200 hover:text-white hover:border-indigo-400/40 text-[10px] uppercase tracking-[0.18em] transition-all"
+                className="px-3 py-2 rounded-lg bg-sky-400/10 border border-sky-400/20 text-sky-200 hover:text-white hover:border-sky-300/40 text-[10px] uppercase tracking-[0.18em] transition-all"
               >
                 {command}
               </button>

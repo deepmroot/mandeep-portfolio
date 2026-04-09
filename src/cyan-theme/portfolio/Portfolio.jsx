@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { PROJECTS, LINKS } from "../data/projects";
+import { PROJECTS, LINKS } from "../../data/projects";
 import { Hero } from "../components/Hero";
 import { Skills } from "../components/Skills";
-import { Footer } from "../components/Footer";
-import { ProjectCard } from "../components/ProjectCard";
-import { Card } from "../components/Card";
+import { Footer } from "../../components/Footer";
+import { ProjectCard } from "../../components/ProjectCard";
+import { Card } from "../../components/Card";
 import { LiquidBackground } from "../components/LiquidBackground";
-import { ResumeModal } from "../components/ResumeModal";
-import { GlobalSearch } from "../components/GlobalSearch";
+import { ResumeModal } from "../../components/ResumeModal";
+import { GlobalSearch } from "../../components/GlobalSearch";
 import { motion } from "framer-motion";
 import { 
   CheckCircle2, 
@@ -221,7 +221,7 @@ export default function Portfolio() {
         <Hero onOpenResume={() => setIsResumeOpen(true)} />
 
         {/* PROJECTS HEADER */}
-        <section className="pt-24 pb-12 border-t border-white/5">
+        <section className="pt-20 pb-8 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col gap-4 max-w-2xl">
               <span className="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.35em]">Project Browser</span>
@@ -237,18 +237,18 @@ export default function Portfolio() {
 
         {/* FLAGSHIP: SyntaxArk */}
         {flagship && shouldShowFlagship && (
-          <section id="flagship" className="pb-32 relative overflow-hidden">
+          <section id="flagship" className="pb-24 relative overflow-hidden">
             <div className="absolute inset-0 bg-indigo-500/[0.01] -z-10" />
             <div className="max-w-7xl mx-auto px-6">
-              <div className="flex flex-col mb-16">
-                <div className="flex items-center gap-4 mb-8">
+              <div className="flex flex-col mb-12">
+                <div className="flex items-center gap-4 mb-6">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-[0.25em] w-fit">
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
                     Flagship Project
                   </div>
                 </div>
 
-                <div className="inline-flex items-center mb-8 group/brand">
+                <div className="inline-flex items-center mb-6 group/brand">
                   <div className="flex items-center justify-center w-24 h-24 md:w-32 md:h-32 shrink-0 relative z-10">
                     <img
                       src="/logo.png"
@@ -278,34 +278,25 @@ export default function Portfolio() {
                   viewport={{ once: true }}
                   className="lg:col-span-5 space-y-8 flex flex-col"
                 >
-                  <div className="p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#0d0e14] to-[#050608] overflow-hidden group relative shadow-2xl">
+                  <div className="p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#0d0e14] to-black overflow-hidden group relative shadow-2xl">
                     <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
-                    <div className="absolute bottom-0 right-0 w-32 h-32 bg-indigo-500/5 blur-[60px] rounded-full" />
-                    
+
                     <div className="flex justify-between items-start mb-10 relative z-10">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <div className="w-1 h-1 rounded-full bg-indigo-500" />
-                          <h3 className="text-[10px] font-bold text-indigo-400 uppercase tracking-[0.4em]">Node Topology</h3>
+                          <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                          <h3 className="text-[10px] font-bold text-indigo-400 uppercase tracking-[0.4em]">Runtime Fabric</h3>
                         </div>
-                        <p className="text-[7px] text-slate-600 font-mono tracking-[0.2em]">PROTOCOL: SYNC_V2.4 // ENCRYPTED_STREAM</p>
-                      </div>
-                      <div className="bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 backdrop-blur-md">
-                        <div className="flex items-center gap-2">
-                          <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
-                          <span className="text-[8px] text-emerald-500 font-mono font-bold">STABLE</span>
-                        </div>
+                        <p className="text-[7px] text-slate-600 font-mono tracking-[0.2em]">TYPE: BROWSER_IDE // EXECUTION_SYNC_COLLAB</p>
                       </div>
                     </div>
-                    
-                    <div className="relative flex items-center justify-between gap-1 h-28 px-6 bg-black/60 rounded-2xl border border-white/5 shadow-inner group-hover:border-indigo-500/20 transition-colors duration-500">
-                      <ArchitectureNode label="Client" icon={<Layout className="w-5 h-5" />} lowMotion={lowMotionMode} />
-                      <ArchitectureLine lowMotion={lowMotionMode} />
-                      <ArchitectureNode label="State" icon={<Cpu className="w-5 h-5" />} highlight lowMotion={lowMotionMode} />
-                      <ArchitectureLine lowMotion={lowMotionMode} />
-                      <ArchitectureNode label="Runner" icon={<Zap className="w-5 h-5" />} lowMotion={lowMotionMode} />
-                      <ArchitectureLine lowMotion={lowMotionMode} />
-                      <ArchitectureNode label="Backend" icon={<Cloud className="w-5 h-5" />} highlight lowMotion={lowMotionMode} />
+
+                    <div className="relative flex items-center justify-between gap-3 h-28 px-6 bg-black/60 rounded-2xl border border-white/5 shadow-inner group-hover:border-indigo-500/20 transition-colors duration-500">
+                      <ArchitectureNode label="Editor" icon={<Layout className="w-5 h-5" />} color="indigo" lowMotion={lowMotionMode} />
+                      <ArchitectureLine color="indigo" lowMotion={lowMotionMode} />
+                      <ArchitectureNode label="Runtime" icon={<Zap className="w-5 h-5" />} highlight color="indigo" lowMotion={lowMotionMode} />
+                      <ArchitectureLine color="indigo" lowMotion={lowMotionMode} />
+                      <ArchitectureNode label="Sync" icon={<Cloud className="w-5 h-5" />} color="indigo" lowMotion={lowMotionMode} />
                     </div>
                   </div>
 
@@ -313,7 +304,7 @@ export default function Portfolio() {
                     <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
                       <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500/20 group-hover:bg-indigo-500 transition-colors duration-500" />
                       <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-8 flex items-center justify-between">
-                        <span>Core Capabilities</span>
+                        <span>Capabilities</span>
                         <Terminal className="w-3 h-3 text-indigo-500/50" />
                       </h3>
                       <ul className="space-y-5">
@@ -329,7 +320,7 @@ export default function Portfolio() {
                     <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
                        <div className="absolute top-0 right-0 w-1 h-full bg-fuchsia-500/20 group-hover:bg-fuchsia-500 transition-colors duration-500" />
                        <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-8 flex items-center justify-between">
-                        <span>Tech Matrix</span>
+                        <span>Platform Stack</span>
                         <Database className="w-3 h-3 text-fuchsia-500/50" />
                       </h3>
                       <div className="space-y-5">
@@ -465,7 +456,7 @@ export default function Portfolio() {
           return (
             <div key={project.title} id={project.title}>
               {/* Data Bridge Transition */}
-              <div className="relative py-24 flex justify-center items-center overflow-hidden">
+              <div className="relative py-16 flex justify-center items-center overflow-hidden">
                 <div className={`absolute h-full w-px bg-gradient-to-b ${connectorGradient}`} />
                 <div className="relative z-10 p-6 rounded-full border border-white/10 bg-[#0d0e14] backdrop-blur-xl group shadow-[0_0_50px_rgba(255,255,255,0.05)]">
                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center relative">
@@ -474,9 +465,9 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <section className="py-32 relative overflow-hidden border-t border-white/5" style={{ backgroundColor: sectionTint }}>
+              <section className="py-24 relative overflow-hidden border-t border-white/5" style={{ backgroundColor: sectionTint }}>
                 <div className="max-w-7xl mx-auto px-6">
-                  <div className={`flex flex-col mb-16 ${isInverted ? 'items-start text-left' : 'items-end text-right'}`}>
+                  <div className={`flex flex-col mb-12 ${isInverted ? 'items-start text-left' : 'items-end text-right'}`}>
                     <div className="flex items-center gap-3 mb-8">
                       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.25em] w-fit`} style={{ color: brandColor, borderColor: `${brandColor}30`, backgroundColor: `${brandColor}10` }}>
                         <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: brandColor }} />
@@ -741,9 +732,9 @@ export default function Portfolio() {
         })}
 
         {shouldShowCore && (
-          <section id="core-projects" className="py-24 border-t border-white/5 bg-white/[0.01]">
+          <section id="core-projects" className="py-20 border-t border-white/5 bg-white/[0.01]">
             <div className="max-w-7xl mx-auto px-6">
-              <div className="flex flex-col mb-16 gap-3">
+              <div className="flex flex-col mb-12 gap-3">
                 <span className="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.35em]">Core Projects</span>
                 <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">
                   Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">Engineering</span>
@@ -762,9 +753,9 @@ export default function Portfolio() {
         )}
 
         {shouldShowAdditional && (
-        <section id="additional-projects" className="py-24 border-t border-white/5">
+        <section id="additional-projects" className="py-20 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-col mb-16 gap-3">
+            <div className="flex flex-col mb-12 gap-3">
               <span className="text-fuchsia-400 font-mono text-[10px] uppercase tracking-[0.35em]">Additional Projects</span>
               <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">
                 Dev <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">Laboratory</span>
@@ -782,7 +773,7 @@ export default function Portfolio() {
 
         <Skills />
 
-        <section id="education" className="py-12 border-t border-white/5 bg-black/40">
+        <section id="education" className="py-10 border-t border-white/5 bg-black/40">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
               <div className="shrink-0">
@@ -810,12 +801,12 @@ export default function Portfolio() {
           </div>
         </section>
 
-        <section id="contact" className="py-32 border-t border-white/5 bg-indigo-600/5">
+        <section id="contact" className="py-24 border-t border-white/5 bg-indigo-600/5">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter uppercase">
               Ready for the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">Next Sprint</span>
             </h2>
-            <p className="text-xl text-slate-400 mb-16 max-w-2xl mx-auto font-medium">
+            <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto font-medium">
               I'm looking for Software Developer Co-op opportunities where I can contribute to high-performance systems.
             </p>
             <div className="flex flex-wrap justify-center gap-12">

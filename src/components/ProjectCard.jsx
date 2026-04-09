@@ -54,7 +54,7 @@ export function ProjectCard({ project }) {
       {/* Industrial Accents */}
       <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500/10 group-hover:bg-indigo-500 transition-colors duration-500" />
       <div className="absolute top-0 right-0 p-4 opacity-20">
-        <div className="w-1 h-1 rounded-full bg-white animate-pulse" />
+        <div className="w-1 h-1 rounded-full bg-white" />
       </div>
 
       {/* Spotlight Gradient */}
@@ -90,7 +90,7 @@ export function ProjectCard({ project }) {
           <div>
             <h4 className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-3 flex items-center gap-2">
               <span className="w-1 h-2 bg-indigo-500/50" />
-              Environment_Stack
+              Stack
             </h4>
             <div className="text-[11px] text-slate-300 font-mono bg-white/5 p-3 rounded border border-white/5 tracking-tight leading-relaxed">
               {project.stack}
@@ -101,7 +101,7 @@ export function ProjectCard({ project }) {
             <div>
               <h4 className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-3 flex items-center gap-2">
                 <span className="w-1 h-2 bg-fuchsia-500/50" />
-                Engineering_Logs
+                Highlights
               </h4>
               <ul className="space-y-3">
                 {project.highlights.map((h, i) => (
@@ -130,10 +130,10 @@ export function ProjectCard({ project }) {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`relative inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all active:shadow-none active:translate-y-[5px] -rotate-x-12 rotate-y-12 ${
+                    className={`relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all border ${
                       link.label.includes('Demo') || link.label === 'Site'
-                      ? "bg-indigo-600 text-white shadow-[0_5px_0_rgb(49,46,129)]"
-                      : "bg-slate-800 text-slate-300 border border-white/5 shadow-[0_5px_0_rgb(15,23,42)]"
+                      ? "bg-indigo-600 text-white border-indigo-500 shadow-[0_12px_30px_rgba(79,70,229,0.22)] hover:brightness-110"
+                      : "bg-slate-900/80 text-slate-200 border-white/10 hover:border-white/20 hover:bg-slate-800"
                     }`}
                   >
                     {link.label}

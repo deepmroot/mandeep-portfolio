@@ -188,7 +188,7 @@ export const PROJECTS = [
 export const SKILLS = [
   {
     category: "Frontend",
-    items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion", "Zustand"],
+    items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "JavaScript", "Zustand"],
   },
   {
     category: "Backend",
@@ -196,10 +196,10 @@ export const SKILLS = [
   },
   {
     category: "Tools",
-    items: ["Git", "Docker", "Figma", "Rust CLI", "Vite", "Monaco Editor"],
+    items: ["Git", "Docker", "Figma", "Rust", "Vite", "VS Code"],
   },
   {
     category: "DevOps",
-    items: ["CI/CD Workflows", "Vercel", "AWS (CCP)", "Deployment Monitoring", "Production Debugging", "System Orchestration"],
+    items: ["GitHub Actions", "Vercel", "AWS", "Linux", "Kubernetes", "Bash"],
   },
 ];
