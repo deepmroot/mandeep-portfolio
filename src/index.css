@@ -27,17 +27,24 @@
   .translate-z-\[-40px\] {
     transform: translateZ(-40px);
   }
-  .-rotate-x-12 {
-    transform: rotateX(-12deg);
+  .-rotate-x-6 {
+    transform: rotateX(-6deg);
   }
-  .rotate-y-12 {
-    transform: rotateY(12deg);
+  .rotate-y-6 {
+    transform: rotateY(6deg);
   }
-  .-rotate-y-20 {
-    transform: rotateY(-20deg);
+  .-rotate-y-12 {
+    transform: rotateY(-12deg);
   }
-  .rotate-x-10 {
-    transform: rotateX(10deg);
+  .rotate-x-6 {
+    transform: rotateX(6deg);
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -69,4 +76,12 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
+}
+
+/* Custom cursor: hide native cursor only on mouse devices */
+@media (pointer: fine) {
+  .custom-cursor,
+  .custom-cursor * {
+    cursor: none !important;
+  }
 }

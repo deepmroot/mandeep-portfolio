@@ -73,7 +73,7 @@ export function LiquidBackground() {
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 bg-[#070b12] opacity-92" />
+      <div className="absolute inset-0 bg-[#070b12] opacity-[0.92]" />
       <div
         ref={blobRef}
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] lg:w-[500px] lg:h-[500px] rounded-full bg-gradient-to-r from-sky-400/25 to-violet-500/20 blur-[110px] mix-blend-screen ${

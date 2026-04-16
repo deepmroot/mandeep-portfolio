@@ -39,7 +39,7 @@ export function ProjectCard({ project }) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0d0e14] px-8 py-10 shadow-2xl transition-all duration-500 ${project.isWIP ? 'opacity-60 grayscale-[50%]' : 'hover:border-indigo-500/30'}`}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0d0e14] px-5 py-7 sm:px-8 sm:py-10 shadow-2xl transition-all duration-500 ${project.isWIP ? 'opacity-60 grayscale-[50%]' : 'hover:border-indigo-500/30'}`}
     >
       {/* WIP Overlay */}
       {project.isWIP && (

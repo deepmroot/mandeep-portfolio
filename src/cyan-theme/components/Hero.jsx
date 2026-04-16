@@ -82,35 +82,39 @@ export function Hero({ onOpenResume }) {
         </svg>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 relative z-10 w-full">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <motion.div
             initial={lowMotionMode ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={lowMotionMode ? { duration: 0 } : { duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-400/30 bg-sky-400/10 text-sky-300 text-xs font-bold mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className={`${lowMotionMode ? "" : "animate-ping"} absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75`} />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400" />
-              </span>
-              Available for work
+            <div className="flex justify-center lg:justify-start">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-400/30 bg-sky-400/10 text-sky-300 text-xs font-bold mb-6">
+                <span className="relative flex h-2 w-2">
+                  <span className={`${lowMotionMode ? "" : "animate-ping"} absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75`} />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400" />
+                </span>
+                Available for work
+              </div>
             </div>
 
-            <h1 className="text-6xl sm:text-8xl font-extrabold tracking-tighter text-white mb-8 leading-none">
+            <h1 className="text-5xl sm:text-8xl font-extrabold tracking-tighter text-white mb-8 leading-none text-center lg:text-left">
               Hi, I&apos;m <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-300 to-violet-400">
                 Mandeep Singh.
               </span>
             </h1>
 
-            <p className="text-xl text-slate-400 leading-relaxed max-w-xl mb-10 font-medium">
+            <p className="text-base sm:text-xl text-slate-400 leading-relaxed max-w-xl mb-10 font-medium text-center lg:text-left mx-auto lg:mx-0">
               I build full-stack web applications, developer tools, and scalable systems with a focus on clean architecture and production readiness.
             </p>
 
-            <PortfolioCLI onOpenResume={onOpenResume} />
+            <div className="hidden lg:block">
+              <PortfolioCLI onOpenResume={onOpenResume} />
+            </div>
 
-            <div className="flex flex-wrap gap-8 items-center mt-10">
+            <div className="flex flex-wrap gap-5 sm:gap-8 items-center justify-center lg:justify-start mt-10">
               <div className="relative group perspective-1000">
                 <motion.div
                   whileHover={lowMotionMode ? undefined : { translateZ: 20, rotateX: -5, rotateY: 5 }}
@@ -118,7 +122,7 @@ export function Hero({ onOpenResume }) {
                 >
                   <button
                     onClick={onOpenResume}
-                    className="relative flex items-center gap-3 px-10 py-5 bg-white text-slate-900 rounded-xl shadow-[0_8px_0_rgb(203,213,225)] transition-all active:shadow-none active:translate-y-[8px] transform-style-3d -rotate-x-6 rotate-y-6"
+                    className="relative flex items-center gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-white text-slate-900 rounded-xl shadow-[0_8px_0_rgb(203,213,225)] transition-all active:shadow-none active:translate-y-[8px] transform-style-3d -rotate-x-6 rotate-y-6"
                   >
                     <span className="text-sm font-black uppercase tracking-widest">
                       View Resume
@@ -163,7 +167,7 @@ export function Hero({ onOpenResume }) {
                 <div className="absolute inset-0 bg-gradient-to-tr from-sky-400/20 via-transparent to-white/5" />
               </div>
 
-              <div className="absolute -bottom-6 -left-6 bg-slate-900/90 backdrop-blur-xl border border-white/10 px-6 py-3 rounded-2xl translate-z-50 shadow-2xl">
+              <div className="absolute -bottom-6 left-0 sm:-left-6 bg-slate-900/90 backdrop-blur-xl border border-white/10 px-4 sm:px-6 py-3 rounded-2xl translate-z-50 shadow-2xl">
                 <div className="flex items-center gap-3">
                   <div className={`w-2 h-2 rounded-full bg-emerald-500 ${lowMotionMode ? "" : "animate-pulse"}`} />
                   <div className="text-[11px] font-mono text-sky-300 font-black tracking-[0.25em] uppercase">
@@ -321,7 +325,7 @@ function PortfolioCLI({ onOpenResume }) {
   };
 
   return (
-    <div className="mb-12 max-w-2xl rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(16,18,27,0.98),rgba(8,9,14,0.98))] shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl overflow-hidden relative">
+    <div className="mb-12 max-w-2xl rounded-2xl sm:rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(16,18,27,0.98),rgba(8,9,14,0.98))] shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl overflow-hidden relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.16),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(217,70,239,0.1),transparent_28%)] pointer-events-none" />
 
       <div className="relative flex items-center justify-between px-5 py-4 border-b border-white/10 bg-white/[0.03]">

@@ -95,7 +95,7 @@ export function Skills() {
 
   return (
     <section id="skills" className="py-24 border-t border-white/5 bg-black/20">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col mb-16 items-center gap-3">
           <span className="text-sky-400 font-mono text-[10px] uppercase tracking-[0.35em]">Technical Stack</span>
           <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">
@@ -105,7 +105,7 @@ export function Skills() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {SKILLS.map((skillGroup) => (
-            <div key={skillGroup.category} className="group relative bg-[#0d1320] border border-white/10 rounded-2xl p-8 overflow-hidden hover:border-sky-400/30 transition-all duration-500">
+            <div key={skillGroup.category} className="group relative bg-[#0d1320] border border-white/10 rounded-2xl p-5 sm:p-8 overflow-hidden hover:border-sky-400/30 transition-all duration-500">
               <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-sky-400/20 to-transparent" />
 
               <div className="flex items-center gap-3 mb-8">

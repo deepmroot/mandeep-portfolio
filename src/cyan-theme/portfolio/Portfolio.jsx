@@ -205,7 +205,8 @@ export default function Portfolio() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#0a0b10] text-slate-200 font-sans selection:bg-indigo-500/30 relative">
+    <main className="min-h-screen bg-[#0a0b10] text-slate-200 font-sans selection:bg-indigo-500/30 relative custom-cursor">
+      <CustomCursor />
       <LiquidBackground />
 
       <div className="relative z-10">
@@ -222,7 +223,7 @@ export default function Portfolio() {
 
         {/* PROJECTS HEADER */}
         <section className="pt-20 pb-8 border-t border-white/5">
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col gap-4 max-w-2xl">
               <span className="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.35em]">Project Browser</span>
               <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase">
@@ -239,7 +240,7 @@ export default function Portfolio() {
         {flagship && shouldShowFlagship && (
           <section id="flagship" className="pb-24 relative overflow-hidden">
             <div className="absolute inset-0 bg-indigo-500/[0.01] -z-10" />
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
               <div className="flex flex-col mb-12">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-[0.25em] w-fit">
@@ -249,7 +250,7 @@ export default function Portfolio() {
                 </div>
 
                 <div className="inline-flex items-center mb-6 group/brand">
-                  <div className="flex items-center justify-center w-24 h-24 md:w-32 md:h-32 shrink-0 relative z-10">
+                  <div className="flex items-center justify-center w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 shrink-0 relative z-10">
                     <img
                       src="/logo.png"
                       alt="SyntaxArk"
@@ -260,25 +261,25 @@ export default function Portfolio() {
                       className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover/brand:scale-110"
                     />
                   </div>
-                  <span className="inline-flex items-baseline gap-0 font-extrabold leading-none tracking-[-0.04em] text-[40px] md:text-[72px] text-white [font-family:'Sora','Space_Grotesk','Segoe_UI',sans-serif] -ml-2 md:-ml-4 relative z-0">
+                  <span className="inline-flex items-baseline gap-0 font-extrabold leading-none tracking-[-0.04em] text-[32px] sm:text-[40px] md:text-[72px] text-white [font-family:'Sora','Space_Grotesk','Segoe_UI',sans-serif] -ml-1 sm:-ml-2 md:-ml-4 relative z-0">
                     <span>Syntax</span>
                     <span className="text-[#60a5fa] [text-shadow:0_0_30px_rgba(59,130,246,0.5)]">Ark</span>
                   </span>
                 </div>
 
-                <p className="text-xl text-slate-400 max-w-3xl leading-relaxed font-medium">
+                <p className="text-base sm:text-xl text-slate-400 max-w-3xl leading-relaxed font-medium">
                   {flagship.summary}
                 </p>
               </div>
 
-              <div className="grid lg:grid-cols-12 gap-12 items-stretch">
+              <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
                 <motion.div 
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   className="lg:col-span-5 space-y-8 flex flex-col"
                 >
-                  <div className="p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#0d0e14] to-black overflow-hidden group relative shadow-2xl">
+                  <div className="p-5 sm:p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#0d0e14] to-black overflow-hidden group relative shadow-2xl">
                     <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
 
                     <div className="flex justify-between items-start mb-10 relative z-10">
@@ -291,7 +292,7 @@ export default function Portfolio() {
                       </div>
                     </div>
 
-                    <div className="relative flex items-center justify-between gap-3 h-28 px-6 bg-black/60 rounded-2xl border border-white/5 shadow-inner group-hover:border-indigo-500/20 transition-colors duration-500">
+                    <div className="relative flex items-center justify-between gap-2 sm:gap-3 h-28 px-3 sm:px-6 bg-black/60 rounded-2xl border border-white/5 shadow-inner group-hover:border-indigo-500/20 transition-colors duration-500">
                       <ArchitectureNode label="Editor" icon={<Layout className="w-5 h-5" />} color="indigo" lowMotion={lowMotionMode} />
                       <ArchitectureLine color="indigo" lowMotion={lowMotionMode} />
                       <ArchitectureNode label="Runtime" icon={<Zap className="w-5 h-5" />} highlight color="indigo" lowMotion={lowMotionMode} />
@@ -301,7 +302,7 @@ export default function Portfolio() {
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-6 flex-grow">
-                    <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
+                    <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-5 sm:p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
                       <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500/20 group-hover:bg-indigo-500 transition-colors duration-500" />
                       <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-8 flex items-center justify-between">
                         <span>Capabilities</span>
@@ -317,7 +318,7 @@ export default function Portfolio() {
                       </ul>
                     </div>
 
-                    <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
+                    <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-5 sm:p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
                        <div className="absolute top-0 right-0 w-1 h-full bg-fuchsia-500/20 group-hover:bg-fuchsia-500 transition-colors duration-500" />
                        <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-8 flex items-center justify-between">
                         <span>Platform Stack</span>
@@ -341,7 +342,7 @@ export default function Portfolio() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`inline-flex min-w-[180px] items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-black uppercase tracking-[0.2em] text-xs transition-all active:translate-y-[3px] active:shadow-none ${
+                        className={`inline-flex min-w-0 sm:min-w-[180px] items-center justify-center gap-3 px-5 sm:px-7 py-3.5 rounded-xl font-black uppercase tracking-[0.2em] text-xs transition-all active:translate-y-[3px] active:shadow-none ${
                           link.label === "Live Demo"
                             ? "bg-[#60a5fa] text-white shadow-[0_6px_0_rgb(30,58,138)] hover:brightness-110"
                             : "bg-slate-800 text-slate-200 border border-white/10 shadow-[0_6px_0_rgb(15,23,42)] hover:border-white/20 hover:bg-slate-700"
@@ -360,7 +361,7 @@ export default function Portfolio() {
                    className="lg:col-span-7 relative group flex flex-col"
                 >
                   <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-2xl opacity-20 blur-xl" />
-                  <div className="relative rounded-2xl border border-white/10 overflow-hidden bg-[#0d0e14] shadow-2xl flex-grow flex flex-col min-h-[500px] lg:min-h-[600px]">
+                  <div className="relative rounded-2xl border border-white/10 overflow-hidden bg-[#0d0e14] shadow-2xl flex-grow flex flex-col min-h-[350px] sm:min-h-[500px] lg:min-h-[600px]">
                      <div className="h-10 bg-white/5 border-b border-white/10 flex items-center px-4 gap-2 shrink-0">
                         <div className="flex gap-1.5">
                            <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40" />
@@ -386,14 +387,17 @@ export default function Portfolio() {
                      </div>
                      <div ref={(node) => registerPreviewNode(flagshipPreviewKey, node)} className="flex-grow relative bg-[#0a0b10]">
                         {flagshipPreviewActive ? (
-                          <iframe
-                            src={flagshipLiveDemoHref}
-                            className="absolute inset-0 w-full h-full border-none grayscale-[0.2] contrast-[1.1] hover:grayscale-0 transition-all duration-700"
-                            title="SyntaxArk Live Preview"
-                            loading="lazy"
-                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                            tabIndex="-1"
-                          />
+                          <>
+                            <iframe
+                              src={flagshipLiveDemoHref}
+                              className="absolute inset-0 w-full h-full border-none grayscale-[0.2] contrast-[1.1] hover:grayscale-0 transition-all duration-700"
+                              title="SyntaxArk Live Preview"
+                              loading="lazy"
+                              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                              tabIndex="-1"
+                            />
+                            <div className="absolute inset-0 z-10" />
+                          </>
                         ) : (
                           <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#0d0e14] via-[#0a0b10] to-[#06070c] p-8">
                             <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.25),transparent_45%),radial-gradient(circle_at_80%_75%,rgba(217,70,239,0.18),transparent_40%)]" />
@@ -456,7 +460,7 @@ export default function Portfolio() {
           return (
             <div key={project.title} id={project.title}>
               {/* Data Bridge Transition */}
-              <div className="relative py-16 flex justify-center items-center overflow-hidden">
+              <div className="relative py-8 sm:py-16 flex justify-center items-center overflow-hidden">
                 <div className={`absolute h-full w-px bg-gradient-to-b ${connectorGradient}`} />
                 <div className="relative z-10 p-6 rounded-full border border-white/10 bg-[#0d0e14] backdrop-blur-xl group shadow-[0_0_50px_rgba(255,255,255,0.05)]">
                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center relative">
@@ -465,9 +469,9 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <section className="py-24 relative overflow-hidden border-t border-white/5" style={{ backgroundColor: sectionTint }}>
-                <div className="max-w-7xl mx-auto px-6">
-                  <div className={`flex flex-col mb-12 ${isInverted ? 'items-start text-left' : 'items-end text-right'}`}>
+              <section className="py-12 sm:py-24 relative overflow-hidden border-t border-white/5" style={{ backgroundColor: sectionTint }}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                  <div className={`flex flex-col mb-12 ${isInverted ? 'items-start text-left' : 'items-start text-left lg:items-end lg:text-right'}`}>
                     <div className="flex items-center gap-3 mb-8">
                       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.25em] w-fit`} style={{ color: brandColor, borderColor: `${brandColor}30`, backgroundColor: `${brandColor}10` }}>
                         <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: brandColor }} />
@@ -478,10 +482,10 @@ export default function Portfolio() {
                       </div>
                     </div>
 
-                    <div className={`mb-8 flex flex-col gap-4 ${isInverted ? 'items-start' : 'items-end'} group/brand`}>
-                      <div className="w-full max-w-3xl rounded-[28px] border border-white/10 bg-black/25 px-6 py-5 backdrop-blur-md shadow-2xl">
+                    <div className={`mb-8 flex flex-col gap-4 ${isInverted ? 'items-start' : 'items-start lg:items-end'} group/brand`}>
+                      <div className="w-full max-w-3xl rounded-2xl sm:rounded-[28px] border border-white/10 bg-black/25 px-4 sm:px-6 py-4 sm:py-5 backdrop-blur-md shadow-2xl">
                         {isOlive ? (
-                          <div className={`flex flex-col ${isInverted ? 'items-start' : 'items-end'}`}>
+                          <div className={`flex flex-col ${isInverted ? 'items-start' : 'items-start lg:items-end'}`}>
                             <img
                               src="/generic-alternatives-wordmark.svg"
                               alt="Generic Alternatives"
@@ -493,7 +497,7 @@ export default function Portfolio() {
                             />
                           </div>
                         ) : isRose ? (
-                          <div className={`flex items-center gap-4 ${isInverted ? 'justify-start' : 'justify-end'}`}>
+                          <div className={`flex items-center gap-4 ${isInverted ? 'justify-start' : 'justify-start lg:justify-end'}`}>
                             <img
                               src="/InferenceSaver.png"
                               alt="InferenceSaver icon"
@@ -503,12 +507,12 @@ export default function Portfolio() {
                               decoding="async"
                               className="h-12 w-12 rounded-2xl object-cover transition-transform duration-500 group-hover/brand:scale-105"
                             />
-                            <span className="text-[28px] md:text-[42px] font-black tracking-tight text-white leading-none">
+                            <span className="text-[22px] sm:text-[28px] md:text-[42px] font-black tracking-tight text-white leading-none">
                               InferenceSaver
                             </span>
                           </div>
                         ) : (
-                          <div className={`flex items-center gap-3 ${isInverted ? 'justify-start' : 'justify-end'}`}>
+                          <div className={`flex items-center gap-3 ${isInverted ? 'justify-start' : 'justify-start lg:justify-end'}`}>
                             {project.title === "RentSpace" && (
                               <div className="flex items-center justify-center w-16 h-16 md:w-20 md:h-20 shrink-0 relative z-10">
                                 <img
@@ -522,7 +526,7 @@ export default function Portfolio() {
                                 />
                               </div>
                             )}
-                            <span className="inline-flex items-baseline gap-0 font-bold leading-none tracking-tight text-[34px] md:text-[54px] relative z-0 font-['Inter',sans-serif] text-white">
+                            <span className="inline-flex items-baseline gap-0 font-bold leading-none tracking-tight text-[28px] sm:text-[34px] md:text-[54px] relative z-0 font-['Inter',sans-serif] text-white">
                               {project.title}
                             </span>
                           </div>
@@ -533,21 +537,21 @@ export default function Portfolio() {
                       </span>
                     </div>
 
-                    <p className="text-xl text-slate-400 max-w-3xl leading-relaxed font-medium">
+                    <p className="text-base sm:text-xl text-slate-400 max-w-3xl leading-relaxed font-medium">
                       {project.summary}
                     </p>
                   </div>
 
-                  <div className="grid lg:grid-cols-12 gap-16 items-stretch">
+                  <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-stretch">
                     {/* Live Preview Frame */}
                     <motion.div 
                        initial={{ opacity: 0, x: isInverted ? -30 : 30 }}
                        whileInView={{ opacity: 1, x: 0 }}
                        viewport={{ once: true }}
-                       className={`lg:col-span-7 relative group flex flex-col ${isInverted ? 'order-2 lg:order-1' : 'order-1 lg:order-2'}`}
+                       className={`lg:col-span-7 relative group flex flex-col ${isInverted ? 'order-1 lg:order-1' : 'order-1 lg:order-2'}`}
                     >
                       <div className={`absolute -inset-1 rounded-2xl opacity-20 blur-xl group-hover:opacity-30 transition-opacity`} style={{ background: `linear-gradient(to right, ${brandColor}, ${secondaryColor})` }} />
-                      <div className={`relative rounded-2xl border border-white/10 overflow-hidden ${previewShellBg} shadow-2xl flex-grow flex flex-col min-h-[500px] lg:min-h-[600px]`}>
+                      <div className={`relative rounded-2xl border border-white/10 overflow-hidden ${previewShellBg} shadow-2xl flex-grow flex flex-col min-h-[350px] sm:min-h-[500px] lg:min-h-[600px]`}>
                          <div className="h-10 bg-white/5 border-b border-white/10 flex items-center px-4 gap-2 shrink-0">
                             <div className="flex gap-1.5">
                                <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40" />
@@ -572,14 +576,17 @@ export default function Portfolio() {
                          </div>
                          <div ref={(node) => registerPreviewNode(selectedPreviewKey, node)} className={`flex-grow relative ${previewStageBg}`}>
                             {selectedPreviewActive ? (
-                              <iframe
-                                src={selectedLiveDemoHref}
-                                className="absolute inset-0 w-full h-full border-none grayscale-[0.1] contrast-[1.05] hover:grayscale-0 transition-all duration-700"
-                                title={`${project.title} Preview`}
-                                loading="lazy"
-                                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                                tabIndex="-1"
-                              />
+                              <>
+                                <iframe
+                                  src={selectedLiveDemoHref}
+                                  className="absolute inset-0 w-full h-full border-none grayscale-[0.1] contrast-[1.05] hover:grayscale-0 transition-all duration-700"
+                                  title={`${project.title} Preview`}
+                                  loading="lazy"
+                                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                  tabIndex="-1"
+                                />
+                                <div className="absolute inset-0 z-10" />
+                              </>
                             ) : (
                               <div className={`absolute inset-0 flex items-center justify-center p-8 ${isRose ? 'bg-gradient-to-br from-[#120b12] via-[#0a0b10] to-[#14060d]' : 'bg-gradient-to-br from-[#111317] via-[#0a0b10] to-[#070809]'}`}>
                                 <div
@@ -617,9 +624,9 @@ export default function Portfolio() {
                       initial={{ opacity: 0, x: isInverted ? 30 : -30 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      className={`lg:col-span-5 space-y-8 flex flex-col ${isInverted ? 'order-1 lg:order-2' : 'order-2 lg:order-1'}`}
+                      className={`lg:col-span-5 space-y-8 flex flex-col ${isInverted ? 'order-2 lg:order-2' : 'order-2 lg:order-1'}`}
                     >
-                      <div className="p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#0d0e14] to-black overflow-hidden group relative shadow-2xl">
+                      <div className="p-5 sm:p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#0d0e14] to-black overflow-hidden group relative shadow-2xl">
                         <div className={`absolute top-0 left-0 w-full h-px`} style={{ background: `linear-gradient(to right, transparent, ${brandColor}, transparent)` }} />
                         
                         <div className="flex justify-between items-start mb-10 relative z-10">
@@ -632,7 +639,7 @@ export default function Portfolio() {
                           </div>
                         </div>
                         
-                        <div className={`relative flex items-center justify-between gap-3 h-28 px-6 rounded-2xl border shadow-inner transition-colors duration-500 ${isRose ? 'bg-[#130811] border-[#4b2231] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]' : 'bg-black/60 border-white/5'}`}>
+                        <div className={`relative flex items-center justify-between gap-2 sm:gap-3 h-28 px-3 sm:px-6 rounded-2xl border shadow-inner transition-colors duration-500 ${isRose ? 'bg-[#130811] border-[#4b2231] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]' : 'bg-black/60 border-white/5'}`}>
                           {isOlive ? (
                             <>
                               <ArchitectureNode label="Source" icon={<Globe className="w-5 h-5" />} color="olive" lowMotion={lowMotionMode} />
@@ -662,7 +669,7 @@ export default function Portfolio() {
                       </div>
 
                       <div className="grid sm:grid-cols-2 gap-6 flex-grow">
-                        <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
+                        <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-5 sm:p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
                           <div className={`absolute top-0 left-0 w-1 h-full opacity-20 group-hover:opacity-100 transition-colors duration-500`} style={{ backgroundColor: brandColor }} />
                           <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-8 flex items-center justify-between">
                             <span>Capabilities</span>
@@ -682,7 +689,7 @@ export default function Portfolio() {
                           </ul>
                         </div>
 
-                        <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
+                        <div className="bg-gradient-to-b from-[#0d0e14] to-black border border-white/10 rounded-2xl p-5 sm:p-7 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
                            <div className={`absolute top-0 right-0 w-1 h-full opacity-20 group-hover:opacity-100 transition-colors duration-500`} style={{ backgroundColor: isOlive ? "#fdfff9" : "#7d6650" }} />
                            <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-8 flex items-center justify-between">
                             <span>Platform Stack</span>
@@ -708,7 +715,7 @@ export default function Portfolio() {
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`inline-flex min-w-[180px] items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-black uppercase tracking-[0.2em] text-xs transition-all active:translate-y-[3px] active:shadow-none ${
+                            className={`inline-flex min-w-0 sm:min-w-[180px] items-center justify-center gap-3 px-5 sm:px-7 py-3.5 rounded-xl font-black uppercase tracking-[0.2em] text-xs transition-all active:translate-y-[3px] active:shadow-none ${
                               link.label.includes('Demo') || link.label === 'Site'
                                 ? `text-white hover:brightness-110`
                                 : "bg-slate-800 text-slate-200 border border-white/10 shadow-[0_6px_0_rgb(15,23,42)] hover:border-white/20 hover:bg-slate-700"
@@ -733,7 +740,7 @@ export default function Portfolio() {
 
         {shouldShowCore && (
           <section id="core-projects" className="py-20 border-t border-white/5 bg-white/[0.01]">
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
               <div className="flex flex-col mb-12 gap-3">
                 <span className="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.35em]">Core Projects</span>
                 <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">
@@ -754,7 +761,7 @@ export default function Portfolio() {
 
         {shouldShowAdditional && (
         <section id="additional-projects" className="py-20 border-t border-white/5">
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col mb-12 gap-3">
               <span className="text-fuchsia-400 font-mono text-[10px] uppercase tracking-[0.35em]">Additional Projects</span>
               <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">
@@ -774,7 +781,7 @@ export default function Portfolio() {
         <Skills />
 
         <section id="education" className="py-10 border-t border-white/5 bg-black/40">
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
               <div className="shrink-0">
                 <div className="flex flex-col">
@@ -802,19 +809,19 @@ export default function Portfolio() {
         </section>
 
         <section id="contact" className="py-24 border-t border-white/5 bg-indigo-600/5">
-          <div className="max-w-7xl mx-auto px-6 text-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter uppercase">
               Ready for the <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">Next Sprint</span>
             </h2>
-            <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto font-medium">
+            <p className="text-base sm:text-xl text-slate-400 mb-12 max-w-2xl mx-auto font-medium">
               I'm looking for Software Developer Co-op opportunities where I can contribute to high-performance systems.
             </p>
-            <div className="flex flex-wrap justify-center gap-12">
+            <div className="flex flex-wrap justify-center gap-6 md:gap-12">
               <div className="perspective-1000">
                 <motion.div whileHover={{ translateZ: 20, rotateX: -10, rotateY: 10 }} className="transform-style-3d">
                   <a 
                     href={LINKS.email}
-                    className="relative flex items-center gap-4 px-10 py-5 bg-white text-slate-900 rounded-2xl font-bold uppercase tracking-[0.2em] text-sm border border-white shadow-[0_16px_40px_rgba(255,255,255,0.12)] transition-all hover:bg-slate-100"
+                    className="relative flex items-center gap-4 px-6 sm:px-10 py-5 bg-white text-slate-900 rounded-2xl font-bold uppercase tracking-[0.2em] text-xs sm:text-sm border border-white shadow-[0_16px_40px_rgba(255,255,255,0.12)] transition-all hover:bg-slate-100"
                   >
                     <Mail className="w-5 h-5" /> Initialize Connection
                   </a>
@@ -826,7 +833,7 @@ export default function Portfolio() {
                     href={LINKS.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative flex items-center gap-4 px-10 py-5 bg-slate-900/90 text-white border border-white/10 rounded-2xl font-bold uppercase tracking-[0.2em] text-sm shadow-[0_16px_40px_rgba(15,23,42,0.28)] transition-all hover:border-white/20 hover:bg-slate-800"
+                    className="relative flex items-center gap-4 px-6 sm:px-10 py-5 bg-slate-900/90 text-white border border-white/10 rounded-2xl font-bold uppercase tracking-[0.2em] text-xs sm:text-sm shadow-[0_16px_40px_rgba(15,23,42,0.28)] transition-all hover:border-white/20 hover:bg-slate-800"
                   >
                     <Linkedin className="w-5 h-5" /> LinkedIn_Node
                   </a>
@@ -872,7 +879,7 @@ function TopHeader({ projectFilter, projectFilterOptions, isFilterMenuOpen, setI
   };
 
   return (
-    <header className="sticky top-4 z-40 px-6 pt-4">
+    <header className="sticky top-4 z-40 px-4 sm:px-6 pt-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center">
           <div className="hidden lg:block" />
@@ -918,91 +925,22 @@ function TopHeader({ projectFilter, projectFilterOptions, isFilterMenuOpen, setI
               />
             </div>
 
-            <div ref={filterMenuRef} className="relative lg:hidden">
-              <button
-                type="button"
-                onClick={() => setIsFilterMenuOpen((previous) => !previous)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-4 py-2.5 rounded-full border border-white/10 bg-[#070c19] text-slate-300 hover:text-white hover:border-sky-400/30 transition-all"
-              >
-                <SlidersHorizontal className="w-4 h-4 text-sky-400" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">Project Browser</span>
-                <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isFilterMenuOpen ? 'rotate-90 text-sky-400' : ''}`} />
-              </button>
-
-              {isFilterMenuOpen && (
-                <div className="absolute top-full right-0 mt-3 w-[min(320px,calc(100vw-3rem))] rounded-[24px] border border-white/10 bg-[#0a0f1b]/95 backdrop-blur-xl shadow-2xl p-3 z-30">
-                  <div className="mb-2 px-2 pt-1 pb-2 border-b border-white/5 flex items-center justify-between gap-3">
-                    <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-slate-500">Project Views</p>
-                    <button
-                      type="button"
-                      onClick={() => setIsFilterMenuOpen(false)}
-                      className="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-500 hover:text-white"
-                    >
-                      Close
-                    </button>
-                  </div>
-                  <div className="grid gap-2 mb-3">
-                    {projectFilterOptions.map((option) => {
-                      const isActive = projectFilter === option.value;
-                      return (
-                        <button
-                          key={option.value}
-                          type="button"
-                          onClick={() => {
-                            setProjectFilter(option.value);
-                            setIsFilterMenuOpen(false);
-                          }}
-                          className={`w-full flex items-center justify-between gap-3 rounded-xl border px-3 py-3 text-left transition-all ${
-                            isActive
-                              ? "bg-sky-400/10 border-sky-400/30 text-white"
-                              : "bg-white/[0.02] border-white/5 text-slate-400 hover:text-white hover:border-white/15"
-                          }`}
-                        >
-                          <span className="flex items-center gap-3">
-                            <span className={`${isActive ? 'text-sky-300' : 'text-slate-500'}`}>{option.icon}</span>
-                            <span className="text-[11px] font-mono uppercase tracking-[0.2em]">{option.label}</span>
-                          </span>
-                          {isActive && <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-sky-300">Active</span>}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <GlobalSearch
-                    renderTrigger={({ onClick }) => (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsFilterMenuOpen(false);
-                          onClick();
-                        }}
-                        className="w-full inline-flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-white/10 bg-white/[0.03] text-slate-300 hover:text-white hover:border-sky-400/40 transition-all"
-                      >
-                        <span className="inline-flex items-center gap-3">
-                          <Command className="w-4 h-4 text-sky-400" />
-                          <span className="text-xs font-mono uppercase tracking-[0.2em]">Search Projects</span>
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-500 border border-white/10 bg-white/5 px-2 py-0.5 rounded">
-                          Ctrl/Cmd + K
-                        </span>
-                      </button>
-                    )}
-                  />
-                </div>
-              )}
-            </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 lg:hidden">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                type="button"
-                onClick={() => handleNavClick(item)}
-                className={`px-3 py-2 rounded-lg border text-[11px] font-mono uppercase tracking-[0.18em] transition-all ${activeNav === item.label ? 'border-sky-400/30 bg-sky-400/10 text-sky-300' : 'border-white/10 bg-white/[0.03] text-slate-400 hover:text-white hover:border-white/20'}`}
-              >
-                {item.label}
-              </button>
-            ))}
+          <div className="relative lg:hidden">
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+              {navItems.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => handleNavClick(item)}
+                  className={`shrink-0 px-3 py-2 rounded-lg border text-[11px] font-mono uppercase tracking-[0.18em] transition-all ${activeNav === item.label ? 'border-sky-400/30 bg-sky-400/10 text-sky-300' : 'border-white/10 bg-white/[0.03] text-slate-400 hover:text-white hover:border-white/20'}`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            <div className="absolute right-0 top-0 bottom-1 w-8 bg-gradient-to-l from-[#0a0b10] to-transparent pointer-events-none" />
           </div>
         </div>
       </div>
@@ -1163,5 +1101,124 @@ function ArchitectureLine({ color = "indigo", lowMotion = false }) {
         </motion.div>
       ))}
     </div>
+  );
+}
+
+function CustomCursor() {
+  const dotRef = useRef(null);
+  const trailRef = useRef(null);
+  const pointsRef = useRef([]);
+  const [visible, setVisible] = useState(false);
+  const [isPointer, setIsPointer] = useState(false);
+
+  useEffect(() => {
+    const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+    if (isCoarse) return;
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let rafId = null;
+    const TRAIL_LENGTH = 12;
+
+    for (let i = 0; i < TRAIL_LENGTH; i++) {
+      pointsRef.current[i] = { x: -100, y: -100 };
+    }
+
+    const onMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!visible) setVisible(true);
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${mouseX - 5}px, ${mouseY - 5}px)`;
+      }
+      const hovering = e.target?.closest("a, button, [role='button'], input, textarea, select, iframe");
+      setIsPointer(Boolean(hovering));
+    };
+
+    const onLeave = () => setVisible(false);
+    const onEnter = () => setVisible(true);
+
+    const animate = () => {
+      const points = pointsRef.current;
+      points[0].x += (mouseX - points[0].x) * 0.25;
+      points[0].y += (mouseY - points[0].y) * 0.25;
+      for (let i = 1; i < TRAIL_LENGTH; i++) {
+        points[i].x += (points[i - 1].x - points[i].x) * 0.2;
+        points[i].y += (points[i - 1].y - points[i].y) * 0.2;
+      }
+      if (trailRef.current) {
+        const children = trailRef.current.children;
+        for (let i = 0; i < children.length; i++) {
+          children[i].style.transform = `translate(${points[i].x}px, ${points[i].y}px)`;
+        }
+      }
+      rafId = requestAnimationFrame(animate);
+    };
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("mouseenter", onEnter);
+    rafId = requestAnimationFrame(animate);
+
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("mouseenter", onEnter);
+      cancelAnimationFrame(rafId);
+    };
+  }, [visible]);
+
+  const isCoarse = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+  if (isCoarse) return null;
+
+  const TRAIL_LENGTH = 12;
+
+  return (
+    <>
+      {/* Dot */}
+      <div
+        ref={dotRef}
+        className="fixed top-0 left-0 z-[9999] pointer-events-none"
+        style={{ opacity: visible ? 1 : 0, transition: "opacity 0.15s" }}
+      >
+        <div
+          className="rounded-full transition-all duration-150"
+          style={{
+            width: isPointer ? 14 : 10,
+            height: isPointer ? 14 : 10,
+            backgroundColor: "#38bdf8",
+            boxShadow: isPointer
+              ? "0 0 16px rgba(56,189,248,0.8), 0 0 32px rgba(56,189,248,0.3)"
+              : "0 0 10px rgba(56,189,248,0.6)",
+          }}
+        />
+      </div>
+      {/* Comet trail */}
+      <div
+        ref={trailRef}
+        className="fixed top-0 left-0 z-[9998] pointer-events-none"
+        style={{ opacity: visible ? 1 : 0, transition: "opacity 0.2s" }}
+      >
+        {Array.from({ length: TRAIL_LENGTH }).map((_, i) => {
+          const progress = 1 - i / TRAIL_LENGTH;
+          const size = Math.max(1.5, (isPointer ? 10 : 7) * progress);
+          const alpha = (isPointer ? 0.5 : 0.35) * progress * progress;
+          return (
+            <div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: size,
+                height: size,
+                marginLeft: -size / 2,
+                marginTop: -size / 2,
+                backgroundColor: `rgba(56,189,248,${alpha})`,
+                boxShadow: i < 3 ? `0 0 ${4 * progress}px rgba(56,189,248,${alpha * 0.5})` : "none",
+              }}
+            />
+          );
+        })}
+      </div>
+    </>
   );
 }
