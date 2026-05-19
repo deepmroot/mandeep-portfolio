@@ -102,7 +102,7 @@ PromptLine (Rust) • Project_Genesis [WIP] • QuickTest AI • Hypershape Cana
 ### GitHub Activity
 <p align="center">
   <a href="https://github.com/deepmroot"><img height="200" src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=deepmroot&theme=tokyonight" alt="GitHub stats summary" /></a>
-  <a href="https://github.com/deepmroot"><img height="200" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=deepmroot&theme=tokyonight" alt="Top languages by repository" /></a>
+  <a href="https://github.com/deepmroot"><img height="200" src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=deepmroot&theme=tokyonight&utcOffset=-7" alt="Productive time" /></a>
 </p>
 <p align="center">
   <a href="https://github.com/deepmroot"><img height="210" src="https://streak-stats.demolab.com?user=deepmroot&theme=transparent&hide_border=true&ring=60a5fa&fire=f472b6&currStreakLabel=60a5fa&sideLabels=cbd5e1&dates=94a3b8&v=4" alt="GitHub streak" /></a>
