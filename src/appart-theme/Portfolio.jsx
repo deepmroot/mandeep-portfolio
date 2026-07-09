@@ -167,7 +167,7 @@ function Hero() {
   return (
     <section id="top" className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-16">
       <motion.p {...fadeUp} className={`${MONO} text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#8e827c] mb-6`}>
-        Kamloops, BC — open to software co-op, 2026
+        Kamloops, BC
       </motion.p>
       <motion.h1
         {...fadeUp}
