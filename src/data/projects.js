@@ -57,8 +57,7 @@ export const PROJECTS = [
       "Optimized geolocation search performance using PostGIS and Supabase"
     ],
     links: [
-      { label: "Live Demo", href: "https://rentspace4u.ca/" }, 
-      { label: "GitHub Repo", href: "https://github.com/deepmroot/RentSpace" },
+      { label: "Live Demo", href: "https://rentspace4u.ca/" },
     ],
   },
   {
@@ -85,7 +84,6 @@ export const PROJECTS = [
     ],
     links: [
       { label: "Live Demo", href: "https://genericalternatives.co.uk/" },
-      { label: "GitHub Repo", href: "https://github.com/matthewdonsemail-lab/GenericAlternatives.git" },
     ],
   },
   {
@@ -125,9 +123,7 @@ export const PROJECTS = [
       "Optimizing time-series indexing for scale",
       "Drafting technical whitepaper for v1.0 release"
     ],
-    links: [
-        { label: "Status: Research", href: "#" },
-    ],
+    links: [],
   },
   {
     title: "InferenceSaver",
@@ -161,27 +157,6 @@ export const PROJECTS = [
     summary: "Exam system with automatic question generation using LLMs.",
     stack: "React, Node.js, MongoDB, Stripe",
     links: [{ label: "Site", href: "https://quicktest-ai-374261b0a08e.herokuapp.com/" }, { label: "GitHub", href: "https://github.com/deepmroot/QuickTest.ai" }],
-  },
-  {
-    title: "Hypershape Canada",
-    category: "additional",
-    summary: "Shopify storefront for 3D-printed décor with NFC integration.",
-    stack: "Shopify, NFC, 3D Design",
-    links: [{ label: "Site", href: "https://hypershape.ca" }],
-  },
-  {
-    title: "BudgetBuddy",
-    category: "additional",
-    summary: "Android expense tracker with Firebase sync and biometrics.",
-    stack: "Java, Android SDK, Firebase",
-    links: [{ label: "GitHub", href: "https://github.com/deepmroot/BudgetBuddy.git" }],
-  },
-  {
-    title: "Terra Mare Education",
-    category: "additional",
-    summary: "Custom WordPress/CMS build for an international school.",
-    stack: "WordPress, CMS, Accessibility",
-    links: [{ label: "Site", href: "https://www.terramareeducation.com/" }],
   },
 ];
 

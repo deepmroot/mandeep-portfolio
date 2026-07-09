@@ -28,7 +28,6 @@ import {
   Pause,
   Play,
   SlidersHorizontal,
-  Clock3,
   Layers3,
   Boxes,
   Command,
@@ -152,10 +151,10 @@ export default function Portfolio() {
   const selectedProjects = useMemo(() => sortProjectsForLatest(PROJECTS.filter(p => p.category === "selected")), [sortProjectsForLatest]);
   const coreProjects = useMemo(() => sortProjectsForLatest(PROJECTS.filter(p => p.category === "core")), [sortProjectsForLatest]);
   const additionalProjects = useMemo(() => sortProjectsForLatest(PROJECTS.filter(p => p.category === "additional")), [sortProjectsForLatest]);
-  const shouldShowFlagship = projectFilter === "all" || projectFilter === "latest" || projectFilter === "selected";
-  const shouldShowSelected = projectFilter === "all" || projectFilter === "latest" || projectFilter === "selected";
-  const shouldShowCore = projectFilter === "all" || projectFilter === "latest" || projectFilter === "core";
-  const shouldShowAdditional = projectFilter === "all" || projectFilter === "latest" || projectFilter === "additional";
+  const shouldShowFlagship = projectFilter === "all" || projectFilter === "selected";
+  const shouldShowSelected = projectFilter === "all" || projectFilter === "selected";
+  const shouldShowCore = projectFilter === "all" || projectFilter === "core";
+  const shouldShowAdditional = projectFilter === "all" || projectFilter === "additional";
   const flagshipPreviewKey = flagship ? `flagship-${flagship.title}` : "";
   const flagshipLiveDemoHref = flagship?.links.find((link) => link.label === "Live Demo")?.href;
   const flagshipPreviewRunning = isPreviewRunning(flagshipPreviewKey);
@@ -198,7 +197,6 @@ export default function Portfolio() {
 
   const projectFilterOptions = [
     { value: "all", label: "All", icon: <Layers3 className="w-3.5 h-3.5" /> },
-    { value: "latest", label: "Latest", icon: <Clock3 className="w-3.5 h-3.5" /> },
     { value: "selected", label: "Selected", icon: <ShieldCheck className="w-3.5 h-3.5" /> },
     { value: "core", label: "Core", icon: <Cpu className="w-3.5 h-3.5" /> },
     { value: "additional", label: "Lab", icon: <Boxes className="w-3.5 h-3.5" /> },
