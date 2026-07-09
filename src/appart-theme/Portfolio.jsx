@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, MotionConfig, useInView, animate } from "framer-motion";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 import { LINKS } from "../data/projects";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Palette (inspired by warm editorial studio design)
 // paper #fbf9ef · panel #f2f0e7 · ink #171412 · warm gray #8e827c · red #ff3c34 · amber #ffc765
@@ -146,7 +151,40 @@ function CountUp({ value, format }) {
   return <span ref={ref}>{display}</span>;
 }
 
+// Smooth scroll (Lenis) driving GSAP ScrollTrigger, with anchor handling.
+function useSmoothScroll() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+
+    const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const tick = (time) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+
+    const onClick = (event) => {
+      const anchor = event.target.closest('a[href^="#"]');
+      if (!anchor) return;
+      const target = anchor.getAttribute("href");
+      if (target.length < 2) return;
+      const el = document.querySelector(target);
+      if (!el) return;
+      event.preventDefault();
+      lenis.scrollTo(el, { offset: -64 });
+    };
+    document.addEventListener("click", onClick);
+
+    return () => {
+      document.removeEventListener("click", onClick);
+      gsap.ticker.remove(tick);
+      lenis.destroy();
+    };
+  }, []);
+}
+
 export default function Portfolio() {
+  useSmoothScroll();
   return (
     <MotionConfig reducedMotion="user">
       <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
@@ -215,8 +253,30 @@ function Header() {
 }
 
 function Hero() {
+  const sectionRef = useRef(null);
+  const innerRef = useRef(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const ctx = gsap.context(() => {
+      gsap.to(innerRef.current, {
+        y: -90,
+        opacity: 0.25,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="top" className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-16">
+    <section ref={sectionRef} id="top" className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-16">
+      <div ref={innerRef}>
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -270,6 +330,7 @@ function Hero() {
             Resume
           </motion.a>
         </motion.div>
+      </div>
       </div>
     </section>
   );
@@ -491,8 +552,32 @@ function Contact() {
 }
 
 function Footer() {
+  const footerRef = useRef(null);
+  const wordmarkRef = useRef(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        wordmarkRef.current,
+        { yPercent: 45 },
+        {
+          yPercent: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        }
+      );
+    }, footerRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="bg-[#171412] text-[#fbf9ef] overflow-hidden">
+    <footer ref={footerRef} className="bg-[#171412] text-[#fbf9ef] overflow-hidden">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         <div className="flex items-center justify-between border-t border-[#fbf9ef]/15 py-5">
           <span className={`${MONO} text-[11px] uppercase tracking-[0.2em] text-[#fbf9ef]/50`}>
@@ -503,16 +588,13 @@ function Footer() {
           </span>
         </div>
       </div>
-      <motion.div
-        initial={{ y: "35%", opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-        transition={{ duration: 0.9, ease: EASE_OUT }}
+      <div
+        ref={wordmarkRef}
         aria-hidden="true"
         className={`${DISPLAY} font-extrabold text-center tracking-[-0.04em] leading-[0.75] text-[#fbf9ef]/10 select-none text-[clamp(4.5rem,17vw,16rem)] translate-y-[0.18em]`}
       >
         MANDEEP
-      </motion.div>
+      </div>
     </footer>
   );
 }
