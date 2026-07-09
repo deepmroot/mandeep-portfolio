@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, MotionConfig, useInView, animate } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, House, Boxes, UserRound, FileText, Mail } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -189,6 +189,7 @@ export default function Portfolio() {
     <MotionConfig reducedMotion="user">
       <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
         <Header />
+        <SideNav />
         <Hero />
         <Ticker />
         <Works />
@@ -202,53 +203,99 @@ export default function Portfolio() {
 }
 
 function Header() {
-  const nav = [
-    { label: "Works", href: "#works" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
-  ];
   return (
     <motion.header
-      initial={{ y: "-100%" }}
-      animate={{ y: 0 }}
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: EASE_OUT }}
-      className="sticky top-0 z-40 bg-[#fbf9ef]/90 backdrop-blur border-b border-[#171412]/10"
+      className="fixed inset-x-0 top-0 z-40 pointer-events-none"
     >
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
-        <a href="#top" className={`${DISPLAY} font-bold text-lg tracking-tight`}>
-          Mandeep Singh<span className="text-[#ff3c34]">.</span>
-        </a>
-        <nav className="hidden sm:flex items-center gap-7">
-          {nav.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="group relative text-sm font-medium text-[#171412]/70 hover:text-[#171412] transition-colors"
-            >
-              {item.label}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#ff3c34] transition-all duration-300 group-hover:w-full" />
-            </a>
-          ))}
-          <a
-            href={LINKS.resume}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative text-sm font-medium text-[#171412]/70 hover:text-[#171412] transition-colors"
-          >
-            Resume
-            <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#ff3c34] transition-all duration-300 group-hover:w-full" />
-          </a>
-        </nav>
+      <div className="px-4 sm:px-6 h-20 flex items-center justify-between">
+        <motion.a
+          whileHover={{ scale: 1.06, rotate: -6 }}
+          whileTap={{ scale: 0.95 }}
+          href="#top"
+          aria-label="Back to top"
+          className={`${DISPLAY} pointer-events-auto flex items-center justify-center w-12 h-12 rounded-full bg-[#171412] text-[#fbf9ef] font-extrabold text-lg tracking-tight shadow-lg`}
+        >
+          M<span className="text-[#ff3c34]">.</span>
+        </motion.a>
         <motion.a
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.97 }}
           href={LINKS.email}
-          className="inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-sm font-semibold px-5 py-2.5 hover:bg-[#ff3c34] transition-colors"
+          className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-xs font-bold uppercase tracking-[0.12em] px-5 py-3 hover:bg-[#ff3c34] transition-colors shadow-lg"
         >
-          Email me
+          Email me now
         </motion.a>
       </div>
     </motion.header>
+  );
+}
+
+const NAV_ITEMS = [
+  { label: "Home", href: "#top", icon: House },
+  { label: "Works", href: "#works", icon: Boxes },
+  { label: "About", href: "#about", icon: UserRound },
+  { label: "Resume", href: LINKS.resume, icon: FileText, external: true },
+  { label: "Contact", href: "#contact", icon: Mail },
+];
+
+function SideNav() {
+  return (
+    <>
+      {/* Desktop: left rail, vertically centered */}
+      <motion.nav
+        initial={{ x: -24, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.3 }}
+        aria-label="Site"
+        className="hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-2"
+      >
+        {NAV_ITEMS.map((item) => {
+          const Icon = item.icon;
+          return (
+            <a
+              key={item.label}
+              href={item.href}
+              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="group relative flex items-center justify-center w-11 h-11 rounded-xl border border-[#171412]/10 bg-[#f2f0e7] text-[#171412]/70 shadow-sm transition-all duration-300 hover:bg-[#171412] hover:text-[#fbf9ef] hover:border-[#171412] hover:-translate-y-0.5"
+            >
+              <Icon className="w-[18px] h-[18px]" strokeWidth={1.8} />
+              <span
+                className={`${MONO} absolute left-full ml-3 px-2.5 py-1 rounded-md bg-[#171412] text-[#fbf9ef] text-[10px] uppercase tracking-[0.15em] whitespace-nowrap opacity-0 -translate-x-1 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0`}
+              >
+                {item.label}
+              </span>
+            </a>
+          );
+        })}
+      </motion.nav>
+
+      {/* Mobile: bottom dock */}
+      <motion.nav
+        initial={{ y: 24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.3 }}
+        aria-label="Site"
+        className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex gap-1.5 p-1.5 rounded-2xl border border-[#171412]/10 bg-[#fbf9ef]/90 backdrop-blur shadow-xl"
+      >
+        {NAV_ITEMS.map((item) => {
+          const Icon = item.icon;
+          return (
+            <a
+              key={item.label}
+              href={item.href}
+              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              aria-label={item.label}
+              className="flex items-center justify-center w-11 h-11 rounded-xl text-[#171412]/70 transition-colors active:bg-[#171412] active:text-[#fbf9ef]"
+            >
+              <Icon className="w-5 h-5" strokeWidth={1.8} />
+            </a>
+          );
+        })}
+      </motion.nav>
+    </>
   );
 }
 
@@ -275,7 +322,7 @@ function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="top" className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-16">
+    <section ref={sectionRef} id="top" className="max-w-6xl mx-auto px-5 sm:px-8 pt-28 sm:pt-36 pb-16">
       <div ref={innerRef}>
       <motion.p
         initial={{ opacity: 0 }}
