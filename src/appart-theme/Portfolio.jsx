@@ -94,7 +94,6 @@ const KPIS = [
   { value: "06", label: "products live" },
   { value: "02", label: "with real billing" },
   { value: "4.0", label: "CGPA at TRU" },
-  { value: "'26", label: "co-op ready" },
 ];
 
 const TICKER_ITEMS = ["SyntaxArk", "InferenceSaver", "RentSpace", "PromptLine", "React", "Next.js", "Rust", "Convex", "Stripe", "Supabase"];
@@ -318,7 +317,7 @@ function Ships() {
 function Kpis() {
   return (
     <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10">
         {KPIS.map((kpi) => (
           <motion.div {...fadeUp} key={kpi.label} className="border-t border-[#171412] pt-5">
             <div className={`${DISPLAY} font-extrabold text-5xl sm:text-6xl tracking-[-0.03em] tabular-nums`}>
@@ -332,7 +331,6 @@ function Kpis() {
       </div>
       <motion.p {...fadeUp} className="mt-14 text-[#171412]/70 max-w-2xl leading-relaxed">
         Currently: Bachelor of Computing Science at Thompson Rivers University, expected 2026.
-        Looking for a co-op where shipping is the culture, not the exception.
       </motion.p>
     </section>
   );
