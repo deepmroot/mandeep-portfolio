@@ -24,6 +24,9 @@ const WORKS = [
     blurb: "Multi-file editing, runtime execution and real-time collaboration — in the browser.",
     href: "https://syntaxark.vercel.app/",
     repo: "https://github.com/deepmroot/SyntaxArk",
+    thumb: "/thumbs/syntaxark.jpg",
+    span: "md:col-span-6",
+    aspect: "aspect-[16/10] md:aspect-[21/9]",
   },
   {
     title: "InferenceSaver",
@@ -31,6 +34,9 @@ const WORKS = [
     year: "2026",
     blurb: "Premium AI access platform with Stripe subscriptions, WorkOS auth and SSR delivery.",
     href: "https://inferencesaver.com",
+    thumb: "/thumbs/inferencesaver.jpg",
+    span: "md:col-span-3",
+    aspect: "aspect-[16/10]",
   },
   {
     title: "RentSpace",
@@ -38,6 +44,9 @@ const WORKS = [
     year: "2025",
     blurb: "Rental platform with AI tenant screening, Zillow sync and realtime messaging.",
     href: "https://rentspace4u.ca/",
+    thumb: "/thumbs/rentspace.jpg",
+    span: "md:col-span-3",
+    aspect: "aspect-[16/10]",
   },
   {
     title: "Generic Alternatives",
@@ -45,6 +54,9 @@ const WORKS = [
     year: "2025",
     blurb: "Distributed sourcing platform replacing traditional agents with data-driven workflows.",
     href: "https://genericalternatives.co.uk/",
+    thumb: "/thumbs/genericalternatives.jpg",
+    span: "md:col-span-2",
+    aspect: "aspect-[4/3]",
   },
   {
     title: "PromptLine",
@@ -53,6 +65,9 @@ const WORKS = [
     blurb: "AI-native terminal runtime — multi-provider, async streaming, encrypted key storage.",
     href: "https://promptline-gold.vercel.app/",
     repo: "https://github.com/deepmroot/promptline-rust",
+    thumb: "/thumbs/promptline.jpg",
+    span: "md:col-span-2",
+    aspect: "aspect-[4/3]",
   },
   {
     title: "QuickTest AI",
@@ -61,12 +76,9 @@ const WORKS = [
     blurb: "Exam system with automatic question generation using LLMs.",
     href: "https://quicktest-ai-374261b0a08e.herokuapp.com/",
     repo: "https://github.com/deepmroot/QuickTest.ai",
-  },
-  {
-    title: "Project Genesis",
-    type: "Distributed Systems",
-    year: "WIP",
-    blurb: "High-throughput microservice monitoring — Go, gRPC, eBPF. In architectural design.",
+    thumb: "/thumbs/quicktest.jpg",
+    span: "md:col-span-2",
+    aspect: "aspect-[4/3]",
   },
 ];
 
@@ -419,57 +431,63 @@ function Works() {
         </motion.span>
       </div>
 
-      <div className="border-t border-[#171412]">
-        {WORKS.map((work, i) => {
-          const RowTag = work.href ? "a" : "div";
-          const rowProps = work.href
-            ? { href: work.href, target: "_blank", rel: "noopener noreferrer" }
-            : {};
-          return (
-            <motion.div
-              key={work.title}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.55, ease: EASE_OUT, delay: (i % 3) * 0.08 }}
-            >
-              <RowTag
-                {...rowProps}
-                className={`group grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3.5rem_1fr_10rem_5rem_3rem] items-baseline sm:items-center gap-x-4 border-b border-[#171412] py-6 sm:py-7 px-2 sm:px-4 transition-colors duration-300 ${
-                  work.href ? "cursor-pointer hover:bg-[#171412] hover:text-[#fbf9ef]" : "opacity-60"
-                }`}
-              >
-                <span className={`${MONO} text-xs text-[#8e827c] group-hover:text-[#ffc765] transition-colors`}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="min-w-0">
-                  <h3
-                    className={`${DISPLAY} font-bold tracking-[-0.02em] text-2xl sm:text-4xl transition-transform duration-300 group-hover:translate-x-2`}
-                  >
-                    {work.title}
-                  </h3>
-                  <p className="text-sm text-[#171412]/60 group-hover:text-[#fbf9ef]/60 mt-1 max-w-lg transition-colors">
-                    {work.blurb}
-                  </p>
-                </div>
-                <span className={`${MONO} hidden sm:block text-xs uppercase tracking-[0.15em] text-[#8e827c] group-hover:text-[#fbf9ef]/70 transition-colors`}>
+      <div className="grid md:grid-cols-6 gap-4 sm:gap-5">
+        {WORKS.map((work, i) => (
+          <motion.a
+            key={work.title}
+            href={work.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 48 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.65, ease: EASE_OUT, delay: (i % 2) * 0.1 }}
+            className={`group block rounded-2xl border border-[#171412]/10 bg-[#f2f0e7] p-3 sm:p-4 transition-colors duration-500 hover:bg-[#171412] ${work.span}`}
+          >
+            <div className="flex items-start justify-between gap-4 px-1 pt-1 pb-4">
+              <div className="min-w-0">
+                <h3 className={`${DISPLAY} font-bold tracking-[-0.02em] text-xl sm:text-2xl transition-colors duration-500 group-hover:text-[#fbf9ef]`}>
+                  {work.title}
+                </h3>
+                <p className="text-[13px] text-[#171412]/60 mt-0.5 transition-colors duration-500 group-hover:text-[#fbf9ef]/60 line-clamp-1">
+                  {work.blurb}
+                </p>
+              </div>
+              <div className="shrink-0 text-right">
+                <span className={`${MONO} block text-[10px] uppercase tracking-[0.15em] text-[#8e827c] transition-colors duration-500 group-hover:text-[#ffc765]`}>
                   {work.type}
                 </span>
-                <span className={`${MONO} hidden sm:block text-xs text-[#8e827c] group-hover:text-[#fbf9ef]/70 transition-colors`}>
+                <span className={`${MONO} block text-[10px] text-[#8e827c] mt-0.5 transition-colors duration-500 group-hover:text-[#fbf9ef]/60`}>
                   {work.year}
                 </span>
-                {work.href ? (
-                  <ArrowUpRight className="hidden sm:block w-6 h-6 justify-self-end text-[#171412]/30 transition-all duration-300 group-hover:text-[#ffc765] group-hover:translate-x-1 group-hover:-translate-y-1" />
-                ) : (
-                  <span className={`${MONO} hidden sm:block text-[10px] uppercase justify-self-end text-[#8e827c]`}>
-                    WIP
-                  </span>
-                )}
-              </RowTag>
-            </motion.div>
-          );
-        })}
+              </div>
+            </div>
+            <div className={`relative overflow-hidden rounded-xl ${work.aspect}`}>
+              <img
+                src={work.thumb}
+                alt={`${work.title} — ${work.type}`}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[0.96] group-hover:rounded-lg"
+              />
+              <span
+                className={`${MONO} absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-[#fbf9ef]/95 text-[#171412] text-[10px] font-semibold uppercase tracking-[0.15em] px-3 py-1.5 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0`}
+              >
+                Discover live <ArrowUpRight className="w-3 h-3 text-[#ff3c34]" />
+              </span>
+            </div>
+          </motion.a>
+        ))}
       </div>
+
+      <motion.div
+        {...fadeUp}
+        className={`${MONO} mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border border-dashed border-[#171412]/25 rounded-2xl px-5 py-4 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
+      >
+        <span className="text-[#ff3c34]">In the lab:</span>
+        <span className="text-[#171412]/80">Project Genesis</span>
+        <span>— distributed systems monitoring · Go · gRPC · eBPF · WIP</span>
+      </motion.div>
     </section>
   );
 }
