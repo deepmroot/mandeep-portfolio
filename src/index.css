@@ -55,8 +55,13 @@ html {
 }
 
 body {
-  background-color: #0a0b10;
-  color: #e2e8f0;
+  background-color: #fbf9ef;
+  color: #171412;
+}
+
+::selection {
+  background: #ffc765;
+  color: #171412;
 }
 
 /* Custom Scrollbar */
@@ -65,23 +70,31 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0b10;
+  background: #fbf9ef;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #d9d2bd;
   border-radius: 5px;
-  border: 2px solid #0a0b10;
+  border: 2px solid #fbf9ef;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #b8b09a;
 }
 
-/* Custom cursor: hide native cursor only on mouse devices */
-@media (pointer: fine) {
-  .custom-cursor,
-  .custom-cursor * {
-    cursor: none !important;
+/* Ticker strip */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  animation: ticker 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
   }
 }
