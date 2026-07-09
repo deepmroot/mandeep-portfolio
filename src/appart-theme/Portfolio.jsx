@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, MotionConfig, useInView, animate } from "framer-motion";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { LINKS } from "../data/projects";
 
@@ -8,6 +8,8 @@ import { LINKS } from "../data/projects";
 
 const DISPLAY = "[font-family:'Bricolage_Grotesque','Inter',sans-serif]";
 const MONO = "[font-family:'IBM_Plex_Mono',monospace]";
+
+const EASE_OUT = [0.22, 1, 0.36, 1];
 
 const WORKS = [
   {
@@ -91,9 +93,9 @@ const SHIPS = [
 ];
 
 const KPIS = [
-  { value: "06", label: "products live" },
-  { value: "02", label: "with real billing" },
-  { value: "4.0", label: "CGPA at TRU" },
+  { value: 6, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "products live" },
+  { value: 2, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "with real billing" },
+  { value: 4.0, format: (n) => n.toFixed(1), label: "CGPA at TRU" },
 ];
 
 const TICKER_ITEMS = ["SyntaxArk", "InferenceSaver", "RentSpace", "PromptLine", "React", "Next.js", "Rust", "Convex", "Stripe", "Supabase"];
@@ -102,21 +104,62 @@ const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.5, ease: "easeOut" },
+  transition: { duration: 0.55, ease: EASE_OUT },
 };
+
+// Masked line reveal — text slides up from behind an overflow clip.
+function Reveal({ children, delay = 0, onView = false, className = "" }) {
+  const anim = { y: "0%" };
+  const start = { y: "115%" };
+  return (
+    <span className={`block overflow-hidden ${className}`}>
+      <motion.span
+        className="block"
+        initial={start}
+        {...(onView
+          ? { whileInView: anim, viewport: { once: true, margin: "-60px" } }
+          : { animate: anim })}
+        transition={{ duration: 0.8, ease: EASE_OUT, delay }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+// Count-up number that runs once when scrolled into view.
+function CountUp({ value, format }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [display, setDisplay] = useState(format(0));
+
+  useEffect(() => {
+    if (!inView) return undefined;
+    const controls = animate(0, value, {
+      duration: 1.4,
+      ease: EASE_OUT,
+      onUpdate: (latest) => setDisplay(format(latest)),
+    });
+    return () => controls.stop();
+  }, [inView, value, format]);
+
+  return <span ref={ref}>{display}</span>;
+}
 
 export default function Portfolio() {
   return (
-    <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
-      <Header />
-      <Hero />
-      <Ticker />
-      <Works />
-      <Ships />
-      <Kpis />
-      <Contact />
-      <Footer />
-    </main>
+    <MotionConfig reducedMotion="user">
+      <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
+        <Header />
+        <Hero />
+        <Ticker />
+        <Works />
+        <Ships />
+        <Kpis />
+        <Contact />
+        <Footer />
+      </main>
+    </MotionConfig>
   );
 }
 
@@ -127,7 +170,12 @@ function Header() {
     { label: "Contact", href: "#contact" },
   ];
   return (
-    <header className="sticky top-0 z-40 bg-[#fbf9ef]/90 backdrop-blur border-b border-[#171412]/10">
+    <motion.header
+      initial={{ y: "-100%" }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: EASE_OUT }}
+      className="sticky top-0 z-40 bg-[#fbf9ef]/90 backdrop-blur border-b border-[#171412]/10"
+    >
       <div className="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         <a href="#top" className={`${DISPLAY} font-bold text-lg tracking-tight`}>
           Mandeep Singh<span className="text-[#ff3c34]">.</span>
@@ -137,65 +185,90 @@ function Header() {
             <a
               key={item.label}
               href={item.href}
-              className="text-sm font-medium text-[#171412]/70 hover:text-[#171412] transition-colors"
+              className="group relative text-sm font-medium text-[#171412]/70 hover:text-[#171412] transition-colors"
             >
               {item.label}
+              <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#ff3c34] transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
           <a
             href={LINKS.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-[#171412]/70 hover:text-[#171412] transition-colors"
+            className="group relative text-sm font-medium text-[#171412]/70 hover:text-[#171412] transition-colors"
           >
             Resume
+            <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#ff3c34] transition-all duration-300 group-hover:w-full" />
           </a>
         </nav>
-        <a
+        <motion.a
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
           href={LINKS.email}
           className="inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-sm font-semibold px-5 py-2.5 hover:bg-[#ff3c34] transition-colors"
         >
           Email me
-        </a>
+        </motion.a>
       </div>
-    </header>
+    </motion.header>
   );
 }
 
 function Hero() {
   return (
     <section id="top" className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-16">
-      <motion.p {...fadeUp} className={`${MONO} text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#8e827c] mb-6`}>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.15 }}
+        className={`${MONO} text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#8e827c] mb-6`}
+      >
         Kamloops, BC
       </motion.p>
-      <motion.h1
-        {...fadeUp}
-        className={`${DISPLAY} font-extrabold tracking-[-0.03em] leading-[0.95] text-[clamp(3rem,9vw,7.5rem)] [text-wrap:balance]`}
-      >
-        The developer<sup className="text-[0.35em] align-super text-[#ff3c34]">©</sup> who ships
-        <br />
-        real products.
-      </motion.h1>
+      <h1 className={`${DISPLAY} font-extrabold tracking-[-0.03em] leading-[0.95] text-[clamp(3rem,9vw,7.5rem)]`}>
+        <Reveal delay={0.1}>
+          <span>
+            The developer<sup className="text-[0.35em] align-super text-[#ff3c34]">©</sup>
+          </span>
+        </Reveal>
+        <Reveal delay={0.22}>who ships</Reveal>
+        <Reveal delay={0.34}>real products.</Reveal>
+      </h1>
       <div className="mt-10 flex flex-col md:flex-row md:items-end gap-8 md:gap-16">
-        <motion.p {...fadeUp} className="text-lg sm:text-xl text-[#171412]/70 max-w-xl leading-relaxed">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.55 }}
+          className="text-lg sm:text-xl text-[#171412]/70 max-w-xl leading-relaxed"
+        >
           Full-stack developer building AI products end to end — browser IDEs, subscription billing,
           realtime sync. Six of them live in production right now.
         </motion.p>
-        <motion.div {...fadeUp} className="flex flex-wrap gap-3 shrink-0">
-          <a
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.7 }}
+          className="flex flex-wrap gap-3 shrink-0"
+        >
+          <motion.a
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
             href={LINKS.email}
-            className="inline-flex items-center gap-2 rounded-full bg-[#ff3c34] text-[#fbf9ef] font-semibold px-7 py-3.5 hover:bg-[#171412] transition-colors"
+            className="group inline-flex items-center gap-2 rounded-full bg-[#ff3c34] text-[#fbf9ef] font-semibold px-7 py-3.5 hover:bg-[#171412] transition-colors"
           >
-            Start a conversation <ArrowUpRight className="w-4 h-4" />
-          </a>
-          <a
+            Start a conversation
+            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </motion.a>
+          <motion.a
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
             href={LINKS.resume}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-[#171412]/20 font-semibold px-7 py-3.5 hover:border-[#171412] transition-colors"
           >
             Resume
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </section>
@@ -206,30 +279,37 @@ function Ticker() {
   const row = TICKER_ITEMS.map((item, i) => (
     <span key={i} className="inline-flex items-center">
       <span className={`${MONO} text-sm uppercase tracking-[0.2em] px-6`}>{item}</span>
-      <span className="text-[#ff3c34] font-bold">*</span>
+      <span className="ticker-star inline-block text-[#ff3c34] font-bold">*</span>
     </span>
   ));
   return (
-    <div className="border-y border-[#171412] py-4 overflow-hidden" aria-hidden="true">
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      className="border-y border-[#171412] py-4 overflow-hidden"
+      aria-hidden="true"
+    >
       <div className="ticker-track whitespace-nowrap w-max">
         {row}
         {row}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function Works() {
   return (
     <section id="works" className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
-      <motion.div {...fadeUp} className="flex items-end justify-between mb-10">
+      <div className="flex items-end justify-between mb-10">
         <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)]`}>
-          Featured work
+          <Reveal onView>Featured work</Reveal>
         </h2>
-        <span className={`${MONO} text-xs text-[#8e827c] uppercase tracking-[0.2em] pb-2`}>
+        <motion.span {...fadeUp} className={`${MONO} text-xs text-[#8e827c] uppercase tracking-[0.2em] pb-2`}>
           ({String(WORKS.length).padStart(2, "0")})
-        </span>
-      </motion.div>
+        </motion.span>
+      </div>
 
       <div className="border-t border-[#171412]">
         {WORKS.map((work, i) => {
@@ -238,10 +318,16 @@ function Works() {
             ? { href: work.href, target: "_blank", rel: "noopener noreferrer" }
             : {};
           return (
-            <motion.div {...fadeUp} key={work.title}>
+            <motion.div
+              key={work.title}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.55, ease: EASE_OUT, delay: (i % 3) * 0.08 }}
+            >
               <RowTag
                 {...rowProps}
-                className={`group grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3.5rem_1fr_10rem_5rem_3rem] items-baseline sm:items-center gap-x-4 border-b border-[#171412] py-6 sm:py-7 px-2 sm:px-4 transition-colors ${
+                className={`group grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3.5rem_1fr_10rem_5rem_3rem] items-baseline sm:items-center gap-x-4 border-b border-[#171412] py-6 sm:py-7 px-2 sm:px-4 transition-colors duration-300 ${
                   work.href ? "cursor-pointer hover:bg-[#171412] hover:text-[#fbf9ef]" : "opacity-60"
                 }`}
               >
@@ -249,7 +335,9 @@ function Works() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="min-w-0">
-                  <h3 className={`${DISPLAY} font-bold tracking-[-0.02em] text-2xl sm:text-4xl`}>
+                  <h3
+                    className={`${DISPLAY} font-bold tracking-[-0.02em] text-2xl sm:text-4xl transition-transform duration-300 group-hover:translate-x-2`}
+                  >
                     {work.title}
                   </h3>
                   <p className="text-sm text-[#171412]/60 group-hover:text-[#fbf9ef]/60 mt-1 max-w-lg transition-colors">
@@ -263,7 +351,7 @@ function Works() {
                   {work.year}
                 </span>
                 {work.href ? (
-                  <ArrowUpRight className="hidden sm:block w-6 h-6 justify-self-end text-[#171412]/30 group-hover:text-[#ffc765] transition-colors" />
+                  <ArrowUpRight className="hidden sm:block w-6 h-6 justify-self-end text-[#171412]/30 transition-all duration-300 group-hover:text-[#ffc765] group-hover:translate-x-1 group-hover:-translate-y-1" />
                 ) : (
                   <span className={`${MONO} hidden sm:block text-[10px] uppercase justify-self-end text-[#8e827c]`}>
                     WIP
@@ -282,28 +370,40 @@ function Ships() {
   return (
     <section id="about" className="bg-[#f2f0e7] border-y border-[#171412]/10">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
-        <motion.h2
-          {...fadeUp}
-          className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] mb-14 [text-wrap:balance]`}
-        >
-          What I ship<span className="text-[#ff3c34]">.</span>
-        </motion.h2>
+        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] mb-14`}>
+          <Reveal onView>
+            <span>
+              What I ship<span className="text-[#ff3c34]">.</span>
+            </span>
+          </Reveal>
+        </h2>
         <div className="grid md:grid-cols-2 gap-x-14 gap-y-14">
-          {SHIPS.map((ship) => (
-            <motion.div {...fadeUp} key={ship.no} className="border-t border-[#171412] pt-6">
+          {SHIPS.map((ship, shipIndex) => (
+            <motion.div
+              key={ship.no}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55, ease: EASE_OUT, delay: (shipIndex % 2) * 0.12 }}
+              className="border-t border-[#171412] pt-6"
+            >
               <span className={`${MONO} text-xs text-[#ff3c34]`}>({ship.no})</span>
               <h3 className={`${DISPLAY} font-bold tracking-[-0.01em] text-2xl sm:text-[1.7rem] mt-3 mb-4`}>
                 {ship.title}
               </h3>
               <p className="text-[#171412]/70 leading-relaxed mb-6">{ship.body}</p>
               <div className="flex flex-wrap gap-2">
-                {ship.chips.map((chip) => (
-                  <span
+                {ship.chips.map((chip, chipIndex) => (
+                  <motion.span
                     key={chip}
-                    className={`${MONO} text-[11px] uppercase tracking-[0.1em] border border-[#171412]/20 rounded-full px-3 py-1`}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, ease: EASE_OUT, delay: 0.2 + chipIndex * 0.05 }}
+                    className={`${MONO} text-[11px] uppercase tracking-[0.1em] border border-[#171412]/20 rounded-full px-3 py-1 hover:border-[#ff3c34] hover:text-[#ff3c34] transition-colors cursor-default`}
                   >
                     {chip}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </motion.div>
@@ -318,10 +418,17 @@ function Kpis() {
   return (
     <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10">
-        {KPIS.map((kpi) => (
-          <motion.div {...fadeUp} key={kpi.label} className="border-t border-[#171412] pt-5">
+        {KPIS.map((kpi, i) => (
+          <motion.div
+            key={kpi.label}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: EASE_OUT, delay: i * 0.1 }}
+            className="border-t border-[#171412] pt-5"
+          >
             <div className={`${DISPLAY} font-extrabold text-5xl sm:text-6xl tracking-[-0.03em] tabular-nums`}>
-              {kpi.value}
+              <CountUp value={kpi.value} format={kpi.format} />
             </div>
             <div className={`${MONO} text-[11px] uppercase tracking-[0.2em] text-[#8e827c] mt-2`}>
               {kpi.label}
@@ -343,21 +450,24 @@ function Contact() {
         <motion.p {...fadeUp} className={`${MONO} text-xs uppercase tracking-[0.25em] text-[#ffc765] mb-6`}>
           Contact
         </motion.p>
-        <motion.h2
-          {...fadeUp}
-          className={`${DISPLAY} font-extrabold tracking-[-0.03em] leading-[0.98] text-[clamp(2.5rem,7vw,5.5rem)] [text-wrap:balance] mb-12`}
-        >
-          Make every sprint
-          <br />
-          pay for itself<span className="text-[#ff3c34]">.</span>
-        </motion.h2>
+        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.03em] leading-[0.98] text-[clamp(2.5rem,7vw,5.5rem)] mb-12`}>
+          <Reveal onView>Make every sprint</Reveal>
+          <Reveal onView delay={0.12}>
+            <span>
+              pay for itself<span className="text-[#ff3c34]">.</span>
+            </span>
+          </Reveal>
+        </h2>
         <motion.div {...fadeUp} className="flex flex-wrap items-center gap-4">
-          <a
+          <motion.a
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
             href={LINKS.email}
-            className="inline-flex items-center gap-2 rounded-full bg-[#ff3c34] text-[#fbf9ef] font-semibold px-8 py-4 hover:bg-[#ffc765] hover:text-[#171412] transition-colors"
+            className="group inline-flex items-center gap-2 rounded-full bg-[#ff3c34] text-[#fbf9ef] font-semibold px-8 py-4 hover:bg-[#ffc765] hover:text-[#171412] transition-colors"
           >
-            mandeepsinghwani@gmail.com <ArrowUpRight className="w-4 h-4" />
-          </a>
+            mandeepsinghwani@gmail.com
+            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </motion.a>
           <a
             href={LINKS.linkedin}
             target="_blank"
@@ -393,12 +503,16 @@ function Footer() {
           </span>
         </div>
       </div>
-      <div
+      <motion.div
+        initial={{ y: "35%", opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+        transition={{ duration: 0.9, ease: EASE_OUT }}
         aria-hidden="true"
         className={`${DISPLAY} font-extrabold text-center tracking-[-0.04em] leading-[0.75] text-[#fbf9ef]/10 select-none text-[clamp(4.5rem,17vw,16rem)] translate-y-[0.18em]`}
       >
         MANDEEP
-      </div>
+      </motion.div>
     </footer>
   );
 }

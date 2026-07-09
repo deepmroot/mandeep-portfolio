@@ -93,8 +93,21 @@ body {
   animation: ticker 28s linear infinite;
 }
 
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ticker-star {
+  animation: ticker-spin 5s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .ticker-track {
+  .ticker-track,
+  .ticker-star {
     animation: none;
   }
 }
