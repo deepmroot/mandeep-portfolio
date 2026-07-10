@@ -262,7 +262,7 @@ function SideNav() {
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.3 }}
         aria-label="Site"
-        className="hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-2"
+        className="hidden md:flex fixed left-4 top-24 z-40 flex-col gap-2"
       >
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
@@ -334,7 +334,7 @@ function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="top" className="max-w-6xl mx-auto px-5 sm:px-8 pt-28 sm:pt-36 pb-16">
+    <section ref={sectionRef} id="top" className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 pt-28 sm:pt-36 pb-16">
       <div ref={innerRef}>
       <motion.p
         initial={{ opacity: 0 }}
@@ -421,7 +421,7 @@ function Ticker() {
 
 function Works() {
   return (
-    <section id="works" className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
+    <section id="works" className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-20 sm:py-28">
       <div className="flex items-end justify-between mb-10">
         <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)]`}>
           <Reveal onView>Featured work</Reveal>
@@ -495,7 +495,7 @@ function Works() {
 function Ships() {
   return (
     <section id="about" className="bg-[#f2f0e7] border-y border-[#171412]/10">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-20 sm:py-28">
         <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] mb-14`}>
           <Reveal onView>
             <span>
@@ -542,7 +542,7 @@ function Ships() {
 
 function Kpis() {
   return (
-    <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+    <section className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-20 sm:py-24">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10">
         {KPIS.map((kpi, i) => (
           <motion.div
@@ -572,7 +572,7 @@ function Kpis() {
 function Contact() {
   return (
     <section id="contact" className="bg-[#171412] text-[#fbf9ef]">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-24 sm:py-32">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-24 sm:py-32">
         <motion.p {...fadeUp} className={`${MONO} text-xs uppercase tracking-[0.25em] text-[#ffc765] mb-6`}>
           Contact
         </motion.p>
@@ -643,7 +643,7 @@ function Footer() {
 
   return (
     <footer ref={footerRef} className="bg-[#171412] text-[#fbf9ef] overflow-hidden">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24">
         <div className="flex items-center justify-between border-t border-[#fbf9ef]/15 py-5">
           <span className={`${MONO} text-[11px] uppercase tracking-[0.2em] text-[#fbf9ef]/50`}>
             © 2026 Mandeep Singh
