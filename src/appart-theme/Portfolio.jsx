@@ -46,14 +46,24 @@ const WORKS = [
     aspect: "aspect-[16/10]",
   },
   {
+    title: "BecomeAfish",
+    type: "Booking SaaS",
+    year: "2026",
+    blurb: "Private swim-lesson booking platform — zone scheduling, recurring lessons, progress tracking.",
+    href: "https://becomeafish.com",
+    thumb: "/thumbs/becomeafish.jpg",
+    span: "md:col-span-3",
+    aspect: "aspect-[16/10]",
+  },
+  {
     title: "Generic Alternatives",
     type: "Supply Chain AI",
     year: "2025",
     blurb: "Distributed sourcing platform replacing traditional agents with data-driven workflows.",
     href: "https://genericalternatives.co.uk/",
     thumb: "/thumbs/genericalternatives.jpg",
-    span: "md:col-span-2",
-    aspect: "aspect-[4/3]",
+    span: "md:col-span-3",
+    aspect: "aspect-[16/10]",
   },
   {
     title: "PromptLine",
@@ -63,8 +73,8 @@ const WORKS = [
     href: "https://promptline-gold.vercel.app/",
     repo: "https://github.com/deepmroot/promptline-rust",
     thumb: "/thumbs/promptline.jpg",
-    span: "md:col-span-2",
-    aspect: "aspect-[4/3]",
+    span: "md:col-span-3",
+    aspect: "aspect-[16/10]",
   },
   {
     title: "QuickTest AI",
@@ -74,8 +84,8 @@ const WORKS = [
     href: "https://quicktest-ai-374261b0a08e.herokuapp.com/",
     repo: "https://github.com/deepmroot/QuickTest.ai",
     thumb: "/thumbs/quicktest.jpg",
-    span: "md:col-span-2",
-    aspect: "aspect-[4/3]",
+    span: "md:col-span-3",
+    aspect: "aspect-[16/10]",
   },
 ];
 
@@ -107,12 +117,12 @@ const SHIPS = [
 ];
 
 const KPIS = [
-  { value: 6, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "products live" },
+  { value: 7, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "products live" },
   { value: 2, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "with real billing" },
   { value: 4.0, format: (n) => n.toFixed(1), label: "CGPA at TRU" },
 ];
 
-const TICKER_ITEMS = ["SyntaxArk", "InferenceSaver", "RentSpace", "PromptLine", "React", "Next.js", "Rust", "Convex", "Stripe", "Supabase"];
+const TICKER_ITEMS = ["SyntaxArk", "InferenceSaver", "RentSpace", "BecomeAfish", "PromptLine", "React", "Next.js", "Rust", "Convex", "Stripe", "Supabase"];
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
