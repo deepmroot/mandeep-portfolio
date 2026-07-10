@@ -103,6 +103,21 @@ body {
   animation-play-state: paused;
 }
 
+/* Hero client-logo marquee — same keyframes, slower drift */
+.logo-marquee {
+  animation: ticker 22s linear infinite;
+}
+
+.logo-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee {
+    animation: none;
+  }
+}
+
 @keyframes ticker-spin {
   to { transform: rotate(360deg); }
 }
