@@ -589,10 +589,10 @@ function VideoShowcase() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative h-[100svh] overflow-hidden">
+    <section ref={sectionRef} className="relative h-[100svh] overflow-hidden flex items-center justify-center">
       <div
         ref={frameRef}
-        className="group relative w-full h-full overflow-hidden bg-[#171412] shadow-2xl [will-change:transform]"
+        className="group relative w-full aspect-video max-h-[100svh] overflow-hidden shadow-2xl [will-change:transform]"
       >
         <div className="relative w-full h-full">
           <video
@@ -605,7 +605,7 @@ function VideoShowcase() {
             playsInline
             preload="metadata"
             aria-label="InferenceSaver promo video"
-            className="absolute inset-0 w-full h-full object-contain"
+            className="absolute inset-0 w-full h-full object-cover"
           />
 
           {/* Title, quiet corner tag */}
