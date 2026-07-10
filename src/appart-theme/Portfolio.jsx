@@ -352,9 +352,9 @@ function ScrollProgress() {
 const HERO_LOGOS = [
   { src: "/logo.png", alt: "SyntaxArk", size: "h-10 sm:h-11" },
   { src: "/marks/inferencesaver.svg", alt: "InferenceSaver", size: "h-8 sm:h-9" },
-  { src: "/marks/rentspace.png", alt: "RentSpace", size: "h-9 sm:h-10" },
+  { src: "/marks/rentspace.png", alt: "RentSpace", size: "h-10 sm:h-12", extra: "-translate-y-1" },
   { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives", size: "h-10 sm:h-11" },
-  { src: "/marks/promptline.png", alt: "PromptLine", size: "h-7 sm:h-8", raw: true },
+  { src: "/promptLine.png", alt: "PromptLine", size: "h-8 sm:h-9", raw: true, extra: "rounded-lg" },
 ];
 
 function Hero() {
@@ -407,9 +407,9 @@ function Hero() {
                 aria-hidden={i >= HERO_LOGOS.length}
                 loading="lazy"
                 decoding="async"
-                className={`${logo.size} w-auto object-contain mx-7 transition-all duration-300 ${
+                className={`${logo.size} ${logo.extra ?? ""} w-auto object-contain mx-7 transition-all duration-300 ${
                   logo.raw
-                    ? "opacity-80 hover:opacity-100 [image-rendering:pixelated]"
+                    ? "opacity-80 hover:opacity-100"
                     : "grayscale opacity-50 mix-blend-multiply hover:grayscale-0 hover:opacity-100"
                 }`}
               />
