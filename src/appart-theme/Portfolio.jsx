@@ -350,10 +350,10 @@ function ScrollProgress() {
 }
 
 const HERO_LOGOS = [
-  { src: "/logo.png", alt: "SyntaxArk" },
-  { src: "/marks/inferencesaver.svg", alt: "InferenceSaver" },
-  { src: "/marks/rentspace.png", alt: "RentSpace" },
-  { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives" },
+  { src: "/logo.png", alt: "SyntaxArk", size: "h-10 sm:h-11" },
+  { src: "/marks/inferencesaver.svg", alt: "InferenceSaver", size: "h-8 sm:h-9" },
+  { src: "/marks/rentspace.png", alt: "RentSpace", size: "h-12 sm:h-14" },
+  { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives", size: "h-10 sm:h-11" },
   { text: "PROMPTLINE", alt: "PromptLine" },
 ];
 
@@ -404,7 +404,7 @@ function Hero() {
                 <span
                   key={`${logo.alt}-${i}`}
                   aria-hidden={i >= HERO_LOGOS.length}
-                  className={`${MONO} mx-7 text-lg sm:text-xl font-semibold tracking-[0.08em] text-[#171412] grayscale opacity-50 hover:opacity-100 transition-all duration-300`}
+                  className={`${MONO} mx-7 text-lg sm:text-xl font-bold tracking-[0.1em] text-[#3b82f6] [text-shadow:2px_2px_0_rgba(23,20,18,0.18)] opacity-70 hover:opacity-100 transition-all duration-300`}
                 >
                   {logo.text}
                 </span>
@@ -416,7 +416,7 @@ function Hero() {
                   aria-hidden={i >= HERO_LOGOS.length}
                   loading="lazy"
                   decoding="async"
-                  className="h-8 sm:h-9 w-auto object-contain mx-7 grayscale opacity-50 mix-blend-multiply hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                  className={`${logo.size} w-auto object-contain mx-7 grayscale opacity-50 mix-blend-multiply hover:grayscale-0 hover:opacity-100 transition-all duration-300`}
                 />
               )
             )}
