@@ -799,7 +799,7 @@ function Kpis() {
             tag: "Now",
             role: "Systems Analyst",
             org: "City of Merritt",
-            time: "2026 — present",
+            time: "June 2026 — present",
             note: "Municipal IT systems — analysis, operations and tooling for city services.",
           },
           {
