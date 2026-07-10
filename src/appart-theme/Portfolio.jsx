@@ -25,6 +25,18 @@ const EASE_OUT = [0.22, 1, 0.36, 1];
 
 const WORKS = [
   {
+    title: "InferenceSaver",
+    type: "AI SaaS",
+    year: "2026",
+    blurb: "Premium AI access platform with Stripe subscriptions, WorkOS auth and SSR delivery.",
+    href: "https://inferencesaver.com",
+    thumb: "/thumbs/inferencesaver.jpg",
+    video: "/media/inferencesaver-promo.mp4",
+    poster: "/media/inferencesaver-poster.png",
+    span: "md:col-span-6",
+    aspect: "aspect-[16/10] md:aspect-[21/9]",
+  },
+  {
     title: "SyntaxArk",
     type: "Browser IDE",
     year: "2025",
@@ -32,16 +44,6 @@ const WORKS = [
     href: "https://syntaxark.vercel.app/",
     repo: "https://github.com/deepmroot/SyntaxArk",
     thumb: "/thumbs/syntaxark.jpg",
-    span: "md:col-span-6",
-    aspect: "aspect-[16/10] md:aspect-[21/9]",
-  },
-  {
-    title: "InferenceSaver",
-    type: "AI SaaS",
-    year: "2026",
-    blurb: "Premium AI access platform with Stripe subscriptions, WorkOS auth and SSR delivery.",
-    href: "https://inferencesaver.com",
-    thumb: "/thumbs/inferencesaver.jpg",
     span: "md:col-span-3",
     aspect: "aspect-[16/10]",
   },
@@ -609,6 +611,19 @@ function Works() {
               </div>
             </div>
             <div className={`relative overflow-hidden rounded-xl ${work.aspect}`}>
+              {work.video ? (
+                <video
+                  src={work.video}
+                  poster={work.poster}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label={`${work.title} — ${work.type} promo video`}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[0.96] group-hover:rounded-lg"
+                />
+              ) : (
               <img
                 src={work.thumb}
                 alt={`${work.title} — ${work.type}`}
@@ -616,6 +631,7 @@ function Works() {
                 decoding="async"
                 className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[0.96] group-hover:rounded-lg"
               />
+              )}
               <span
                 className={`${MONO} absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-[#fbf9ef]/95 text-[#171412] text-[10px] font-semibold uppercase tracking-[0.15em] px-3 py-1.5 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0`}
               >
