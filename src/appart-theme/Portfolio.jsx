@@ -608,13 +608,12 @@ function VideoShowcase() {
             className="absolute inset-0 w-full h-full object-cover"
           />
 
-          {/* Title block, top corner */}
-          <div className="absolute top-5 left-5 sm:top-8 sm:left-8 [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]">
-            <span className={`${MONO} inline-flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-[#ffc765]`}>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3c34]" />
-              Flagship — my latest ship
+          {/* Title, quiet corner tag */}
+          <div className="absolute top-5 left-5 sm:top-7 sm:left-7 [text-shadow:0_1px_10px_rgba(0,0,0,0.4)]">
+            <span className={`${MONO} block text-[10px] uppercase tracking-[0.25em] text-white/50`}>
+              Latest ship
             </span>
-            <h2 className={`${DISPLAY} mt-2 text-3xl sm:text-5xl font-extrabold tracking-[-0.02em] text-white`}>
+            <h2 className={`${DISPLAY} mt-1 text-lg sm:text-xl font-bold tracking-tight text-white/90`}>
               InferenceSaver
             </h2>
           </div>
