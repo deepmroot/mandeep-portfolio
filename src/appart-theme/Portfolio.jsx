@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, MotionConfig, useInView, animate, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight, House, Boxes, UserRound, FileText, Mail } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Mail } from "lucide-react";
+import {
+  HouseIcon,
+  SquaresFourIcon,
+  UserIcon,
+  ReadCvLogoIcon,
+  EnvelopeSimpleIcon,
+} from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -247,11 +254,11 @@ function Header() {
 }
 
 const NAV_ITEMS = [
-  { label: "Home", href: "#top", icon: House },
-  { label: "Works", href: "#works", icon: Boxes },
-  { label: "About", href: "#about", icon: UserRound },
-  { label: "Resume", href: LINKS.resume, icon: FileText, external: true },
-  { label: "Contact", href: "#contact", icon: Mail },
+  { label: "Home", href: "#top", icon: HouseIcon },
+  { label: "Works", href: "#works", icon: SquaresFourIcon },
+  { label: "About", href: "#about", icon: UserIcon },
+  { label: "Resume", href: LINKS.resume, icon: ReadCvLogoIcon, external: true },
+  { label: "Contact", href: "#contact", icon: EnvelopeSimpleIcon },
 ];
 
 function SideNav() {
@@ -263,7 +270,7 @@ function SideNav() {
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.3 }}
         aria-label="Site"
-        className="hidden md:flex fixed left-4 top-24 z-40 flex-col gap-2"
+        className="rail hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-2"
       >
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
@@ -275,7 +282,7 @@ function SideNav() {
               className="rail-link"
             >
               <span className="rail-inner">
-                <Icon className="rail-icon" strokeWidth={1.8} />
+                <Icon className="rail-icon" weight="fill" />
                 <span className="rail-dot" />
               </span>
               <span className={`${DISPLAY} rail-tag text-[11px] font-extrabold uppercase tracking-[0.08em]`}>
@@ -304,7 +311,7 @@ function SideNav() {
               aria-label={item.label}
               className="flex items-center justify-center w-11 h-11 rounded-xl text-[#171412]/70 transition-colors active:bg-[#171412] active:text-[#fbf9ef]"
             >
-              <Icon className="w-5 h-5" strokeWidth={1.8} />
+              <Icon className="w-5 h-5" weight="fill" />
             </a>
           );
         })}

@@ -119,6 +119,11 @@ body {
 }
 
 /* Side rail — dock-style magnification (hovered link grows, neighbors grow half-step) */
+.rail {
+  /* em-based system: scaling font-size scales buttons, icons and tags together */
+  font-size: clamp(16px, 1.35vw, 22px);
+}
+
 .rail-link {
   position: relative;
   display: flex;
