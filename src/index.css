@@ -222,6 +222,21 @@ body {
   transform: translateY(-50%) translateX(0);
 }
 
+/* Rail over dark sections — light-on-dark variant, mirroring the reference's is-dark state */
+.rail-dark .rail-link {
+  background: rgba(251, 249, 239, 0.08);
+  color: #8e827c;
+}
+
+.rail-dark .rail-link:hover {
+  color: #fbf9ef;
+}
+
+.rail-dark .rail-tag {
+  background: rgba(251, 249, 239, 0.14);
+  color: #fbf9ef;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rail-link,
   .rail-inner,

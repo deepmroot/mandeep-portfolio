@@ -262,6 +262,29 @@ const NAV_ITEMS = [
 ];
 
 function SideNav() {
+  const [onDark, setOnDark] = useState(false);
+
+  useEffect(() => {
+    const darkSections = document.querySelectorAll("[data-dark-section]");
+    if (!darkSections.length || !("IntersectionObserver" in window)) return undefined;
+
+    // Rail is vertically centered, so flip theme when a dark section
+    // crosses the viewport's center line.
+    const visible = new Set();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visible.add(entry.target);
+          else visible.delete(entry.target);
+        });
+        setOnDark(visible.size > 0);
+      },
+      { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
+    );
+    darkSections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       {/* Desktop: left rail, vertically centered. Outer div owns the centering
@@ -272,7 +295,7 @@ function SideNav() {
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.3 }}
         aria-label="Site"
-        className="rail flex flex-col gap-2"
+        className={`rail flex flex-col gap-2 ${onDark ? "rail-dark" : ""}`}
       >
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
@@ -663,7 +686,7 @@ function Kpis() {
 
 function Contact() {
   return (
-    <section id="contact" className="bg-[#171412] text-[#fbf9ef]">
+    <section id="contact" data-dark-section className="bg-[#171412] text-[#fbf9ef]">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-24 sm:py-32">
         <motion.p {...fadeUp} className={`${MONO} text-xs uppercase tracking-[0.25em] text-[#ffc765] mb-6`}>
           Contact
@@ -734,7 +757,7 @@ function Footer() {
   }, []);
 
   return (
-    <footer ref={footerRef} className="bg-[#171412] text-[#fbf9ef] overflow-hidden">
+    <footer ref={footerRef} data-dark-section className="bg-[#171412] text-[#fbf9ef] overflow-hidden">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24">
         <div className="flex items-center justify-between border-t border-[#fbf9ef]/15 py-5">
           <span className={`${MONO} text-[11px] uppercase tracking-[0.2em] text-[#fbf9ef]/50`}>
