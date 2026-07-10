@@ -605,7 +605,7 @@ function VideoShowcase() {
             playsInline
             preload="metadata"
             aria-label="InferenceSaver promo video"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-contain"
           />
 
           {/* Title, quiet corner tag */}
