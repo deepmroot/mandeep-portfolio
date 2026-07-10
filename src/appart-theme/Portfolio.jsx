@@ -506,9 +506,9 @@ function Hero() {
           <a
             href={LINKS.email}
             aria-label="Email Mandeep"
-            className={`${DISPLAY} flex items-center justify-center w-10 h-10 rounded-full bg-[#ff3c34] text-[#fbf9ef] font-extrabold text-sm hover:scale-110 transition-transform`}
+            className="block w-10 h-10 rounded-full overflow-hidden ring-2 ring-[#171412]/10 hover:scale-110 transition-transform"
           >
-            M
+            <img src="/avatar.jpg" alt="Mandeep Singh" className="w-full h-full object-cover" />
           </a>
           <a
             href={LINKS.email}
