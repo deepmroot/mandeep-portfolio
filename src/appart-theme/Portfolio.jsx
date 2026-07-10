@@ -351,10 +351,10 @@ function ScrollProgress() {
 
 const HERO_LOGOS = [
   { src: "/logo.png", alt: "SyntaxArk" },
-  { src: "/InferenceSaver.png", alt: "InferenceSaver" },
-  { src: "/RentSpace.png", alt: "RentSpace" },
-  { src: "/GenericAlt.png", alt: "Generic Alternatives" },
-  { src: "/promptLine.png", alt: "PromptLine" },
+  { src: "/marks/inferencesaver.svg", alt: "InferenceSaver" },
+  { src: "/marks/rentspace.png", alt: "RentSpace" },
+  { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives" },
+  { text: "PROMPTLINE", alt: "PromptLine" },
 ];
 
 function Hero() {
@@ -399,17 +399,27 @@ function Hero() {
           className="mt-14 sm:mt-20 w-full max-w-xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_18%,black_82%,transparent)]"
         >
           <div className="logo-marquee flex items-center w-max">
-            {[...HERO_LOGOS, ...HERO_LOGOS].map((logo, i) => (
-              <img
-                key={`${logo.alt}-${i}`}
-                src={logo.src}
-                alt={i < HERO_LOGOS.length ? logo.alt : ""}
-                aria-hidden={i >= HERO_LOGOS.length}
-                loading="lazy"
-                decoding="async"
-                className="h-9 sm:h-10 w-auto object-contain mx-7 rounded-lg opacity-80 hover:opacity-100 transition-opacity duration-300"
-              />
-            ))}
+            {[...HERO_LOGOS, ...HERO_LOGOS].map((logo, i) =>
+              logo.text ? (
+                <span
+                  key={`${logo.alt}-${i}`}
+                  aria-hidden={i >= HERO_LOGOS.length}
+                  className={`${MONO} mx-7 text-lg sm:text-xl font-semibold tracking-[0.08em] text-[#171412] grayscale opacity-50 hover:opacity-100 transition-all duration-300`}
+                >
+                  {logo.text}
+                </span>
+              ) : (
+                <img
+                  key={`${logo.alt}-${i}`}
+                  src={logo.src}
+                  alt={i < HERO_LOGOS.length ? logo.alt : ""}
+                  aria-hidden={i >= HERO_LOGOS.length}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-8 sm:h-9 w-auto object-contain mx-7 grayscale opacity-50 mix-blend-multiply hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                />
+              )
+            )}
           </div>
         </motion.div>
 
