@@ -411,6 +411,7 @@ const HERO_LOGOS = [
   { src: "/marks/rentspace.png", alt: "RentSpace", size: "h-11 sm:h-14", extra: "-translate-y-3", href: "https://rentspace4u.ca/" },
   { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives", size: "h-10 sm:h-11", href: "https://genericalternatives.co.uk/" },
   { src: "/promptLine.png", alt: "PromptLine", size: "h-8 sm:h-9", raw: true, extra: "rounded-lg", href: "https://promptline-gold.vercel.app/" },
+  { src: "/marks/merritt.png", alt: "City of Merritt", size: "h-10 sm:h-12", href: "https://www.merritt.ca/" },
 ];
 
 function Hero() {
