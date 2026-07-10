@@ -350,11 +350,11 @@ function ScrollProgress() {
 }
 
 const HERO_LOGOS = [
-  { src: "/logo.png", alt: "SyntaxArk", size: "h-10 sm:h-11" },
-  { src: "/marks/inferencesaver.svg", alt: "InferenceSaver", size: "h-8 sm:h-9" },
-  { src: "/marks/rentspace.png", alt: "RentSpace", size: "h-10 sm:h-12", extra: "-translate-y-1" },
-  { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives", size: "h-10 sm:h-11" },
-  { src: "/promptLine.png", alt: "PromptLine", size: "h-8 sm:h-9", raw: true, extra: "rounded-lg" },
+  { src: "/logo.png", alt: "SyntaxArk", size: "h-10 sm:h-11", href: "https://syntaxark.vercel.app/" },
+  { src: "/marks/inferencesaver.svg", alt: "InferenceSaver", size: "h-8 sm:h-9", href: "https://inferencesaver.com" },
+  { src: "/marks/rentspace.png", alt: "RentSpace", size: "h-10 sm:h-12", extra: "-translate-y-1", href: "https://rentspace4u.ca/" },
+  { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives", size: "h-10 sm:h-11", href: "https://genericalternatives.co.uk/" },
+  { src: "/promptLine.png", alt: "PromptLine", size: "h-8 sm:h-9", raw: true, extra: "rounded-lg", href: "https://promptline-gold.vercel.app/" },
 ];
 
 function Hero() {
@@ -400,19 +400,28 @@ function Hero() {
         >
           <div className="logo-marquee flex items-center w-max">
             {[...HERO_LOGOS, ...HERO_LOGOS].map((logo, i) => (
-              <img
+              <a
                 key={`${logo.alt}-${i}`}
-                src={logo.src}
-                alt={i < HERO_LOGOS.length ? logo.alt : ""}
+                href={logo.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-hidden={i >= HERO_LOGOS.length}
-                loading="lazy"
-                decoding="async"
-                className={`${logo.size} ${logo.extra ?? ""} w-auto object-contain mx-7 transition-all duration-300 ${
-                  logo.raw
-                    ? "opacity-80 hover:opacity-100"
-                    : "grayscale opacity-50 mix-blend-multiply hover:grayscale-0 hover:opacity-100"
-                }`}
-              />
+                tabIndex={i >= HERO_LOGOS.length ? -1 : 0}
+                aria-label={i < HERO_LOGOS.length ? `Visit ${logo.alt}` : undefined}
+                className="shrink-0"
+              >
+                <img
+                  src={logo.src}
+                  alt={i < HERO_LOGOS.length ? logo.alt : ""}
+                  loading="lazy"
+                  decoding="async"
+                  className={`${logo.size} ${logo.extra ?? ""} w-auto object-contain mx-7 transition-all duration-300 ${
+                    logo.raw
+                      ? "opacity-80 hover:opacity-100"
+                      : "grayscale opacity-50 mix-blend-multiply hover:grayscale-0 hover:opacity-100"
+                  }`}
+                />
+              </a>
             ))}
           </div>
         </motion.div>
