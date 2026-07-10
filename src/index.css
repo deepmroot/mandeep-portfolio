@@ -63,6 +63,7 @@ html {
 body {
   background-color: #fbf9ef;
   color: #171412;
+  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 ::selection {
