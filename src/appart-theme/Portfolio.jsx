@@ -793,9 +793,41 @@ function Kpis() {
           </motion.div>
         ))}
       </div>
-      <motion.p {...fadeUp} className="mt-14 text-[#171412]/70 max-w-2xl leading-relaxed">
-        Currently: Bachelor of Computing Science at Thompson Rivers University, expected 2026.
-      </motion.p>
+      <div className="mt-16">
+        {[
+          {
+            tag: "Now",
+            role: "Systems Analyst",
+            org: "City of Merritt",
+            time: "2026 — present",
+            note: "Municipal IT systems — analysis, operations and tooling for city services.",
+          },
+          {
+            tag: "Education",
+            role: "BCS, Computing Science",
+            org: "Thompson Rivers University",
+            time: "expected 2026",
+            note: "CGPA 4.0 — shipping products the whole way through.",
+          },
+        ].map((item) => (
+          <motion.div
+            {...fadeUp}
+            key={item.role}
+            className="grid sm:grid-cols-[7rem_1fr_auto] items-baseline gap-x-8 gap-y-1 border-t border-[#171412] py-6"
+          >
+            <span className={`${MONO} text-[10px] uppercase tracking-[0.25em] text-[#ff3c34]`}>
+              {item.tag}
+            </span>
+            <div>
+              <h3 className={`${DISPLAY} text-xl sm:text-2xl font-bold tracking-tight`}>
+                {item.role} · <span className="text-[#171412]/60">{item.org}</span>
+              </h3>
+              <p className="text-[#171412]/60 text-sm mt-1">{item.note}</p>
+            </div>
+            <span className={`${MONO} text-xs text-[#8e827c]`}>{item.time}</span>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 }
