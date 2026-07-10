@@ -7,6 +7,8 @@ import {
   UserIcon,
   ReadCvLogoIcon,
   EnvelopeSimpleIcon,
+  SpeakerSimpleHighIcon,
+  SpeakerSimpleSlashIcon,
 } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -24,18 +26,6 @@ const MONO = "[font-family:'IBM_Plex_Mono',monospace]";
 const EASE_OUT = [0.22, 1, 0.36, 1];
 
 const WORKS = [
-  {
-    title: "InferenceSaver",
-    type: "AI SaaS",
-    year: "2026",
-    blurb: "Premium AI access platform with Stripe subscriptions, WorkOS auth and SSR delivery.",
-    href: "https://inferencesaver.com",
-    thumb: "/thumbs/inferencesaver.jpg",
-    video: "/media/inferencesaver-promo.mp4",
-    poster: "/media/inferencesaver-poster.png",
-    span: "md:col-span-6",
-    aspect: "aspect-[16/10] md:aspect-[21/9]",
-  },
   {
     title: "SyntaxArk",
     type: "Browser IDE",
@@ -215,6 +205,7 @@ export default function Portfolio() {
         <ScrollProgress />
         <Hero />
         <Ticker />
+        <VideoShowcase />
         <Works />
         <Ships />
         <Kpis />
@@ -564,6 +555,95 @@ function Ticker() {
         {row}
       </div>
     </motion.div>
+  );
+}
+
+// Cinematic showcase — full-screen rounded ink frame with the InferenceSaver
+// promo video, scroll-scrubbed entrance and a center sound toggle.
+function VideoShowcase() {
+  const sectionRef = useRef(null);
+  const frameRef = useRef(null);
+  const videoRef = useRef(null);
+  const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        frameRef.current,
+        { scale: 0.88, y: 60 },
+        {
+          scale: 1,
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 90%",
+            end: "top 25%",
+            scrub: true,
+          },
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setMuted(video.muted);
+  };
+
+  return (
+    <section ref={sectionRef} className="py-16 sm:py-24 px-4 sm:px-8">
+      <div
+        ref={frameRef}
+        className="group relative max-w-[88rem] mx-auto rounded-[1.5rem] sm:rounded-[2.5rem] bg-[#171412] p-2 sm:p-5 shadow-2xl"
+      >
+        <div className="relative overflow-hidden rounded-[1rem] sm:rounded-[1.75rem] aspect-video">
+          <video
+            ref={videoRef}
+            src="/media/inferencesaver-promo.mp4"
+            poster="/media/inferencesaver-poster.png"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label="InferenceSaver promo video"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+
+          {/* Center sound toggle */}
+          <button
+            type="button"
+            onClick={toggleSound}
+            aria-label={muted ? "Unmute video" : "Mute video"}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-black/35 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all duration-300 hover:scale-105"
+          >
+            {muted ? (
+              <SpeakerSimpleSlashIcon className="w-7 h-7 sm:w-9 sm:h-9" weight="fill" />
+            ) : (
+              <SpeakerSimpleHighIcon className="w-7 h-7 sm:w-9 sm:h-9" weight="fill" />
+            )}
+          </button>
+
+          {/* Caption + link, reference-style corners */}
+          <div className={`${MONO} absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.2em] text-white/60`}>
+            Promo — InferenceSaver © 2026
+          </div>
+          <a
+            href="https://inferencesaver.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${MONO} absolute bottom-4 right-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors`}
+          >
+            Discover live <ArrowUpRight className="w-3 h-3 text-[#ff3c34]" />
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 
