@@ -407,7 +407,7 @@ function Hero() {
                 aria-hidden={i >= HERO_LOGOS.length}
                 loading="lazy"
                 decoding="async"
-                className="h-9 sm:h-10 w-auto object-contain mx-7 grayscale opacity-60 mix-blend-multiply hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                className="h-9 sm:h-10 w-auto object-contain mx-7 rounded-lg opacity-80 hover:opacity-100 transition-opacity duration-300"
               />
             ))}
           </div>
