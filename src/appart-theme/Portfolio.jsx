@@ -264,13 +264,15 @@ const NAV_ITEMS = [
 function SideNav() {
   return (
     <>
-      {/* Desktop: left rail, vertically centered */}
+      {/* Desktop: left rail, vertically centered. Outer div owns the centering
+          transform — framer's entrance animation would overwrite it on the same node. */}
+      <div className="hidden md:block fixed left-4 top-1/2 -translate-y-1/2 z-40">
       <motion.nav
         initial={{ x: -24, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.3 }}
         aria-label="Site"
-        className="rail hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-2"
+        className="rail flex flex-col gap-2"
       >
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
@@ -292,6 +294,7 @@ function SideNav() {
           );
         })}
       </motion.nav>
+      </div>
 
       {/* Mobile: bottom dock */}
       <motion.nav
@@ -346,13 +349,7 @@ function ScrollProgress() {
   );
 }
 
-const HERO_LOGOS = [
-  { src: "/logo.png", alt: "SyntaxArk" },
-  { src: "/InferenceSaver.png", alt: "InferenceSaver" },
-  { src: "/RentSpace.png", alt: "RentSpace" },
-  { src: "/GenericAlt.png", alt: "Generic Alternatives" },
-  { src: "/promptLine.png", alt: "PromptLine" },
-];
+const HERO_PRODUCTS = ["SyntaxArk", "InferenceSaver", "RentSpace", "Generic Alternatives", "PromptLine"];
 
 function Hero() {
   const sectionRef = useRef(null);
@@ -393,17 +390,16 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.7 }}
-          className="mt-14 sm:mt-20 flex flex-wrap items-center justify-center gap-x-10 gap-y-4"
+          className="mt-14 sm:mt-20 flex flex-wrap items-center justify-center gap-x-10 gap-y-3"
         >
-          {HERO_LOGOS.map((logo) => (
-            <img
-              key={logo.alt}
-              src={logo.src}
-              alt={logo.alt}
-              loading="lazy"
-              decoding="async"
-              className="h-8 sm:h-9 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-            />
+          {HERO_PRODUCTS.map((name) => (
+            <a
+              key={name}
+              href="#works"
+              className={`${DISPLAY} text-lg sm:text-xl font-bold tracking-tight text-[#171412]/40 hover:text-[#171412] transition-colors duration-300`}
+            >
+              {name}
+            </a>
           ))}
         </motion.div>
 
