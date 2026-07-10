@@ -209,6 +209,7 @@ export default function Portfolio() {
       <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
         <Header />
         <SideNav />
+        <CornerName />
         <ScrollProgress />
         <Hero />
         <Ticker />
@@ -343,6 +344,47 @@ function SideNav() {
         })}
       </motion.nav>
     </>
+  );
+}
+
+// Persistent name wordmark, bottom-left like the rail — flips cream over dark sections.
+function CornerName() {
+  const [onDark, setOnDark] = useState(false);
+
+  useEffect(() => {
+    const darkSections = document.querySelectorAll("[data-dark-section]");
+    if (!darkSections.length || !("IntersectionObserver" in window)) return undefined;
+
+    // Wordmark sits in the bottom corner: watch the bottom 15% of the viewport.
+    const visible = new Set();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visible.add(entry.target);
+          else visible.delete(entry.target);
+        });
+        setOnDark(visible.size > 0);
+      },
+      { rootMargin: "-85% 0px 0px 0px", threshold: 0 }
+    );
+    darkSections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 1.1 }}
+      aria-hidden="true"
+      className={`${DISPLAY} hidden md:block fixed bottom-6 left-6 z-40 pointer-events-none font-extrabold text-2xl leading-[0.95] tracking-tight transition-colors duration-500 ${
+        onDark ? "text-[#fbf9ef]" : "text-[#171412]"
+      }`}
+    >
+      Mandeep
+      <br />
+      Singh
+    </motion.div>
   );
 }
 
@@ -487,17 +529,6 @@ function Hero() {
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.1 }}
-        className={`${DISPLAY} hidden md:block absolute bottom-6 left-6 font-extrabold text-2xl leading-[0.95] tracking-tight`}
-        aria-hidden="true"
-      >
-        Mandeep
-        <br />
-        Singh
-      </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
