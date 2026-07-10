@@ -7,8 +7,6 @@ import {
   UserIcon,
   ReadCvLogoIcon,
   EnvelopeSimpleIcon,
-  SpeakerSimpleHighIcon,
-  SpeakerSimpleSlashIcon,
 } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -564,23 +562,25 @@ function VideoShowcase() {
   const sectionRef = useRef(null);
   const frameRef = useRef(null);
   const videoRef = useRef(null);
-  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
     const ctx = gsap.context(() => {
+      // Pin the section and scrub the frame from a rounded card up to true
+      // fullscreen; it holds there while scrolling on, reverses scrolling back.
       gsap.fromTo(
         frameRef.current,
-        { scale: 0.88, y: 60 },
+        { scale: 0.86, borderRadius: "2.5rem" },
         {
           scale: 1,
-          y: 0,
+          borderRadius: "0rem",
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 90%",
-            end: "top 25%",
+            start: "top top",
+            end: "+=120%",
             scrub: true,
+            pin: true,
           },
         }
       );
@@ -588,20 +588,13 @@ function VideoShowcase() {
     return () => ctx.revert();
   }, []);
 
-  const toggleSound = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = !video.muted;
-    setMuted(video.muted);
-  };
-
   return (
-    <section ref={sectionRef} className="py-16 sm:py-24 px-4 sm:px-8">
+    <section ref={sectionRef} className="relative h-[100svh] overflow-hidden">
       <div
         ref={frameRef}
-        className="group relative max-w-[88rem] mx-auto rounded-[1.5rem] sm:rounded-[2.5rem] bg-[#171412] p-2 sm:p-5 shadow-2xl"
+        className="group relative w-full h-full overflow-hidden bg-[#171412] shadow-2xl [will-change:transform]"
       >
-        <div className="relative overflow-hidden rounded-[1rem] sm:rounded-[1.75rem] aspect-video">
+        <div className="relative w-full h-full">
           <video
             ref={videoRef}
             src="/media/inferencesaver-promo.mp4"
@@ -614,20 +607,6 @@ function VideoShowcase() {
             aria-label="InferenceSaver promo video"
             className="absolute inset-0 w-full h-full object-cover"
           />
-
-          {/* Center sound toggle */}
-          <button
-            type="button"
-            onClick={toggleSound}
-            aria-label={muted ? "Unmute video" : "Mute video"}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-black/35 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all duration-300 hover:scale-105"
-          >
-            {muted ? (
-              <SpeakerSimpleSlashIcon className="w-7 h-7 sm:w-9 sm:h-9" weight="fill" />
-            ) : (
-              <SpeakerSimpleHighIcon className="w-7 h-7 sm:w-9 sm:h-9" weight="fill" />
-            )}
-          </button>
 
           {/* Caption + link, reference-style corners */}
           <div className={`${MONO} absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.2em] text-white/60`}>
