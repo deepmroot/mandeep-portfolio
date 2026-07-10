@@ -200,6 +200,7 @@ export default function Portfolio() {
         <Header />
         <SideNav />
         <CornerName />
+        <CornerCTA />
         <ScrollProgress />
         <Hero />
         <Ticker />
@@ -238,7 +239,7 @@ function Header() {
           href={LINKS.email}
           className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-xs font-bold uppercase tracking-[0.12em] px-5 py-3 hover:bg-[#ff3c34] transition-colors shadow-lg"
         >
-          Email me now
+          Book a chat now
         </motion.a>
       </div>
     </motion.header>
@@ -338,15 +339,14 @@ function SideNav() {
   );
 }
 
-// Persistent name wordmark, bottom-left like the rail — flips cream over dark sections.
-function CornerName() {
+// Shared: true while a dark section occupies the bottom band of the viewport.
+function useBottomOnDark() {
   const [onDark, setOnDark] = useState(false);
 
   useEffect(() => {
     const darkSections = document.querySelectorAll("[data-dark-section]");
     if (!darkSections.length || !("IntersectionObserver" in window)) return undefined;
 
-    // Wordmark sits in the bottom corner: watch the bottom 15% of the viewport.
     const visible = new Set();
     const observer = new IntersectionObserver(
       (entries) => {
@@ -362,6 +362,13 @@ function CornerName() {
     return () => observer.disconnect();
   }, []);
 
+  return onDark;
+}
+
+// Persistent name wordmark, bottom-left like the rail — flips cream over dark sections.
+function CornerName() {
+  const onDark = useBottomOnDark();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -375,6 +382,47 @@ function CornerName() {
       Mandeep
       <br />
       Singh
+    </motion.div>
+  );
+}
+
+// Persistent booking CTA, bottom-center — the reference's "book an intro call" row.
+function CornerCTA() {
+  const onDark = useBottomOnDark();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: EASE_OUT, delay: 1 }}
+      className="hidden md:flex fixed bottom-6 left-1/2 -translate-x-1/2 z-40 items-center gap-3"
+    >
+      <a
+        href={LINKS.email}
+        className={`${DISPLAY} text-sm font-extrabold uppercase tracking-[0.06em] transition-colors duration-500 ${
+          onDark ? "text-[#fbf9ef] hover:text-[#ffc765]" : "text-[#171412] hover:text-[#ff3c34]"
+        }`}
+      >
+        Book a chat
+      </a>
+      <a
+        href={LINKS.email}
+        aria-label="Email Mandeep"
+        className={`block w-10 h-10 rounded-full overflow-hidden ring-2 transition-all duration-500 hover:scale-110 ${
+          onDark ? "ring-[#fbf9ef]/25" : "ring-[#171412]/10"
+        }`}
+      >
+        <img src="/avatar.jpg" alt="Mandeep Singh" className="w-full h-full object-cover" />
+      </a>
+      <a
+        href={LINKS.email}
+        aria-label="Email Mandeep"
+        className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-500 hover:scale-110 ${
+          onDark ? "bg-[#fbf9ef] text-[#171412]" : "bg-[#171412] text-[#fbf9ef]"
+        }`}
+      >
+        <Mail className="w-4 h-4" strokeWidth={2} />
+      </a>
     </motion.div>
   );
 }
@@ -491,33 +539,6 @@ function Hero() {
           Full-stack developer shipping AI products end to end — browser IDEs, subscription billing, realtime sync.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE_OUT, delay: 1 }}
-          className="mt-8 flex items-center justify-center gap-3"
-        >
-          <a
-            href={LINKS.email}
-            className={`${DISPLAY} text-sm font-extrabold uppercase tracking-[0.06em] hover:text-[#ff3c34] transition-colors`}
-          >
-            Start a conversation
-          </a>
-          <a
-            href={LINKS.email}
-            aria-label="Email Mandeep"
-            className="block w-10 h-10 rounded-full overflow-hidden ring-2 ring-[#171412]/10 hover:scale-110 transition-transform"
-          >
-            <img src="/avatar.jpg" alt="Mandeep Singh" className="w-full h-full object-cover" />
-          </a>
-          <a
-            href={LINKS.email}
-            aria-label="Email Mandeep"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-[#171412] text-[#fbf9ef] hover:scale-110 transition-transform"
-          >
-            <Mail className="w-4 h-4" strokeWidth={2} />
-          </a>
-        </motion.div>
       </div>
 
       <motion.div
