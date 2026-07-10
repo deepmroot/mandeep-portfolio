@@ -352,7 +352,7 @@ function ScrollProgress() {
 const HERO_LOGOS = [
   { src: "/logo.png", alt: "SyntaxArk", size: "h-10 sm:h-11", href: "https://syntaxark.vercel.app/" },
   { src: "/marks/inferencesaver.svg", alt: "InferenceSaver", size: "h-8 sm:h-9", href: "https://inferencesaver.com" },
-  { src: "/marks/rentspace.png", alt: "RentSpace", size: "h-10 sm:h-12", extra: "-translate-y-1", href: "https://rentspace4u.ca/" },
+  { src: "/marks/rentspace.png", alt: "RentSpace", size: "h-10 sm:h-12", extra: "-translate-y-2", href: "https://rentspace4u.ca/" },
   { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives", size: "h-10 sm:h-11", href: "https://genericalternatives.co.uk/" },
   { src: "/promptLine.png", alt: "PromptLine", size: "h-8 sm:h-9", raw: true, extra: "rounded-lg", href: "https://promptline-gold.vercel.app/" },
 ];
