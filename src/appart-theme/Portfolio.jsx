@@ -470,7 +470,7 @@ function Hero() {
                 <img
                   src={logo.src}
                   alt={i < HERO_LOGOS.length ? logo.alt : ""}
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   className={`${logo.size} ${logo.extra ?? ""} w-auto object-contain mx-7 transition-all duration-300 ${
                     logo.raw
