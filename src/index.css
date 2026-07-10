@@ -158,8 +158,10 @@ body {
 }
 
 .rail-icon {
-  width: 40%;
-  height: auto;
+  /* ~40% of the 4em button, sized absolutely — percentage would resolve
+     against the shrink-wrapped inner column and collapse */
+  width: 1.65em;
+  height: 1.65em;
 }
 
 .rail-dot {
