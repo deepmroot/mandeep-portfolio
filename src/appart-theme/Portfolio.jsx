@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion, MotionConfig, useInView, animate } from "framer-motion";
+import { motion, MotionConfig, useInView, animate, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, ArrowDownRight, House, Boxes, UserRound, FileText, Mail } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -202,6 +202,7 @@ export default function Portfolio() {
       <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
         <Header />
         <SideNav />
+        <ScrollProgress />
         <Hero />
         <Ticker />
         <Works />
@@ -312,6 +313,40 @@ function SideNav() {
   );
 }
 
+function Clock() {
+  const [time, setTime] = useState("");
+  useEffect(() => {
+    const fmt = new Intl.DateTimeFormat("en-CA", {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "America/Vancouver",
+    });
+    const update = () => setTime(fmt.format(new Date()));
+    update();
+    const id = setInterval(update, 30000);
+    return () => clearInterval(id);
+  }, []);
+  return <>{time}</>;
+}
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const top = useTransform(scrollYProgress, [0, 1], ["0%", "97%"]);
+  return (
+    <div className="hidden lg:block fixed right-6 top-1/2 -translate-y-1/2 h-64 w-px bg-[#171412]/15 z-30" aria-hidden="true">
+      <motion.div style={{ top }} className="absolute -left-[3.5px] w-2 h-2 rounded-full bg-[#171412]" />
+    </div>
+  );
+}
+
+const HERO_LOGOS = [
+  { src: "/logo.png", alt: "SyntaxArk" },
+  { src: "/InferenceSaver.png", alt: "InferenceSaver" },
+  { src: "/RentSpace.png", alt: "RentSpace" },
+  { src: "/GenericAlt.png", alt: "Generic Alternatives" },
+  { src: "/promptLine.png", alt: "PromptLine" },
+];
+
 function Hero() {
   const sectionRef = useRef(null);
   const innerRef = useRef(null);
@@ -335,63 +370,93 @@ function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="top" className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 pt-28 sm:pt-36 pb-16">
-      <div ref={innerRef}>
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.15 }}
-        className={`${MONO} text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#8e827c] mb-6`}
-      >
-        Kamloops, BC
-      </motion.p>
-      <h1 className={`${DISPLAY} font-extrabold tracking-[-0.03em] leading-[0.95] text-[clamp(3rem,9vw,7.5rem)]`}>
-        <Reveal delay={0.1}>
-          <span>
-            The developer<sup className="text-[0.35em] align-super text-[#ff3c34]">©</sup>
-          </span>
-        </Reveal>
-        <Reveal delay={0.22}>who ships</Reveal>
-        <Reveal delay={0.34}>real products.</Reveal>
-      </h1>
-      <div className="mt-10 flex flex-col md:flex-row md:items-end gap-8 md:gap-16">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.55 }}
-          className="text-lg sm:text-xl text-[#171412]/70 max-w-xl leading-relaxed"
-        >
-          Full-stack developer building AI products end to end — browser IDEs, subscription billing,
-          realtime sync. Six of them live in production right now.
-        </motion.p>
+    <section ref={sectionRef} id="top" className="relative min-h-[100svh] flex flex-col overflow-hidden">
+      <div ref={innerRef} className="flex-grow flex flex-col items-center justify-center text-center px-5 sm:px-8 pt-24 pb-24">
+        <h1 className={`${DISPLAY} font-extrabold tracking-[-0.035em] leading-[0.92] text-[clamp(3rem,10.5vw,8.75rem)]`}>
+          <Reveal delay={0.1}>
+            <span>
+              The developer<span className="text-[#ff3c34] text-[0.85em] align-baseline">©</span>
+            </span>
+          </Reveal>
+          <Reveal delay={0.22}>who ships real</Reveal>
+          <Reveal delay={0.34}>products</Reveal>
+        </h1>
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.7 }}
-          className="flex flex-wrap gap-3 shrink-0"
+          transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.7 }}
+          className="mt-14 sm:mt-20 flex flex-wrap items-center justify-center gap-x-10 gap-y-4"
         >
-          <motion.a
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
+          {HERO_LOGOS.map((logo) => (
+            <img
+              key={logo.alt}
+              src={logo.src}
+              alt={logo.alt}
+              loading="lazy"
+              decoding="async"
+              className="h-8 sm:h-9 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+            />
+          ))}
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.85 }}
+          className="mt-14 sm:mt-20 text-xl sm:text-2xl text-[#171412]/80 max-w-xl leading-snug"
+        >
+          Full-stack developer shipping AI products end to end — browser IDEs, subscription billing, realtime sync.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE_OUT, delay: 1 }}
+          className="mt-8 flex items-center justify-center gap-3"
+        >
+          <a
             href={LINKS.email}
-            className="group inline-flex items-center gap-2 rounded-full bg-[#ff3c34] text-[#fbf9ef] font-semibold px-7 py-3.5 hover:bg-[#171412] transition-colors"
+            className={`${DISPLAY} text-sm font-extrabold uppercase tracking-[0.06em] hover:text-[#ff3c34] transition-colors`}
           >
             Start a conversation
-            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </motion.a>
-          <motion.a
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            href={LINKS.resume}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-[#171412]/20 font-semibold px-7 py-3.5 hover:border-[#171412] transition-colors"
+          </a>
+          <a
+            href={LINKS.email}
+            aria-label="Email Mandeep"
+            className={`${DISPLAY} flex items-center justify-center w-10 h-10 rounded-full bg-[#ff3c34] text-[#fbf9ef] font-extrabold text-sm hover:scale-110 transition-transform`}
           >
-            Resume
-          </motion.a>
+            M
+          </a>
+          <a
+            href={LINKS.email}
+            aria-label="Email Mandeep"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-[#171412] text-[#fbf9ef] hover:scale-110 transition-transform"
+          >
+            <Mail className="w-4 h-4" strokeWidth={2} />
+          </a>
         </motion.div>
       </div>
-      </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1.1 }}
+        className={`${DISPLAY} hidden md:block absolute bottom-6 left-6 font-extrabold text-2xl leading-[0.95] tracking-tight`}
+        aria-hidden="true"
+      >
+        Mandeep
+        <br />
+        Singh
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1.1 }}
+        className="hidden md:block absolute bottom-6 right-6 text-sm text-[#8e827c]"
+      >
+        Kamloops, BC <span className="text-[#171412] font-semibold"><Clock /></span>
+      </motion.div>
     </section>
   );
 }
