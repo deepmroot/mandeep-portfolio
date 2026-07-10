@@ -271,12 +271,13 @@ function SideNav() {
               key={item.label}
               href={item.href}
               {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="group relative flex items-center justify-center w-11 h-11 rounded-xl border border-[#171412]/10 bg-[#f2f0e7] text-[#171412]/70 shadow-sm transition-all duration-300 hover:bg-[#171412] hover:text-[#fbf9ef] hover:border-[#171412] hover:-translate-y-0.5"
+              className="rail-link"
             >
-              <Icon className="w-[18px] h-[18px]" strokeWidth={1.8} />
-              <span
-                className={`${MONO} absolute left-full ml-3 px-2.5 py-1 rounded-md bg-[#171412] text-[#fbf9ef] text-[10px] uppercase tracking-[0.15em] whitespace-nowrap opacity-0 -translate-x-1 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0`}
-              >
+              <span className="rail-inner">
+                <Icon className="rail-icon" strokeWidth={1.8} />
+                <span className="rail-dot" />
+              </span>
+              <span className={`${DISPLAY} rail-tag text-[11px] font-extrabold uppercase tracking-[0.08em]`}>
                 {item.label}
               </span>
             </a>
