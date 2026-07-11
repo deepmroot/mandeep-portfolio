@@ -759,8 +759,8 @@ function WorksIntro() {
   return (
     <section className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 py-24 sm:py-36 flex flex-col items-center text-center">
       <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.85] text-[clamp(3.5rem,11vw,9rem)]`}>
-        <Reveal onView>Featured</Reveal>
-        <Reveal onView delay={0.1}>
+        <Reveal>Featured</Reveal>
+        <Reveal delay={0.12}>
           <span className="text-[#8e827c]">work</span>
         </Reveal>
       </h2>
