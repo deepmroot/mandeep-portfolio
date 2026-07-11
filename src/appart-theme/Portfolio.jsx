@@ -744,7 +744,7 @@ function Works() {
       <div className="max-w-[92rem] mx-auto">
         <div className="flex items-end justify-between border-b border-[#fbf9ef]/25 pb-6 mb-20 sm:mb-28">
           <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.8] text-[clamp(3.5rem,11vw,11rem)]`}>
-            <Reveal onView>Selected</Reveal>
+            <Reveal onView>Featured</Reveal>
             <Reveal onView delay={0.1}><span className="text-[#8e827c]">work.</span></Reveal>
           </h2>
           <motion.span {...fadeUp} className={`${MONO} text-xs uppercase tracking-[0.2em] pb-2`}>
