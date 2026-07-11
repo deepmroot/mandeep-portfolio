@@ -52,6 +52,7 @@ const WORKS = [
     blurb: "Private swim-lesson booking platform — zone scheduling, recurring lessons, progress tracking.",
     href: "https://becomeafish.com",
     thumb: "/thumbs/becomeafish.jpg",
+    video: "/media/becomeafish-promo.mp4",
     span: "md:col-span-3",
     aspect: "aspect-[16/10]",
   },
@@ -723,14 +724,29 @@ function ProjectShowcase({ work, index }) {
           </span>
         </div>
         <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421]">
-          <img
-            ref={mediaRef}
-            src={work.thumb}
-            alt={`${work.title} — ${work.type}`}
-            loading="lazy"
-            decoding="async"
-            className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
-          />
+          {work.video ? (
+            <video
+              ref={mediaRef}
+              src={work.video}
+              poster={work.thumb}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label={`${work.title} — ${work.type} promo video`}
+              className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+            />
+          ) : (
+            <img
+              ref={mediaRef}
+              src={work.thumb}
+              alt={`${work.title} — ${work.type}`}
+              loading="lazy"
+              decoding="async"
+              className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+            />
+          )}
           <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[inherit]" />
         </div>
       </div>
