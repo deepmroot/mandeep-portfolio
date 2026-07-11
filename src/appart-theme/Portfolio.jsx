@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, MotionConfig, useInView, animate, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight, Mail } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, ArrowDown, Mail } from "lucide-react";
 import {
   HouseIcon,
   SquaresFourIcon,
@@ -216,6 +216,7 @@ export default function Portfolio() {
         <Hero />
         <Ticker />
         <VideoShowcase />
+        <WorksIntro />
         <Works />
         <Ships />
         <Kpis />
@@ -754,20 +755,42 @@ function ProjectShowcase({ work, index }) {
   );
 }
 
+function WorksIntro() {
+  return (
+    <section className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 py-24 sm:py-36 flex flex-col items-center text-center">
+      <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.85] text-[clamp(3.5rem,11vw,9rem)]`}>
+        <Reveal onView>Featured</Reveal>
+        <Reveal onView delay={0.1}>
+          <span className="text-[#8e827c]">work</span>
+        </Reveal>
+      </h2>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.35 }}
+        className="mt-10 mb-10"
+      >
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
+          <ArrowDown className="w-6 h-6 text-[#171412]" strokeWidth={1.5} />
+        </motion.div>
+      </motion.div>
+
+      <motion.p
+        {...fadeUp}
+        className="max-w-md sm:max-w-lg text-lg sm:text-xl text-[#171412]/70 leading-relaxed"
+      >
+        I build products end to end — interfaces, backends and the AI in between, designed to ship and stay live.
+      </motion.p>
+    </section>
+  );
+}
+
 function Works() {
   return (
-    <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 py-24 sm:py-36">
+    <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pb-24 sm:pb-36">
       <div className="max-w-[92rem] mx-auto">
-        <div className="flex items-end justify-between border-b border-current/25 pb-6 mb-20 sm:mb-28">
-          <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.8] text-[clamp(3.5rem,11vw,11rem)]`}>
-            <Reveal onView>Featured</Reveal>
-            <Reveal onView delay={0.1}><span className="text-[#8e827c]">work.</span></Reveal>
-          </h2>
-          <motion.span {...fadeUp} className={`${MONO} text-xs uppercase tracking-[0.2em] pb-2`}>
-            ({String(WORKS.length).padStart(2, "0")})
-          </motion.span>
-        </div>
-
         <div className="grid md:grid-cols-2 gap-x-5 gap-y-24 sm:gap-y-36">
           {WORKS.map((work, i) => <ProjectShowcase key={work.title} work={work} index={i} />)}
         </div>
