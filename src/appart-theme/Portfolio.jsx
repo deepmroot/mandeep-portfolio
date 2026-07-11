@@ -714,10 +714,10 @@ function ProjectShowcase({ work, index }) {
 
       <div className="flex flex-col gap-5">
         <div className="order-2 flex items-end justify-between gap-5">
-          <p className="max-w-sm text-sm leading-relaxed text-[#fbf9ef]/55">{work.blurb}</p>
+          <p className="max-w-sm text-sm leading-relaxed text-current opacity-55">{work.blurb}</p>
           <span className={`${MONO} mt-5 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em]`}>
             Discover live
-            <span className="grid place-items-center w-8 h-8 rounded-full border border-[#fbf9ef]/40 transition-all duration-300 group-hover:bg-[#ff3c34] group-hover:border-[#ff3c34] group-hover:text-white group-hover:rotate-45">
+            <span className="grid place-items-center w-8 h-8 rounded-full border border-current opacity-70 transition-all duration-300 group-hover:bg-[#ff3c34] group-hover:border-[#ff3c34] group-hover:text-white group-hover:opacity-100 group-hover:rotate-45">
               <ArrowUpRight className="w-3.5 h-3.5" />
             </span>
           </span>
@@ -739,10 +739,35 @@ function ProjectShowcase({ work, index }) {
 }
 
 function Works() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const tween = gsap.fromTo(
+      sectionRef.current,
+      { backgroundColor: "#fbf9ef", color: "#171412" },
+      {
+        backgroundColor: "#171412",
+        color: "#fbf9ef",
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 92%",
+          end: "top 18%",
+          scrub: 0.8,
+        },
+      }
+    );
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
+
   return (
-    <section id="works" data-dark-section className="bg-[#171412] text-[#fbf9ef] px-5 sm:px-8 md:pl-24 md:pr-8 py-24 sm:py-36">
+    <section ref={sectionRef} id="works" data-dark-section className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 py-24 sm:py-36">
       <div className="max-w-[92rem] mx-auto">
-        <div className="flex items-end justify-between border-b border-[#fbf9ef]/25 pb-6 mb-20 sm:mb-28">
+        <div className="flex items-end justify-between border-b border-current/25 pb-6 mb-20 sm:mb-28">
           <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.8] text-[clamp(3.5rem,11vw,11rem)]`}>
             <Reveal onView>Featured</Reveal>
             <Reveal onView delay={0.1}><span className="text-[#8e827c]">work.</span></Reveal>
@@ -758,10 +783,10 @@ function Works() {
 
         <motion.div
           {...fadeUp}
-          className={`${MONO} mt-24 sm:mt-36 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-dashed border-[#fbf9ef]/25 py-5 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
+          className={`${MONO} mt-24 sm:mt-36 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-dashed border-current/25 py-5 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
         >
           <span className="text-[#ff3c34]">In the lab:</span>
-          <span className="text-[#fbf9ef]/80">Project Genesis</span>
+          <span className="text-current opacity-80">Project Genesis</span>
           <span>— distributed systems monitoring · Go · gRPC · eBPF · WIP</span>
         </motion.div>
       </div>
