@@ -625,7 +625,7 @@ function VideoShowcase() {
           {/* Title, quiet corner tag */}
           <div className="absolute top-5 left-5 sm:top-7 sm:left-7">
             <span className={`${MONO} block text-[10px] uppercase tracking-[0.25em] text-[#171412]/60`}>
-              Latest ship
+              Featured work
             </span>
             <h2 className={`${DISPLAY} mt-1 text-lg sm:text-xl font-bold tracking-tight text-[#171412]`}>
               InferenceSaver
