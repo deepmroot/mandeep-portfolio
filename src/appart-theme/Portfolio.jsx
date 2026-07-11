@@ -211,6 +211,7 @@ export default function Portfolio() {
         <SideNav />
         <CornerName />
         <ScrollProgress />
+        <FloatingContact />
         <Hero />
         <Ticker />
         <VideoShowcase />
@@ -648,6 +649,23 @@ function VideoShowcase() {
   );
 }
 
+function FloatingContact() {
+  return (
+    <motion.a
+      href={LINKS.email}
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 1.4, ease: EASE_OUT }}
+      className="hidden md:flex fixed z-50 bottom-5 left-1/2 -translate-x-1/2 items-center gap-10 rounded-full bg-[#fbf9ef] text-[#171412] pl-7 pr-2 py-2 shadow-2xl border border-[#171412]/10"
+    >
+      <span className={`${DISPLAY} text-base whitespace-nowrap`}>Have a product to ship?</span>
+      <span className={`${MONO} inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-[10px] font-bold uppercase tracking-[0.14em] px-5 py-3`}>
+        Start a conversation <Mail className="w-3.5 h-3.5" />
+      </span>
+    </motion.a>
+  );
+}
+
 function ProjectShowcase({ work, index }) {
   const cardRef = useRef(null);
   const mediaRef = useRef(null);
@@ -679,13 +697,13 @@ function ProjectShowcase({ work, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.8, ease: EASE_OUT }}
-      className="project-showcase group block border-t border-[#171412] pt-4 sm:pt-5"
+      className={`project-showcase group block ${index === 0 ? "md:col-span-2" : ""}`}
     >
-      <div className="grid grid-cols-[auto_1fr_auto] items-baseline gap-3 sm:gap-8 mb-5 sm:mb-7">
+      <div className="grid grid-cols-[auto_1fr_auto] items-baseline gap-3 sm:gap-6 mb-4">
         <span className={`${MONO} text-[10px] text-[#ff3c34]`}>
           ({String(index + 1).padStart(2, "0")})
         </span>
-        <h3 className={`${DISPLAY} font-extrabold tracking-[-0.04em] leading-none text-[clamp(2.2rem,6.5vw,6.4rem)]`}>
+        <h3 className={`${DISPLAY} font-extrabold tracking-[-0.04em] leading-none text-[clamp(2rem,4vw,4.5rem)]`}>
           {work.title}
         </h3>
         <div className="hidden sm:block text-right">
@@ -694,17 +712,17 @@ function ProjectShowcase({ work, index }) {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-[1fr_3fr] gap-5 md:gap-10 items-end">
-        <div className="pb-2 md:pb-8">
-          <p className="max-w-sm text-sm sm:text-base leading-relaxed text-[#171412]/65">{work.blurb}</p>
+      <div className="flex flex-col gap-5">
+        <div className="order-2 flex items-end justify-between gap-5">
+          <p className="max-w-sm text-sm leading-relaxed text-[#fbf9ef]/55">{work.blurb}</p>
           <span className={`${MONO} mt-5 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em]`}>
             Discover live
-            <span className="grid place-items-center w-8 h-8 rounded-full border border-[#171412] transition-all duration-300 group-hover:bg-[#ff3c34] group-hover:border-[#ff3c34] group-hover:text-white group-hover:rotate-45">
+            <span className="grid place-items-center w-8 h-8 rounded-full border border-[#fbf9ef]/40 transition-all duration-300 group-hover:bg-[#ff3c34] group-hover:border-[#ff3c34] group-hover:text-white group-hover:rotate-45">
               <ArrowUpRight className="w-3.5 h-3.5" />
             </span>
           </span>
         </div>
-        <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#f2f0e7]">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421]">
           <img
             ref={mediaRef}
             src={work.thumb}
@@ -713,7 +731,7 @@ function ProjectShowcase({ work, index }) {
             decoding="async"
             className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           />
-          <div className="absolute inset-0 ring-1 ring-inset ring-[#171412]/10 rounded-[inherit]" />
+          <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[inherit]" />
         </div>
       </div>
     </motion.a>
@@ -722,9 +740,9 @@ function ProjectShowcase({ work, index }) {
 
 function Works() {
   return (
-    <section id="works" className="px-5 sm:px-8 md:pl-24 md:pr-8 py-24 sm:py-36">
+    <section id="works" data-dark-section className="bg-[#171412] text-[#fbf9ef] px-5 sm:px-8 md:pl-24 md:pr-8 py-24 sm:py-36">
       <div className="max-w-[92rem] mx-auto">
-        <div className="flex items-end justify-between border-b border-[#171412] pb-6 mb-20 sm:mb-28">
+        <div className="flex items-end justify-between border-b border-[#fbf9ef]/25 pb-6 mb-20 sm:mb-28">
           <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.8] text-[clamp(3.5rem,11vw,11rem)]`}>
             <Reveal onView>Selected</Reveal>
             <Reveal onView delay={0.1}><span className="text-[#8e827c]">work.</span></Reveal>
@@ -734,16 +752,16 @@ function Works() {
           </motion.span>
         </div>
 
-        <div className="space-y-24 sm:space-y-40">
+        <div className="grid md:grid-cols-2 gap-x-5 gap-y-24 sm:gap-y-36">
           {WORKS.map((work, i) => <ProjectShowcase key={work.title} work={work} index={i} />)}
         </div>
 
         <motion.div
           {...fadeUp}
-          className={`${MONO} mt-24 sm:mt-36 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-dashed border-[#171412]/30 py-5 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
+          className={`${MONO} mt-24 sm:mt-36 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-dashed border-[#fbf9ef]/25 py-5 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
         >
           <span className="text-[#ff3c34]">In the lab:</span>
-          <span className="text-[#171412]/80">Project Genesis</span>
+          <span className="text-[#fbf9ef]/80">Project Genesis</span>
           <span>— distributed systems monitoring · Go · gRPC · eBPF · WIP</span>
         </motion.div>
       </div>
