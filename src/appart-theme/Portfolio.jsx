@@ -739,33 +739,8 @@ function ProjectShowcase({ work, index }) {
 }
 
 function Works() {
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-    const tween = gsap.fromTo(
-      sectionRef.current,
-      { backgroundColor: "#fbf9ef", color: "#171412" },
-      {
-        backgroundColor: "#171412",
-        color: "#fbf9ef",
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 92%",
-          end: "top 18%",
-          scrub: 0.8,
-        },
-      }
-    );
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} id="works" data-dark-section className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 py-24 sm:py-36">
+    <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 py-24 sm:py-36">
       <div className="max-w-[92rem] mx-auto">
         <div className="flex items-end justify-between border-b border-current/25 pb-6 mb-20 sm:mb-28">
           <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.8] text-[clamp(3.5rem,11vw,11rem)]`}>
