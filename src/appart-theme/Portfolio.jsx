@@ -422,6 +422,7 @@ const HERO_LOGOS = [
   { src: "/marks/genericalternatives.svg", alt: "Generic Alternatives", size: "h-10 sm:h-11", href: "https://genericalternatives.co.uk/" },
   { src: "/promptLine.png", alt: "PromptLine", size: "h-8 sm:h-9", raw: true, extra: "rounded-lg", href: "https://promptline-gold.vercel.app/" },
   { src: "/marks/merritt.png", alt: "City of Merritt", size: "h-10 sm:h-12", href: "https://www.merritt.ca/" },
+  { src: "/marks/becomeafish.png", alt: "BecomeAfish", size: "h-9 sm:h-10", href: "https://becomeafish.com" },
 ];
 
 function Hero() {
