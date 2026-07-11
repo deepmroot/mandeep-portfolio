@@ -648,89 +648,105 @@ function VideoShowcase() {
   );
 }
 
+function ProjectShowcase({ work, index }) {
+  const cardRef = useRef(null);
+  const mediaRef = useRef(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(mediaRef.current, { yPercent: -5 }, {
+        yPercent: 5,
+        ease: "none",
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.6,
+        },
+      });
+    }, cardRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <motion.a
+      ref={cardRef}
+      href={work.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 70 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.8, ease: EASE_OUT }}
+      className="project-showcase group block border-t border-[#171412] pt-4 sm:pt-5"
+    >
+      <div className="grid grid-cols-[auto_1fr_auto] items-baseline gap-3 sm:gap-8 mb-5 sm:mb-7">
+        <span className={`${MONO} text-[10px] text-[#ff3c34]`}>
+          ({String(index + 1).padStart(2, "0")})
+        </span>
+        <h3 className={`${DISPLAY} font-extrabold tracking-[-0.04em] leading-none text-[clamp(2.2rem,6.5vw,6.4rem)]`}>
+          {work.title}
+        </h3>
+        <div className="hidden sm:block text-right">
+          <span className={`${MONO} block text-[10px] uppercase tracking-[0.18em]`}>{work.type}</span>
+          <span className={`${MONO} block text-[10px] text-[#8e827c] mt-1`}>{work.year}</span>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr_3fr] gap-5 md:gap-10 items-end">
+        <div className="pb-2 md:pb-8">
+          <p className="max-w-sm text-sm sm:text-base leading-relaxed text-[#171412]/65">{work.blurb}</p>
+          <span className={`${MONO} mt-5 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em]`}>
+            Discover live
+            <span className="grid place-items-center w-8 h-8 rounded-full border border-[#171412] transition-all duration-300 group-hover:bg-[#ff3c34] group-hover:border-[#ff3c34] group-hover:text-white group-hover:rotate-45">
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </span>
+          </span>
+        </div>
+        <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#f2f0e7]">
+          <img
+            ref={mediaRef}
+            src={work.thumb}
+            alt={`${work.title} — ${work.type}`}
+            loading="lazy"
+            decoding="async"
+            className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+          />
+          <div className="absolute inset-0 ring-1 ring-inset ring-[#171412]/10 rounded-[inherit]" />
+        </div>
+      </div>
+    </motion.a>
+  );
+}
+
 function Works() {
   return (
-    <section id="works" className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-20 sm:py-28">
-      <div className="flex items-end justify-between mb-10">
-        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)]`}>
-          <Reveal onView>Featured work</Reveal>
-        </h2>
-        <motion.span {...fadeUp} className={`${MONO} text-xs text-[#8e827c] uppercase tracking-[0.2em] pb-2`}>
-          ({String(WORKS.length).padStart(2, "0")})
-        </motion.span>
-      </div>
+    <section id="works" className="px-5 sm:px-8 md:pl-24 md:pr-8 py-24 sm:py-36">
+      <div className="max-w-[92rem] mx-auto">
+        <div className="flex items-end justify-between border-b border-[#171412] pb-6 mb-20 sm:mb-28">
+          <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.8] text-[clamp(3.5rem,11vw,11rem)]`}>
+            <Reveal onView>Selected</Reveal>
+            <Reveal onView delay={0.1}><span className="text-[#8e827c]">work.</span></Reveal>
+          </h2>
+          <motion.span {...fadeUp} className={`${MONO} text-xs uppercase tracking-[0.2em] pb-2`}>
+            ({String(WORKS.length).padStart(2, "0")})
+          </motion.span>
+        </div>
 
-      <div className="grid md:grid-cols-6 gap-4 sm:gap-5">
-        {WORKS.map((work, i) => (
-          <motion.a
-            key={work.title}
-            href={work.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 48 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.65, ease: EASE_OUT, delay: (i % 2) * 0.1 }}
-            className={`group block rounded-2xl border border-[#171412]/10 bg-[#f2f0e7] p-3 sm:p-4 transition-colors duration-500 hover:bg-[#171412] ${work.span}`}
-          >
-            <div className="flex items-start justify-between gap-4 px-1 pt-1 pb-4">
-              <div className="min-w-0">
-                <h3 className={`${DISPLAY} font-bold tracking-[-0.02em] text-xl sm:text-2xl transition-colors duration-500 group-hover:text-[#fbf9ef]`}>
-                  {work.title}
-                </h3>
-                <p className="text-[13px] text-[#171412]/60 mt-0.5 transition-colors duration-500 group-hover:text-[#fbf9ef]/60 line-clamp-1">
-                  {work.blurb}
-                </p>
-              </div>
-              <div className="shrink-0 text-right">
-                <span className={`${MONO} block text-[10px] uppercase tracking-[0.15em] text-[#8e827c] transition-colors duration-500 group-hover:text-[#ffc765]`}>
-                  {work.type}
-                </span>
-                <span className={`${MONO} block text-[10px] text-[#8e827c] mt-0.5 transition-colors duration-500 group-hover:text-[#fbf9ef]/60`}>
-                  {work.year}
-                </span>
-              </div>
-            </div>
-            <div className={`relative overflow-hidden rounded-xl ${work.aspect}`}>
-              {work.video ? (
-                <video
-                  src={work.video}
-                  poster={work.poster}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  aria-label={`${work.title} — ${work.type} promo video`}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[0.96] group-hover:rounded-lg"
-                />
-              ) : (
-              <img
-                src={work.thumb}
-                alt={`${work.title} — ${work.type}`}
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[0.96] group-hover:rounded-lg"
-              />
-              )}
-              <span
-                className={`${MONO} absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-[#fbf9ef]/95 text-[#171412] text-[10px] font-semibold uppercase tracking-[0.15em] px-3 py-1.5 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0`}
-              >
-                Discover live <ArrowUpRight className="w-3 h-3 text-[#ff3c34]" />
-              </span>
-            </div>
-          </motion.a>
-        ))}
-      </div>
+        <div className="space-y-24 sm:space-y-40">
+          {WORKS.map((work, i) => <ProjectShowcase key={work.title} work={work} index={i} />)}
+        </div>
 
-      <motion.div
-        {...fadeUp}
-        className={`${MONO} mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border border-dashed border-[#171412]/25 rounded-2xl px-5 py-4 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
-      >
-        <span className="text-[#ff3c34]">In the lab:</span>
-        <span className="text-[#171412]/80">Project Genesis</span>
-        <span>— distributed systems monitoring · Go · gRPC · eBPF · WIP</span>
-      </motion.div>
+        <motion.div
+          {...fadeUp}
+          className={`${MONO} mt-24 sm:mt-36 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-dashed border-[#171412]/30 py-5 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
+        >
+          <span className="text-[#ff3c34]">In the lab:</span>
+          <span className="text-[#171412]/80">Project Genesis</span>
+          <span>— distributed systems monitoring · Go · gRPC · eBPF · WIP</span>
+        </motion.div>
+      </div>
     </section>
   );
 }
