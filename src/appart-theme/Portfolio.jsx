@@ -756,6 +756,15 @@ function ProjectShowcase({ work, index }) {
               className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
             />
           )}
+          <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-10 inline-flex items-stretch gap-2.5 rounded-lg bg-[#171412]/80 backdrop-blur-md pl-3 pr-3 py-1.5">
+            <span className={`${DISPLAY} text-white font-extrabold text-sm sm:text-base tracking-tight leading-tight self-center`}>
+              {work.title}
+            </span>
+            <span className={`${MONO} flex flex-col justify-center gap-0.5 border-l border-white/20 pl-2.5 text-[8px] sm:text-[9px] uppercase tracking-[0.14em] text-white/60 leading-tight`}>
+              <span>{work.type}</span>
+              <span>{work.year}</span>
+            </span>
+          </div>
           <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[inherit]" />
         </div>
       </div>
