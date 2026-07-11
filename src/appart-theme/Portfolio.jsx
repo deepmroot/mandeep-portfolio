@@ -607,7 +607,7 @@ function VideoShowcase() {
     <section ref={sectionRef} className="relative h-[100svh] overflow-hidden flex items-center justify-center">
       <div
         ref={frameRef}
-        className="group relative w-full aspect-video max-h-[100svh] overflow-hidden shadow-2xl [will-change:transform]"
+        className="group relative h-full aspect-video max-w-full overflow-hidden shadow-2xl [will-change:transform]"
       >
         <div className="relative w-full h-full">
           <video
@@ -673,6 +673,9 @@ function ProjectShowcase({ work, index }) {
   const mediaRef = useRef(null);
 
   useEffect(() => {
+    // Video cards render full-frame with no overscan (see below), so there's
+    // no slack to pan into — parallax is image-only.
+    if (!mediaRef.current) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
     const ctx = gsap.context(() => {
       gsap.fromTo(mediaRef.current, { yPercent: -5 }, {
@@ -724,10 +727,15 @@ function ProjectShowcase({ work, index }) {
             </span>
           </span>
         </div>
-        <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421]">
+        <div
+          className={`relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421] ${
+            work.video ? "aspect-video" : "aspect-[16/10]"
+          }`}
+        >
           {work.video ? (
+            // Container is aspect-video to match the source exactly — object-cover
+            // then has nothing to crop, so on-screen text/UI in the footage stays intact.
             <video
-              ref={mediaRef}
               src={work.video}
               poster={work.thumb}
               autoPlay
@@ -736,7 +744,7 @@ function ProjectShowcase({ work, index }) {
               playsInline
               preload="metadata"
               aria-label={`${work.title} — ${work.type} promo video`}
-              className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
             />
           ) : (
             <img
