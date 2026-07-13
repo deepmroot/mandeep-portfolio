@@ -32,8 +32,8 @@ const WORKS = [
     href: "https://becomeafish.com",
     thumb: "/thumbs/becomeafish.jpg",
     video: "/media/becomeafish-promo.mp4",
-    span: "md:col-span-3",
-    aspect: "aspect-[16/10]",
+    span: "md:col-span-2",
+    aspect: "aspect-video",
   },
   {
     title: "RentSpace",
@@ -42,8 +42,8 @@ const WORKS = [
     blurb: "Rental platform with AI tenant screening, Zillow sync and realtime messaging.",
     href: "https://rentspace4u.ca/",
     thumb: "/thumbs/rentspace.jpg",
-    span: "md:col-span-3",
-    aspect: "aspect-[16/10]",
+    span: "",
+    aspect: "aspect-[4/3]",
   },
   {
     title: "SyntaxArk",
@@ -53,8 +53,8 @@ const WORKS = [
     href: "https://syntaxark.vercel.app/",
     repo: "https://github.com/deepmroot/SyntaxArk",
     thumb: "/thumbs/syntaxark.jpg",
-    span: "md:col-span-3",
-    aspect: "aspect-[16/10]",
+    span: "",
+    aspect: "aspect-[3/4]",
   },
   {
     title: "Generic Alternatives",
@@ -63,8 +63,8 @@ const WORKS = [
     blurb: "Distributed sourcing platform replacing traditional agents with data-driven workflows.",
     href: "https://genericalternatives.co.uk/",
     thumb: "/thumbs/genericalternatives.jpg",
-    span: "md:col-span-3",
-    aspect: "aspect-[16/10]",
+    span: "md:col-span-2",
+    aspect: "aspect-[21/9]",
   },
   {
     title: "PromptLine",
@@ -74,8 +74,8 @@ const WORKS = [
     href: "https://promptline-gold.vercel.app/",
     repo: "https://github.com/deepmroot/promptline-rust",
     thumb: "/thumbs/promptline.jpg",
-    span: "md:col-span-3",
-    aspect: "aspect-[16/10]",
+    span: "",
+    aspect: "aspect-[4/3]",
   },
   {
     title: "QuickTest AI",
@@ -85,8 +85,8 @@ const WORKS = [
     href: "https://quicktest-ai-374261b0a08e.herokuapp.com/",
     repo: "https://github.com/deepmroot/QuickTest.ai",
     thumb: "/thumbs/quicktest.jpg",
-    span: "md:col-span-3",
-    aspect: "aspect-[16/10]",
+    span: "",
+    aspect: "aspect-[3/4]",
   },
 ];
 
@@ -215,7 +215,13 @@ export default function Portfolio() {
         <FloatingContact />
         <Hero />
         <Ticker />
-        <VideoShowcase />
+        <VideoShowcase
+          src="/media/inferencesaver-promo.mp4"
+          poster="/media/inferencesaver-poster.png"
+          title="InferenceSaver"
+          href="https://inferencesaver.com"
+          label="Featured work"
+        />
         <WorksIntro />
         <Works />
         <Ships />
@@ -571,9 +577,8 @@ function Ticker() {
   );
 }
 
-// Cinematic showcase — full-screen rounded ink frame with the InferenceSaver
-// promo video, scroll-scrubbed entrance and a center sound toggle.
-function VideoShowcase() {
+// Cinematic showcase — reusable full-screen product video with a scroll-scrubbed entrance.
+function VideoShowcase({ src, poster, title, href, label }) {
   const sectionRef = useRef(null);
   const frameRef = useRef(null);
   const videoRef = useRef(null);
@@ -612,33 +617,23 @@ function VideoShowcase() {
         <div className="relative w-full h-full">
           <video
             ref={videoRef}
-            src="/media/inferencesaver-promo.mp4"
-            poster="/media/inferencesaver-poster.png"
+            src={src}
+            poster={poster}
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
-            aria-label="InferenceSaver promo video"
+            aria-label={`${title} product video`}
             className="absolute inset-0 w-full h-full object-cover"
           />
 
-          {/* Title, quiet corner tag */}
-          <div className="absolute top-5 left-5 sm:top-7 sm:left-7">
-            <span className={`${MONO} block text-[10px] uppercase tracking-[0.25em] text-[#171412]/60`}>
-              Featured work
-            </span>
-            <h2 className={`${DISPLAY} mt-1 text-lg sm:text-xl font-bold tracking-tight text-[#171412]`}>
-              InferenceSaver
-            </h2>
-          </div>
-
           {/* Caption + link, reference-style corners */}
           <div className={`${MONO} absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.2em] text-white/60`}>
-            Promo — InferenceSaver © 2026
+            Case study — {title} © 2026
           </div>
           <a
-            href="https://inferencesaver.com"
+            href={href}
             target="_blank"
             rel="noopener noreferrer"
             className={`${MONO} absolute bottom-4 right-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors`}
@@ -692,6 +687,8 @@ function ProjectShowcase({ work, index }) {
     return () => ctx.revert();
   }, []);
 
+  const isWide = work.span.includes("col-span-2");
+
   return (
     <motion.a
       ref={cardRef}
@@ -702,13 +699,17 @@ function ProjectShowcase({ work, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.8, ease: EASE_OUT }}
-      className={`project-showcase group block ${index === 0 ? "md:col-span-2" : ""}`}
+      className={`project-showcase group block ${work.span}`}
     >
       <div className="grid grid-cols-[auto_1fr_auto] items-baseline gap-3 sm:gap-6 mb-4">
         <span className={`${MONO} text-[10px] text-[#ff3c34]`}>
           ({String(index + 1).padStart(2, "0")})
         </span>
-        <h3 className={`${DISPLAY} font-extrabold tracking-[-0.04em] leading-none text-[clamp(2rem,4vw,4.5rem)]`}>
+        <h3
+          className={`${DISPLAY} font-extrabold tracking-[-0.04em] leading-none ${
+            isWide ? "text-[clamp(2rem,4vw,4.5rem)]" : "text-[clamp(1.6rem,2.6vw,2.75rem)]"
+          }`}
+        >
           {work.title}
         </h3>
         <div className="hidden sm:block text-right">
@@ -728,9 +729,7 @@ function ProjectShowcase({ work, index }) {
           </span>
         </div>
         <div
-          className={`relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421] ${
-            work.video ? "aspect-video" : "aspect-[16/10]"
-          }`}
+          className={`relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421] ${work.aspect || (work.video ? "aspect-video" : "aspect-[16/10]")}`}
         >
           {work.video ? (
             // Container is aspect-video to match the source exactly — object-cover
@@ -763,6 +762,11 @@ function ProjectShowcase({ work, index }) {
             <span className={`${MONO} flex flex-col justify-center gap-0.5 border-l border-white/20 pl-2.5 text-[8px] sm:text-[9px] uppercase tracking-[0.14em] text-white/60 leading-tight`}>
               <span>{work.type}</span>
               <span>{work.year}</span>
+            </span>
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center bg-[#ff3c34] opacity-0 transition-opacity duration-500 group-hover:opacity-90">
+            <span className={`${DISPLAY} text-white font-extrabold text-lg sm:text-2xl tracking-tight`}>
+              Discover case
             </span>
           </div>
           <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[inherit]" />
