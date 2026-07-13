@@ -699,59 +699,48 @@ function ProjectShowcase({ work, index }) {
       transition={{ duration: 0.8, ease: EASE_OUT }}
       className={`project-showcase group block ${work.span}`}
     >
-      <div className="flex flex-col gap-5">
-        <div className="order-2 flex items-end justify-between gap-5">
-          <p className="max-w-sm text-sm leading-relaxed text-current opacity-55">{work.blurb}</p>
-          <span className={`${MONO} mt-5 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em]`}>
-            Discover live
-            <span className="grid place-items-center w-8 h-8 rounded-full border border-current opacity-70 transition-all duration-300 group-hover:bg-[#ff3c34] group-hover:border-[#ff3c34] group-hover:text-white group-hover:opacity-100 group-hover:rotate-45">
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </span>
+      <div
+        className={`relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421] ${work.aspect || (work.video ? "aspect-video" : "aspect-[16/10]")}`}
+      >
+        {work.video ? (
+          // Container is aspect-video to match the source exactly — object-cover
+          // then has nothing to crop, so on-screen text/UI in the footage stays intact.
+          <video
+            src={work.video}
+            poster={work.thumb}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={`${work.title} — ${work.type} promo video`}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+          />
+        ) : (
+          <img
+            ref={mediaRef}
+            src={work.thumb}
+            alt={`${work.title} — ${work.type}`}
+            loading="lazy"
+            decoding="async"
+            className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+          />
+        )}
+        <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-10 inline-flex items-stretch gap-2.5 rounded-lg bg-[#171412]/80 backdrop-blur-md pl-3 pr-3 py-1.5 transition-[background-color] duration-300 group-hover:bg-[#ff3c34]/90">
+          <span className={`${DISPLAY} text-white font-extrabold text-sm sm:text-base tracking-tight leading-tight self-center`}>
+            {work.title}
           </span>
-        </div>
-        <div
-          className={`relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421] ${work.aspect || (work.video ? "aspect-video" : "aspect-[16/10]")}`}
-        >
-          {work.video ? (
-            // Container is aspect-video to match the source exactly — object-cover
-            // then has nothing to crop, so on-screen text/UI in the footage stays intact.
-            <video
-              src={work.video}
-              poster={work.thumb}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label={`${work.title} — ${work.type} promo video`}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-            />
-          ) : (
-            <img
-              ref={mediaRef}
-              src={work.thumb}
-              alt={`${work.title} — ${work.type}`}
-              loading="lazy"
-              decoding="async"
-              className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
-            />
-          )}
-          <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-10 inline-flex items-stretch gap-2.5 rounded-lg bg-[#171412]/80 backdrop-blur-md pl-3 pr-3 py-1.5">
-            <span className={`${DISPLAY} text-white font-extrabold text-sm sm:text-base tracking-tight leading-tight self-center`}>
-              {work.title}
-            </span>
-            <span className={`${MONO} flex flex-col justify-center gap-0.5 border-l border-white/20 pl-2.5 text-[8px] sm:text-[9px] uppercase tracking-[0.14em] text-white/60 leading-tight`}>
-              <span>{work.type}</span>
-              <span>{work.year}</span>
+          <span className={`${MONO} flex flex-col justify-center gap-0.5 border-l border-white/20 pl-2.5 text-[8px] sm:text-[9px] uppercase tracking-[0.14em] text-white/60 leading-tight`}>
+            <span>{work.type}</span>
+            <span>{work.year}</span>
+          </span>
+          <div className="grid grid-cols-[0fr] group-hover:grid-cols-[1fr] transition-[grid-template-columns] duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]">
+            <span className={`${MONO} flex items-center gap-1.5 overflow-hidden whitespace-nowrap border-l border-white/30 pl-2.5 text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.16em] text-white self-center`}>
+              Discover live <ArrowUpRight className="w-3 h-3 shrink-0" />
             </span>
           </div>
-          <div className="absolute inset-0 flex items-center justify-center bg-[#ff3c34] opacity-0 transition-opacity duration-500 group-hover:opacity-90">
-            <span className={`${DISPLAY} text-white font-extrabold text-lg sm:text-2xl tracking-tight`}>
-              Discover case
-            </span>
-          </div>
-          <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[inherit]" />
         </div>
+        <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[inherit]" />
       </div>
     </motion.a>
   );
