@@ -687,8 +687,6 @@ function ProjectShowcase({ work, index }) {
     return () => ctx.revert();
   }, []);
 
-  const isWide = work.span.includes("col-span-2");
-
   return (
     <motion.a
       ref={cardRef}
@@ -701,23 +699,6 @@ function ProjectShowcase({ work, index }) {
       transition={{ duration: 0.8, ease: EASE_OUT }}
       className={`project-showcase group block ${work.span}`}
     >
-      <div className="grid grid-cols-[auto_1fr_auto] items-baseline gap-3 sm:gap-6 mb-4">
-        <span className={`${MONO} text-[10px] text-[#ff3c34]`}>
-          ({String(index + 1).padStart(2, "0")})
-        </span>
-        <h3
-          className={`${DISPLAY} font-extrabold tracking-[-0.04em] leading-none ${
-            isWide ? "text-[clamp(2rem,4vw,4.5rem)]" : "text-[clamp(1.6rem,2.6vw,2.75rem)]"
-          }`}
-        >
-          {work.title}
-        </h3>
-        <div className="hidden sm:block text-right">
-          <span className={`${MONO} block text-[10px] uppercase tracking-[0.18em]`}>{work.type}</span>
-          <span className={`${MONO} block text-[10px] text-[#8e827c] mt-1`}>{work.year}</span>
-        </div>
-      </div>
-
       <div className="flex flex-col gap-5">
         <div className="order-2 flex items-end justify-between gap-5">
           <p className="max-w-sm text-sm leading-relaxed text-current opacity-55">{work.blurb}</p>
