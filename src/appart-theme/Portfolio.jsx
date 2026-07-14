@@ -930,7 +930,7 @@ function SeeMoreWork() {
         <h2
           onMouseEnter={() => setSqueeze(true)}
           onMouseLeave={() => setSqueeze(false)}
-          className={`${DISPLAY} relative z-10 text-center font-extrabold text-[#8e827c] text-[clamp(3.5rem,9vw,8rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap cursor-pointer`}
+          className={`${DISPLAY} relative z-10 text-center font-extrabold text-[clamp(3.5rem,9vw,8rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap cursor-pointer transition-colors duration-500 ${squeeze ? "text-white" : "text-[#8e827c]"}`}
         >
           See more
           <br />
