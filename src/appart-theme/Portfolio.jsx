@@ -726,16 +726,18 @@ function ProjectShowcase({ work, index }) {
             className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           />
         )}
-        <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-10 inline-flex items-stretch gap-2.5 rounded-lg bg-[#171412]/80 backdrop-blur-md pl-3 pr-3 py-1.5 transition-[background-color] duration-300 group-hover:bg-[#ff3c34]/90">
-          <span className={`${DISPLAY} text-white font-extrabold text-sm sm:text-base tracking-tight leading-tight self-center`}>
-            {work.title}
-          </span>
-          <span className={`${MONO} flex flex-col justify-center gap-0.5 border-l border-white/20 pl-2.5 text-[8px] sm:text-[9px] uppercase tracking-[0.14em] text-white/60 leading-tight`}>
-            <span>{work.type}</span>
-            <span>{work.year}</span>
-          </span>
+        <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between gap-3 bg-[#171412]/80 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 transition-[background-color,padding] duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[#ff3c34]/90 group-hover:py-5 sm:group-hover:py-6">
+          <div className="flex items-stretch gap-2.5">
+            <span className={`${DISPLAY} text-white font-extrabold text-sm sm:text-base tracking-tight leading-tight self-center`}>
+              {work.title}
+            </span>
+            <span className={`${MONO} flex flex-col justify-center gap-0.5 border-l border-white/20 pl-2.5 text-[8px] sm:text-[9px] uppercase tracking-[0.14em] text-white/60 leading-tight`}>
+              <span>{work.type}</span>
+              <span>{work.year}</span>
+            </span>
+          </div>
           <div className="grid grid-cols-[0fr] group-hover:grid-cols-[1fr] transition-[grid-template-columns] duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]">
-            <span className={`${MONO} flex items-center gap-1.5 overflow-hidden whitespace-nowrap border-l border-white/30 pl-2.5 text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.16em] text-white self-center`}>
+            <span className={`${MONO} flex items-center gap-1.5 overflow-hidden whitespace-nowrap text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.16em] text-white self-center`}>
               Discover live <ArrowUpRight className="w-3 h-3 shrink-0" />
             </span>
           </div>
