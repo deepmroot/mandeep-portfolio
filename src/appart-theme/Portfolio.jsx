@@ -664,19 +664,21 @@ function FloatingContact() {
   }, []);
 
   return (
-    <motion.a
-      href={LINKS.email}
-      initial={false}
-      animate={visible ? { y: 0, opacity: 1 } : { y: 24, opacity: 0 }}
-      transition={{ duration: 0.5, ease: EASE_OUT }}
-      style={{ pointerEvents: visible ? "auto" : "none" }}
-      className="hidden md:flex fixed z-50 bottom-5 left-1/2 -translate-x-1/2 items-center gap-8 rounded-full bg-[#fbf9ef]/95 backdrop-blur-md text-[#171412] pl-7 pr-2 py-2 shadow-2xl ring-1 ring-[#171412]/10"
-    >
-      <span className={`${DISPLAY} text-sm font-semibold whitespace-nowrap`}>Have a product to ship?</span>
-      <span className={`${MONO} inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-[10px] font-bold uppercase tracking-[0.14em] px-5 py-3 transition-colors hover:bg-[#ff3c34]`}>
-        Start a conversation <Mail className="w-3.5 h-3.5" />
-      </span>
-    </motion.a>
+    <div className="hidden md:block fixed z-50 bottom-5 left-1/2 -translate-x-1/2">
+      <motion.a
+        href={LINKS.email}
+        initial={false}
+        animate={visible ? { y: 0, opacity: 1 } : { y: 24, opacity: 0 }}
+        transition={{ duration: 0.5, ease: EASE_OUT }}
+        style={{ pointerEvents: visible ? "auto" : "none" }}
+        className="flex items-center gap-8 rounded-full bg-[#fbf9ef]/95 backdrop-blur-md text-[#171412] pl-7 pr-2 py-2 shadow-2xl ring-1 ring-[#171412]/10"
+      >
+        <span className={`${DISPLAY} text-sm font-semibold whitespace-nowrap`}>Have a product to ship?</span>
+        <span className={`${MONO} inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-[10px] font-bold uppercase tracking-[0.14em] px-5 py-3 transition-colors hover:bg-[#ff3c34]`}>
+          Start a conversation <Mail className="w-3.5 h-3.5" />
+        </span>
+      </motion.a>
+    </div>
   );
 }
 
@@ -789,7 +791,7 @@ function WorksIntro() {
 
       <motion.p
         {...fadeUp}
-        className="max-w-md sm:max-w-lg text-lg sm:text-xl text-[#171412] leading-relaxed"
+        className="max-w-lg sm:max-w-2xl text-2xl sm:text-3xl text-[#171412] leading-snug"
       >
         I build products end to end — interfaces, backends and the AI in between, designed to ship and stay live.
       </motion.p>
