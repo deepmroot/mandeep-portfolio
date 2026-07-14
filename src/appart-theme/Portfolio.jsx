@@ -848,9 +848,9 @@ function SeeMoreWork() {
       const y = window.scrollY;
       const dy = y - lastY;
       lastY = y;
-      speed += dy * 0.7;
+      speed += dy * 0.05;
       const floor = Math.sign(speed) * BASE_SPEED || BASE_SPEED;
-      speed = speed + (floor - speed) * 0.01;
+      speed = speed + (floor - speed) * 0.03;
       rotation = (rotation + speed) % 360;
       gsap.set(ringRef.current, { rotation, transformOrigin: "50% 50%" });
     };
