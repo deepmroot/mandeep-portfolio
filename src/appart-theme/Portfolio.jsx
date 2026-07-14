@@ -817,7 +817,6 @@ function Works() {
         >
           <span className="text-[#ff3c34]">In the lab:</span>
           <span className="text-current opacity-80">Project Genesis</span>
-          <span>— distributed systems monitoring · Go · gRPC · eBPF · WIP</span>
         </motion.div>
       </div>
     </section>
