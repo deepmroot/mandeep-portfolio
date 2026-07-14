@@ -810,14 +810,6 @@ function Works() {
             </div>
           )
         )}
-
-        <motion.div
-          {...fadeUp}
-          className={`${MONO} mt-0 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-dashed border-current/25 py-5 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
-        >
-          <span className="text-[#ff3c34]">In the lab:</span>
-          <span className="text-current opacity-80">Project Genesis</span>
-        </motion.div>
       </div>
     </section>
   );
