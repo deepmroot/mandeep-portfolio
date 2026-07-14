@@ -833,32 +833,28 @@ function Works() {
 function SeeMoreWork() {
   const ringRef = useRef(null);
   const sectionRef = useRef(null);
+  const [squeeze, setSqueeze] = useState(false);
 
   useEffect(() => {
     if (!ringRef.current) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
 
-    const tl = gsap.to(ringRef.current, {
-      rotation: 360,
-      duration: 50,
-      ease: "none",
-      repeat: -1,
-      transformOrigin: "50% 50%",
-    });
+    let auto = 0;
+    let extra = 0;
+    let lastY = window.scrollY;
 
-    const st = ScrollTrigger.create({
-      trigger: ringRef.current,
-      start: "top bottom",
-      end: "bottom top",
-      onUpdate: (self) => {
-        tl.timeScale(self.direction === 1 ? 1 : -1);
-      },
-    });
-
-    return () => {
-      tl.kill();
-      st.kill();
+    const onTick = () => {
+      auto = (auto + 0.12) % 360;
+      const y = window.scrollY;
+      const dy = y - lastY;
+      lastY = y;
+      extra += dy * 0.25;
+      extra *= 0.9;
+      gsap.set(ringRef.current, { rotation: auto + extra, transformOrigin: "50% 50%" });
     };
+
+    gsap.ticker.add(onTick);
+    return () => gsap.ticker.remove(onTick);
   }, []);
 
   useEffect(() => {
@@ -866,23 +862,38 @@ function SeeMoreWork() {
     const overlay = document.getElementById("site-bg-overlay");
     if (!overlay) return undefined;
 
-    const bgTrigger = ScrollTrigger.create({
+    let inT = 0;
+    let outT = 0;
+    const apply = () => {
+      const t = Math.min(1, Math.max(0, inT - outT));
+      overlay.style.opacity = String(t);
+    };
+
+    const fadeIn = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "top bottom",
-      end: "bottom bottom",
+      start: "top 85%",
+      end: "top 15%",
       scrub: true,
       onUpdate: (self) => {
-        const p = self.progress;
-        let t;
-        if (p < 0.15) t = p / 0.15;
-        else if (p > 0.6) t = (1 - p) / 0.4;
-        else t = 1;
-        overlay.style.opacity = String(Math.min(1, Math.max(0, t)));
+        inT = self.progress;
+        apply();
+      },
+    });
+
+    const fadeOut = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "bottom 85%",
+      end: "bottom 15%",
+      scrub: true,
+      onUpdate: (self) => {
+        outT = self.progress;
+        apply();
       },
     });
 
     return () => {
-      bgTrigger.kill();
+      fadeIn.kill();
+      fadeOut.kill();
       overlay.style.opacity = "0";
     };
   }, []);
@@ -899,12 +910,14 @@ function SeeMoreWork() {
         <div ref={ringRef} className="absolute top-1/2 left-1/2">
           {SEE_MORE_ITEMS.map((item, i) => {
             const angle = angleStep * i;
+            const radius = squeeze ? "70px" : "min(33vw, 380px)";
             return (
               <div
                 key={item.thumb}
-                className="absolute w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+                className="absolute w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 transition-transform duration-700"
                 style={{
-                  transform: `translate(-50%, -50%) rotate(${angle}deg) translate(min(33vw, 380px)) rotate(${-angle + item.tilt}deg)`,
+                  transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)",
+                  transform: `translate(-50%, -50%) rotate(${angle}deg) translate(${radius}) rotate(${-angle + item.tilt}deg)`,
                 }}
               >
                 <img src={item.thumb} alt="" className="w-full h-full object-cover" />
@@ -913,7 +926,9 @@ function SeeMoreWork() {
           })}
         </div>
         <h2
-          className={`${DISPLAY} relative z-10 text-center font-extrabold text-[#8e827c] text-[clamp(3.5rem,9vw,8rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap`}
+          onMouseEnter={() => setSqueeze(true)}
+          onMouseLeave={() => setSqueeze(false)}
+          className={`${DISPLAY} relative z-10 text-center font-extrabold text-[#8e827c] text-[clamp(3.5rem,9vw,8rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap cursor-pointer`}
         >
           See more
           <br />
