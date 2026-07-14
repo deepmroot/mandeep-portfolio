@@ -726,7 +726,7 @@ function ProjectShowcase({ work, index }) {
             className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           />
         )}
-        <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between gap-3 bg-[#171412]/80 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 transition-[background-color,padding] duration-300 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[#ff3c34]/90 group-hover:py-5 sm:group-hover:py-6">
+        <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between gap-3 bg-[#171412]/80 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 [clip-path:inset(0_calc(100%-11rem)_0_0)] group-hover:[clip-path:inset(0_0_0_0)] transition-[clip-path,background-color,padding] duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[#ff3c34]/90 group-hover:py-5 sm:group-hover:py-6">
           <div className="flex items-stretch gap-2.5">
             <span className={`${DISPLAY} text-white font-extrabold text-sm sm:text-base tracking-tight leading-tight self-center`}>
               {work.title}
