@@ -613,7 +613,7 @@ function VideoShowcase({ src, poster, title, href, label }) {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative h-[100svh] overflow-hidden flex items-center justify-center">
+    <section id="video-showcase" ref={sectionRef} className="relative h-[100svh] overflow-hidden flex items-center justify-center">
       <div
         ref={frameRef}
         className="group relative h-full aspect-video max-w-full overflow-hidden shadow-2xl [will-change:transform]"
@@ -651,16 +651,29 @@ function VideoShowcase({ src, poster, title, href, label }) {
 }
 
 function FloatingContact() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const st = ScrollTrigger.create({
+      trigger: "#video-showcase",
+      start: "bottom top",
+      onEnter: () => setVisible(true),
+      onLeaveBack: () => setVisible(false),
+    });
+    return () => st.kill();
+  }, []);
+
   return (
     <motion.a
       href={LINKS.email}
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, delay: 1.4, ease: EASE_OUT }}
-      className="hidden md:flex fixed z-50 bottom-5 left-1/2 -translate-x-1/2 items-center gap-10 rounded-full bg-[#fbf9ef] text-[#171412] pl-7 pr-2 py-2 shadow-2xl border border-[#171412]/10"
+      initial={false}
+      animate={visible ? { y: 0, opacity: 1 } : { y: 24, opacity: 0 }}
+      transition={{ duration: 0.5, ease: EASE_OUT }}
+      style={{ pointerEvents: visible ? "auto" : "none" }}
+      className="hidden md:flex fixed z-50 bottom-5 left-1/2 -translate-x-1/2 items-center gap-8 rounded-full bg-[#fbf9ef]/95 backdrop-blur-md text-[#171412] pl-7 pr-2 py-2 shadow-2xl ring-1 ring-[#171412]/10"
     >
-      <span className={`${DISPLAY} text-base whitespace-nowrap`}>Have a product to ship?</span>
-      <span className={`${MONO} inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-[10px] font-bold uppercase tracking-[0.14em] px-5 py-3`}>
+      <span className={`${DISPLAY} text-sm font-semibold whitespace-nowrap`}>Have a product to ship?</span>
+      <span className={`${MONO} inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-[10px] font-bold uppercase tracking-[0.14em] px-5 py-3 transition-colors hover:bg-[#ff3c34]`}>
         Start a conversation <Mail className="w-3.5 h-3.5" />
       </span>
     </motion.a>
@@ -776,7 +789,7 @@ function WorksIntro() {
 
       <motion.p
         {...fadeUp}
-        className="max-w-md sm:max-w-lg text-lg sm:text-xl text-[#171412]/70 leading-relaxed"
+        className="max-w-md sm:max-w-lg text-lg sm:text-xl text-[#171412] leading-relaxed"
       >
         I build products end to end — interfaces, backends and the AI in between, designed to ship and stay live.
       </motion.p>
