@@ -68,25 +68,14 @@ const WORKS = [
     aspect: "aspect-[4/3]",
   },
   {
-    title: "QuickTest AI",
-    type: "EdTech",
-    year: "2024",
-    blurb: "Exam system with automatic question generation using LLMs.",
-    href: "https://quicktest-ai-374261b0a08e.herokuapp.com/",
-    repo: "https://github.com/deepmroot/QuickTest.ai",
-    thumb: "/thumbs/quicktest.jpg",
-    span: "",
-    aspect: "aspect-[3/4]",
-  },
-  {
     title: "Generic Alternatives",
     type: "Supply Chain AI",
     year: "2025",
     blurb: "Distributed sourcing platform replacing traditional agents with data-driven workflows.",
     href: "https://genericalternatives.co.uk/",
     thumb: "/thumbs/genericalternatives.jpg",
-    span: "md:col-span-2",
-    aspect: "aspect-[21/9]",
+    span: "",
+    aspect: "aspect-[4/3]",
   },
 ];
 
@@ -798,7 +787,7 @@ function Works() {
 
   return (
     <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pb-24 sm:pb-36">
-      <div className="max-w-[92rem] mx-auto flex flex-col gap-y-24 sm:gap-y-36">
+      <div className="max-w-[92rem] mx-auto flex flex-col gap-y-5">
         {blocks.map((block, bi) =>
           block.type === "full" ? (
             <ProjectShowcase key={block.item.title} work={block.item} index={bi} />
