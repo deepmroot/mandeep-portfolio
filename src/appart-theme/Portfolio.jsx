@@ -873,8 +873,11 @@ function SeeMoreWork() {
       scrub: true,
       onUpdate: (self) => {
         const p = self.progress;
-        const t = p < 0.5 ? p / 0.5 : (1 - p) / 0.5;
-        overlay.style.opacity = String(Math.min(1, t));
+        let t;
+        if (p < 0.2) t = p / 0.2;
+        else if (p > 0.8) t = (1 - p) / 0.2;
+        else t = 1;
+        overlay.style.opacity = String(Math.min(1, Math.max(0, t)));
       },
     });
 
