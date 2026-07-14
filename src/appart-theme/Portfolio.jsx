@@ -781,16 +781,50 @@ function WorksIntro() {
 }
 
 function Works() {
+  const blocks = [];
+  let pair = [];
+  WORKS.forEach((work) => {
+    if (work.span) {
+      if (pair.length) {
+        blocks.push({ type: "pair", items: pair });
+        pair = [];
+      }
+      blocks.push({ type: "full", item: work });
+    } else {
+      pair.push(work);
+    }
+  });
+  if (pair.length) blocks.push({ type: "pair", items: pair });
+
   return (
     <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pb-24 sm:pb-36">
-      <div className="max-w-[92rem] mx-auto">
-        <div className="grid md:grid-cols-2 items-start gap-x-5 gap-y-24 sm:gap-y-36">
-          {WORKS.map((work, i) => <ProjectShowcase key={work.title} work={work} index={i} />)}
-        </div>
+      <div className="max-w-[92rem] mx-auto flex flex-col gap-y-24 sm:gap-y-36">
+        {blocks.map((block, bi) =>
+          block.type === "full" ? (
+            <ProjectShowcase key={block.item.title} work={block.item} index={bi} />
+          ) : (
+            <div key={`pair-${bi}`} className="grid md:grid-cols-2 gap-x-5">
+              <div className="flex flex-col gap-y-5">
+                {block.items
+                  .filter((_, i) => i % 2 === 0)
+                  .map((w, i) => (
+                    <ProjectShowcase key={w.title} work={w} index={i} />
+                  ))}
+              </div>
+              <div className="flex flex-col gap-y-5">
+                {block.items
+                  .filter((_, i) => i % 2 === 1)
+                  .map((w, i) => (
+                    <ProjectShowcase key={w.title} work={w} index={i} />
+                  ))}
+              </div>
+            </div>
+          )
+        )}
 
         <motion.div
           {...fadeUp}
-          className={`${MONO} mt-24 sm:mt-36 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-dashed border-current/25 py-5 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
+          className={`${MONO} mt-0 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-dashed border-current/25 py-5 text-[11px] uppercase tracking-[0.15em] text-[#8e827c]`}
         >
           <span className="text-[#ff3c34]">In the lab:</span>
           <span className="text-current opacity-80">Project Genesis</span>
