@@ -57,16 +57,6 @@ const WORKS = [
     aspect: "aspect-[3/4]",
   },
   {
-    title: "Generic Alternatives",
-    type: "Supply Chain AI",
-    year: "2025",
-    blurb: "Distributed sourcing platform replacing traditional agents with data-driven workflows.",
-    href: "https://genericalternatives.co.uk/",
-    thumb: "/thumbs/genericalternatives.jpg",
-    span: "md:col-span-2",
-    aspect: "aspect-[21/9]",
-  },
-  {
     title: "PromptLine",
     type: "Rust CLI",
     year: "2025",
@@ -87,6 +77,16 @@ const WORKS = [
     thumb: "/thumbs/quicktest.jpg",
     span: "",
     aspect: "aspect-[3/4]",
+  },
+  {
+    title: "Generic Alternatives",
+    type: "Supply Chain AI",
+    year: "2025",
+    blurb: "Distributed sourcing platform replacing traditional agents with data-driven workflows.",
+    href: "https://genericalternatives.co.uk/",
+    thumb: "/thumbs/genericalternatives.jpg",
+    span: "md:col-span-2",
+    aspect: "aspect-[21/9]",
   },
 ];
 
