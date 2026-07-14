@@ -839,18 +839,20 @@ function SeeMoreWork() {
     if (!ringRef.current) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
 
-    let auto = 0;
-    let extra = 0;
+    const BASE_SPEED = 0.12;
+    let rotation = 0;
+    let speed = BASE_SPEED;
     let lastY = window.scrollY;
 
     const onTick = () => {
-      auto = (auto + 0.12) % 360;
       const y = window.scrollY;
       const dy = y - lastY;
       lastY = y;
-      extra += dy * 0.7;
-      extra *= 0.94;
-      gsap.set(ringRef.current, { rotation: auto + extra, transformOrigin: "50% 50%" });
+      speed += dy * 0.7;
+      const floor = Math.sign(speed) * BASE_SPEED || BASE_SPEED;
+      speed = speed + (floor - speed) * 0.01;
+      rotation = (rotation + speed) % 360;
+      gsap.set(ringRef.current, { rotation, transformOrigin: "50% 50%" });
     };
 
     gsap.ticker.add(onTick);
