@@ -79,6 +79,15 @@ const WORKS = [
   },
 ];
 
+const SEE_MORE_ITEMS = [
+  { thumb: "/thumbs/becomeafish.jpg", tilt: -6 },
+  { thumb: "/thumbs/rentspace.jpg", tilt: 9 },
+  { thumb: "/thumbs/inferencesaver.jpg", tilt: -5 },
+  { thumb: "/thumbs/syntaxark.jpg", tilt: 7 },
+  { thumb: "/thumbs/promptline.jpg", tilt: -8 },
+  { thumb: "/thumbs/genericalternatives.jpg", tilt: 6 },
+];
+
 const SHIPS = [
   {
     no: "01",
@@ -197,6 +206,11 @@ export default function Portfolio() {
   return (
     <MotionConfig reducedMotion="user">
       <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
+        <div
+          id="site-bg-overlay"
+          className="fixed inset-0 z-30 pointer-events-none bg-[#171412] opacity-0"
+          aria-hidden="true"
+        />
         <Header />
         <SideNav />
         <CornerName />
@@ -213,6 +227,7 @@ export default function Portfolio() {
         />
         <WorksIntro />
         <Works />
+        <SeeMoreWork />
         <Ships />
         <Kpis />
         <Contact />
@@ -810,6 +825,97 @@ function Works() {
             </div>
           )
         )}
+      </div>
+    </section>
+  );
+}
+
+function SeeMoreWork() {
+  const ringRef = useRef(null);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    if (!ringRef.current) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+
+    const tl = gsap.to(ringRef.current, {
+      rotation: 360,
+      duration: 50,
+      ease: "none",
+      repeat: -1,
+      transformOrigin: "50% 50%",
+    });
+
+    const st = ScrollTrigger.create({
+      trigger: ringRef.current,
+      start: "top bottom",
+      end: "bottom top",
+      onUpdate: (self) => {
+        tl.timeScale(self.direction === 1 ? 1 : -1);
+      },
+    });
+
+    return () => {
+      tl.kill();
+      st.kill();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!sectionRef.current) return undefined;
+    const overlay = document.getElementById("site-bg-overlay");
+    if (!overlay) return undefined;
+
+    const bgTrigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true,
+      onUpdate: (self) => {
+        const p = self.progress;
+        const t = p < 0.5 ? p / 0.5 : (1 - p) / 0.5;
+        overlay.style.opacity = String(Math.min(1, t));
+      },
+    });
+
+    return () => {
+      bgTrigger.kill();
+      overlay.style.opacity = "0";
+    };
+  }, []);
+
+  const angleStep = 360 / SEE_MORE_ITEMS.length;
+
+  return (
+    <section
+      ref={sectionRef}
+      data-dark-section
+      className="relative z-40 overflow-hidden min-h-[780px] sm:min-h-[900px] flex items-center"
+    >
+      <div className="relative z-10 mx-auto h-px w-px flex items-center justify-center">
+        <div ref={ringRef} className="absolute top-1/2 left-1/2">
+          {SEE_MORE_ITEMS.map((item, i) => {
+            const angle = angleStep * i;
+            return (
+              <div
+                key={item.thumb}
+                className="absolute w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+                style={{
+                  transform: `translate(-50%, -50%) rotate(${angle}deg) translate(min(30vw, 320px)) rotate(${-angle + item.tilt}deg)`,
+                }}
+              >
+                <img src={item.thumb} alt="" className="w-full h-full object-cover" />
+              </div>
+            );
+          })}
+        </div>
+        <h2
+          className={`${DISPLAY} relative z-10 text-center font-extrabold text-[#8e827c] text-[clamp(2.5rem,7vw,6rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap`}
+        >
+          See more
+          <br />
+          work
+        </h2>
       </div>
     </section>
   );
