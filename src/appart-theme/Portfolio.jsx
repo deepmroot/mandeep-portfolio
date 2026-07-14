@@ -869,13 +869,13 @@ function SeeMoreWork() {
     const bgTrigger = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: "top bottom",
-      end: "bottom top",
+      end: "bottom bottom",
       scrub: true,
       onUpdate: (self) => {
         const p = self.progress;
         let t;
-        if (p < 0.2) t = p / 0.2;
-        else if (p > 0.8) t = (1 - p) / 0.2;
+        if (p < 0.15) t = p / 0.15;
+        else if (p > 0.75) t = (1 - p) / 0.25;
         else t = 1;
         overlay.style.opacity = String(Math.min(1, Math.max(0, t)));
       },
@@ -893,7 +893,7 @@ function SeeMoreWork() {
     <section
       ref={sectionRef}
       data-dark-section
-      className="relative z-40 overflow-hidden border-b border-white/10 min-h-[900px] sm:min-h-[1080px] flex items-center"
+      className="relative z-40 overflow-hidden min-h-[900px] sm:min-h-[1080px] flex items-center"
     >
       <div className="relative z-10 mx-auto h-px w-px flex items-center justify-center">
         <div ref={ringRef} className="absolute top-1/2 left-1/2">
