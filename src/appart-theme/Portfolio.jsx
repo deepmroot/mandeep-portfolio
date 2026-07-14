@@ -54,7 +54,7 @@ const WORKS = [
     repo: "https://github.com/deepmroot/SyntaxArk",
     thumb: "/thumbs/syntaxark.jpg",
     span: "",
-    aspect: "aspect-[3/4]",
+    aspect: "aspect-[646/989]",
   },
   {
     title: "PromptLine",
@@ -74,8 +74,8 @@ const WORKS = [
     blurb: "Distributed sourcing platform replacing traditional agents with data-driven workflows.",
     href: "https://genericalternatives.co.uk/",
     thumb: "/thumbs/genericalternatives.jpg",
-    span: "",
-    aspect: "aspect-[4/3]",
+    span: "md:col-span-2",
+    aspect: "aspect-[21/9]",
   },
 ];
 
@@ -792,7 +792,7 @@ function Works() {
           block.type === "full" ? (
             <ProjectShowcase key={block.item.title} work={block.item} index={bi} />
           ) : (
-            <div key={`pair-${bi}`} className="grid md:grid-cols-2 gap-x-5">
+            <div key={`pair-${bi}`} className="grid md:grid-cols-2 items-start gap-x-5">
               <div className="flex flex-col gap-y-5">
                 {block.items
                   .filter((_, i) => i % 2 === 0)
