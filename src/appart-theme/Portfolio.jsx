@@ -784,7 +784,7 @@ function Works() {
   return (
     <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pb-24 sm:pb-36">
       <div className="max-w-[92rem] mx-auto">
-        <div className="grid md:grid-cols-2 gap-x-5 gap-y-24 sm:gap-y-36">
+        <div className="grid md:grid-cols-2 items-start gap-x-5 gap-y-24 sm:gap-y-36">
           {WORKS.map((work, i) => <ProjectShowcase key={work.title} work={work} index={i} />)}
         </div>
 
