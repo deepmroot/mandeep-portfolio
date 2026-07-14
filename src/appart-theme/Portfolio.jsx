@@ -848,8 +848,8 @@ function SeeMoreWork() {
       const y = window.scrollY;
       const dy = y - lastY;
       lastY = y;
-      extra += dy * 0.25;
-      extra *= 0.9;
+      extra += dy * 0.7;
+      extra *= 0.94;
       gsap.set(ringRef.current, { rotation: auto + extra, transformOrigin: "50% 50%" });
     };
 
