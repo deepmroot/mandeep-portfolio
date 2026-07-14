@@ -888,9 +888,9 @@ function SeeMoreWork() {
 
     const fadeIn = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "top 85%",
-      end: "top 15%",
-      scrub: true,
+      start: "top 90%",
+      end: "top 55%",
+      scrub: 0.3,
       onUpdate: (self) => {
         inT = self.progress;
         apply();
@@ -899,9 +899,9 @@ function SeeMoreWork() {
 
     const fadeOut = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "bottom 85%",
-      end: "bottom 15%",
-      scrub: true,
+      start: "bottom 70%",
+      end: "bottom 35%",
+      scrub: 0.3,
       onUpdate: (self) => {
         outT = self.progress;
         apply();
