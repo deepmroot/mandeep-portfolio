@@ -927,14 +927,17 @@ function SeeMoreWork() {
             );
           })}
         </div>
-        <h2
-          onMouseEnter={() => setSqueeze(true)}
-          onMouseLeave={() => setSqueeze(false)}
-          className={`${DISPLAY} relative z-10 text-center font-extrabold text-[clamp(3.5rem,9vw,8rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap cursor-pointer transition-colors duration-500 ${squeeze ? "text-white" : "text-[#8e827c]"}`}
-        >
-          See more
-          <br />
-          work
+        <h2 className="relative z-10">
+          <a
+            href="/work"
+            onMouseEnter={() => setSqueeze(true)}
+            onMouseLeave={() => setSqueeze(false)}
+            className={`${DISPLAY} block text-center font-extrabold text-[clamp(3.5rem,9vw,8rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap cursor-pointer transition-colors duration-500 ${squeeze ? "text-white" : "text-[#8e827c]"}`}
+          >
+            See more
+            <br />
+            work
+          </a>
         </h2>
       </div>
     </section>
