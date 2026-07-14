@@ -893,7 +893,7 @@ function SeeMoreWork() {
     <section
       ref={sectionRef}
       data-dark-section
-      className="relative z-40 overflow-hidden min-h-[780px] sm:min-h-[900px] flex items-center"
+      className="relative z-40 overflow-hidden min-h-[900px] sm:min-h-[1080px] flex items-center"
     >
       <div className="relative z-10 mx-auto h-px w-px flex items-center justify-center">
         <div ref={ringRef} className="absolute top-1/2 left-1/2">
@@ -902,9 +902,9 @@ function SeeMoreWork() {
             return (
               <div
                 key={item.thumb}
-                className="absolute w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+                className="absolute w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
                 style={{
-                  transform: `translate(-50%, -50%) rotate(${angle}deg) translate(min(30vw, 320px)) rotate(${-angle + item.tilt}deg)`,
+                  transform: `translate(-50%, -50%) rotate(${angle}deg) translate(min(33vw, 380px)) rotate(${-angle + item.tilt}deg)`,
                 }}
               >
                 <img src={item.thumb} alt="" className="w-full h-full object-cover" />
@@ -913,7 +913,7 @@ function SeeMoreWork() {
           })}
         </div>
         <h2
-          className={`${DISPLAY} relative z-10 text-center font-extrabold text-[#8e827c] text-[clamp(2.5rem,7vw,6rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap`}
+          className={`${DISPLAY} relative z-10 text-center font-extrabold text-[#8e827c] text-[clamp(3.5rem,9vw,8rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap`}
         >
           See more
           <br />
