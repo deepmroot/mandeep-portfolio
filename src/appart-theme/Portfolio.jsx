@@ -511,7 +511,7 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.85 }}
-          className="mt-14 sm:mt-20 text-2xl sm:text-3xl md:text-[2.25rem] text-[#171412]/80 max-w-3xl leading-snug [text-wrap:balance]"
+          className="mt-14 sm:mt-20 text-2xl sm:text-3xl md:text-[2.25rem] text-[#171412] max-w-3xl leading-snug [text-wrap:balance]"
         >
           Full-stack developer shipping AI products end to end — browser IDEs, subscription billing, realtime sync.
         </motion.p>
