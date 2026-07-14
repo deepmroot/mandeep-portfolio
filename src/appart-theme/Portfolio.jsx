@@ -801,7 +801,7 @@ function Works() {
   if (pair.length) blocks.push({ type: "pair", items: pair });
 
   return (
-    <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pb-24 sm:pb-36">
+    <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pb-10 sm:pb-14">
       <div className="max-w-[92rem] mx-auto flex flex-col gap-y-5">
         {blocks.map((block, bi) =>
           block.type === "full" ? (
@@ -875,7 +875,7 @@ function SeeMoreWork() {
         const p = self.progress;
         let t;
         if (p < 0.15) t = p / 0.15;
-        else if (p > 0.75) t = (1 - p) / 0.25;
+        else if (p > 0.6) t = (1 - p) / 0.4;
         else t = 1;
         overlay.style.opacity = String(Math.min(1, Math.max(0, t)));
       },
