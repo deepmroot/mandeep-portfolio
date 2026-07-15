@@ -992,11 +992,9 @@ function Ships() {
           cards.forEach((card, i) => {
             const localT = gsap.utils.clamp(0, 1, raw - i);
             gsap.set(card, {
-              rotateX: localT * 78,
-              y: localT * 260,
+              rotateX: localT * 60,
+              y: localT * 900,
               scale: 1 - localT * 0.08,
-              opacity: localT > 0.85 ? 0 : 1,
-              zIndex: localT < 0.5 ? cards.length - i : i,
               transformOrigin: "top center",
             });
           });
@@ -1026,7 +1024,7 @@ function Ships() {
             <div
               key={ship.no}
               ref={(el) => (cardEls.current[i] = el)}
-              className="absolute inset-0 flex items-center justify-center px-5 sm:px-8 md:px-24 [transform-style:preserve-3d] [will-change:transform]"
+              className="absolute inset-0 flex items-center justify-center px-5 sm:px-8 md:px-24 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
               style={{ zIndex: SHIPS.length - i }}
             >
               <div
