@@ -1028,23 +1028,23 @@ function Ships() {
               style={{ zIndex: SHIPS.length - i }}
             >
               <div
-                className="relative w-full max-w-6xl rounded-[1.75rem] sm:rounded-[2.5rem] p-8 sm:p-14 md:p-16 shadow-2xl"
+                className="relative w-full max-w-7xl rounded-[1.75rem] sm:rounded-[2.5rem] p-10 sm:p-16 md:p-20 shadow-2xl"
                 style={{ backgroundColor: colors.bg, color: colors.text }}
               >
                 <span className={`${MONO} absolute top-8 right-8 sm:top-12 sm:right-12 text-sm`} style={{ color: colors.sub }}>
                   ({ship.no})
                 </span>
-                <h3 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.03] max-w-xl`}>
+                <h3 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2.4rem,5.5vw,4.25rem)] leading-[1.02] max-w-2xl`}>
                   {ship.title}
                 </h3>
-                <p className="mt-6 text-base sm:text-lg leading-relaxed max-w-xl" style={{ color: colors.sub }}>
+                <p className="mt-7 text-lg sm:text-xl leading-relaxed max-w-2xl" style={{ color: colors.sub }}>
                   {ship.body}
                 </p>
-                <div className="flex flex-wrap gap-2 mt-8">
+                <div className="flex flex-wrap gap-2.5 mt-9">
                   {ship.chips.map((chip) => (
                     <span
                       key={chip}
-                      className={`${MONO} text-[11px] uppercase tracking-[0.1em] rounded-full px-3 py-1`}
+                      className={`${MONO} text-xs uppercase tracking-[0.1em] rounded-full px-4 py-1.5`}
                       style={{ border: `1px solid ${colors.chipBorder}` }}
                     >
                       {chip}
