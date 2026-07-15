@@ -992,8 +992,8 @@ function Ships() {
           cards.forEach((card, i) => {
             const localT = gsap.utils.clamp(0, 1, raw - i);
             gsap.set(card, {
-              rotateX: localT * 60,
-              y: localT * 900,
+              rotateX: -localT * 60,
+              y: -localT * 900,
               scale: 1 - localT * 0.08,
               transformOrigin: "top center",
             });
