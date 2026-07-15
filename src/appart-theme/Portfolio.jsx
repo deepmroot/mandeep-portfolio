@@ -992,10 +992,9 @@ function Ships() {
             }
             const localT = gsap.utils.clamp(0, 1, raw - i);
             gsap.set(card, {
-              rotateX: -localT * 20,
-              y: -localT * 700,
-              z: -localT * 800,
-              scale: 1 - localT * 0.05,
+              rotateX: localT * 95,
+              y: localT * 260,
+              scale: 1 - localT * 0.08,
               transformOrigin: "top center",
             });
           });
