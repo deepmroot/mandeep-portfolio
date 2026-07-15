@@ -995,6 +995,8 @@ function Ships() {
               rotateX: localT * 78,
               y: localT * 260,
               scale: 1 - localT * 0.08,
+              opacity: localT > 0.85 ? 0 : 1,
+              zIndex: localT < 0.5 ? cards.length - i : i,
               transformOrigin: "top center",
             });
           });
