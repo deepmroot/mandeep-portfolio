@@ -966,74 +966,95 @@ const SHIP_COLORS = [
   { bg: "#282421", text: "#fbf9ef", sub: "#fbf9ef99", chipBorder: "#fbf9ef30" },
 ];
 
-function ShipFlipCard({ ship, colors, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: EASE_OUT, delay: index * 0.06 }}
-      className="group [perspective:1800px] h-[360px] sm:h-[420px]"
-    >
-      <div className="relative w-full h-full transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-        {/* Front */}
-        <div
-          className="absolute inset-0 rounded-[1.75rem] sm:rounded-[2.25rem] p-8 sm:p-12 flex flex-col justify-between [backface-visibility:hidden]"
-          style={{ backgroundColor: colors.bg, color: colors.text }}
-        >
-          <span className={`${MONO} text-sm`} style={{ color: colors.sub }}>
-            ({ship.no})
-          </span>
-          <h3 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(1.8rem,4vw,2.75rem)] leading-[1.02]`}>
-            {ship.title}
-          </h3>
-        </div>
-        {/* Back */}
-        <div
-          className="absolute inset-0 rounded-[1.75rem] sm:rounded-[2.25rem] p-8 sm:p-12 flex flex-col justify-between [backface-visibility:hidden] [transform:rotateY(180deg)]"
-          style={{ backgroundColor: colors.bg, color: colors.text }}
-        >
-          <div>
-            <span className={`${MONO} text-sm`} style={{ color: colors.sub }}>
-              ({ship.no})
-            </span>
-            <p className="mt-4 text-base sm:text-lg leading-relaxed" style={{ color: colors.sub }}>
-              {ship.body}
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {ship.chips.map((chip) => (
-              <span
-                key={chip}
-                className={`${MONO} text-[11px] uppercase tracking-[0.1em] rounded-full px-3 py-1`}
-                style={{ border: `1px solid ${colors.chipBorder}` }}
-              >
-                {chip}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 function Ships() {
+  const stackRef = useRef(null);
+  const cardEls = useRef([]);
+
+  useEffect(() => {
+    if (!stackRef.current) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+
+    const cards = cardEls.current.filter(Boolean);
+    const ctx = gsap.context(() => {
+      const st = ScrollTrigger.create({
+        trigger: stackRef.current,
+        start: "top top",
+        end: () => `+=${(cards.length - 1) * 100}%`,
+        pin: true,
+        scrub: 0.4,
+        onUpdate: (self) => {
+          const total = cards.length - 1;
+          const raw = self.progress * total;
+          cards.forEach((card, i) => {
+            if (i === cards.length - 1) {
+              gsap.set(card, { rotateX: 0, y: 0, scale: 1 });
+              return;
+            }
+            const localT = gsap.utils.clamp(0, 1, raw - i);
+            gsap.set(card, {
+              rotateX: -localT * 70,
+              y: -localT * 120,
+              scale: 1 - localT * 0.06,
+              transformOrigin: "top center",
+            });
+          });
+        },
+      });
+      return () => st.kill();
+    }, stackRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section id="about" className="bg-[#f2f0e7] border-y border-[#171412]/10">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-20 sm:py-28">
-        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] mb-14`}>
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 pt-20 sm:pt-28">
+        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] mb-10`}>
           <Reveal onView>
             <span>
               What I ship<span className="text-[#ff3c34]">.</span>
             </span>
           </Reveal>
         </h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {SHIPS.map((ship, shipIndex) => (
-            <ShipFlipCard key={ship.no} ship={ship} colors={SHIP_COLORS[shipIndex % SHIP_COLORS.length]} index={shipIndex} />
-          ))}
-        </div>
+      </div>
+      <div ref={stackRef} className="relative h-screen [perspective:2200px] overflow-hidden">
+        {SHIPS.map((ship, i) => {
+          const colors = SHIP_COLORS[i % SHIP_COLORS.length];
+          return (
+            <div
+              key={ship.no}
+              ref={(el) => (cardEls.current[i] = el)}
+              className="absolute inset-0 flex items-center justify-center px-5 sm:px-8 md:px-24 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
+              style={{ zIndex: SHIPS.length - i }}
+            >
+              <div
+                className="relative w-full max-w-6xl rounded-[1.75rem] sm:rounded-[2.5rem] p-8 sm:p-14 md:p-16 shadow-2xl"
+                style={{ backgroundColor: colors.bg, color: colors.text }}
+              >
+                <span className={`${MONO} absolute top-8 right-8 sm:top-12 sm:right-12 text-sm`} style={{ color: colors.sub }}>
+                  ({ship.no})
+                </span>
+                <h3 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.03] max-w-xl`}>
+                  {ship.title}
+                </h3>
+                <p className="mt-6 text-base sm:text-lg leading-relaxed max-w-xl" style={{ color: colors.sub }}>
+                  {ship.body}
+                </p>
+                <div className="flex flex-wrap gap-2 mt-8">
+                  {ship.chips.map((chip) => (
+                    <span
+                      key={chip}
+                      className={`${MONO} text-[11px] uppercase tracking-[0.1em] rounded-full px-3 py-1`}
+                      style={{ border: `1px solid ${colors.chipBorder}` }}
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
