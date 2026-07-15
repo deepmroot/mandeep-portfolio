@@ -992,8 +992,8 @@ function Ships() {
             }
             const localT = gsap.utils.clamp(0, 1, raw - i);
             gsap.set(card, {
-              rotateX: -localT * 70,
-              y: -localT * 120,
+              rotateX: localT * 70,
+              y: localT * 120,
               scale: 1 - localT * 0.06,
               transformOrigin: "top center",
             });
@@ -1024,27 +1024,27 @@ function Ships() {
             <div
               key={ship.no}
               ref={(el) => (cardEls.current[i] = el)}
-              className="absolute inset-0 flex items-center justify-center px-5 sm:px-8 md:px-24 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
+              className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 md:px-16 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
               style={{ zIndex: SHIPS.length - i }}
             >
               <div
-                className="relative w-full max-w-6xl rounded-[1.75rem] sm:rounded-[2.5rem] p-8 sm:p-14 md:p-16 shadow-2xl"
+                className="relative w-full h-full max-w-[100rem] rounded-[1.75rem] sm:rounded-[2.5rem] p-10 sm:p-16 md:p-24 shadow-2xl flex flex-col justify-center"
                 style={{ backgroundColor: colors.bg, color: colors.text }}
               >
-                <span className={`${MONO} absolute top-8 right-8 sm:top-12 sm:right-12 text-sm`} style={{ color: colors.sub }}>
+                <span className={`${MONO} absolute top-8 right-8 sm:top-12 sm:right-12 text-base sm:text-lg`} style={{ color: colors.sub }}>
                   ({ship.no})
                 </span>
-                <h3 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.03] max-w-xl`}>
+                <h3 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2.75rem,6.5vw,5.25rem)] leading-[1.02] max-w-3xl`}>
                   {ship.title}
                 </h3>
-                <p className="mt-6 text-base sm:text-lg leading-relaxed max-w-xl" style={{ color: colors.sub }}>
+                <p className="mt-8 text-xl sm:text-2xl leading-relaxed max-w-2xl" style={{ color: colors.sub }}>
                   {ship.body}
                 </p>
-                <div className="flex flex-wrap gap-2 mt-8">
+                <div className="flex flex-wrap gap-3 mt-10">
                   {ship.chips.map((chip) => (
                     <span
                       key={chip}
-                      className={`${MONO} text-[11px] uppercase tracking-[0.1em] rounded-full px-3 py-1`}
+                      className={`${MONO} text-sm uppercase tracking-[0.1em] rounded-full px-4 py-2`}
                       style={{ border: `1px solid ${colors.chipBorder}` }}
                     >
                       {chip}
