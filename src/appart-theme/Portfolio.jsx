@@ -983,20 +983,16 @@ function Ships() {
       const st = ScrollTrigger.create({
         trigger: stackRef.current,
         start: "top top",
-        end: () => `+=${(cards.length - 1) * 100}%`,
+        end: () => `+=${cards.length * 100}%`,
         pin: true,
         scrub: 0.7,
         onUpdate: (self) => {
-          const total = cards.length - 1;
+          const total = cards.length;
           const raw = self.progress * total;
           cards.forEach((card, i) => {
-            if (i === cards.length - 1) {
-              gsap.set(card, { rotateX: 0, y: 0, z: 0, scale: 1 });
-              return;
-            }
             const localT = gsap.utils.clamp(0, 1, raw - i);
             gsap.set(card, {
-              rotateX: localT * 95,
+              rotateX: localT * 78,
               y: localT * 260,
               scale: 1 - localT * 0.08,
               transformOrigin: "top center",
@@ -1028,7 +1024,7 @@ function Ships() {
             <div
               key={ship.no}
               ref={(el) => (cardEls.current[i] = el)}
-              className="absolute inset-0 flex items-center justify-center px-5 sm:px-8 md:px-24 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
+              className="absolute inset-0 flex items-center justify-center px-5 sm:px-8 md:px-24 [transform-style:preserve-3d] [will-change:transform]"
               style={{ zIndex: SHIPS.length - i }}
             >
               <div
