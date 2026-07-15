@@ -1007,7 +1007,7 @@ function Ships() {
   }, []);
 
   return (
-    <section id="about" className="bg-[#f2f0e7] border-y border-[#171412]/10">
+    <section id="about" className="bg-[#fbf9ef] border-y border-[#171412]/10">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 pt-20 sm:pt-28">
         <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] mb-10`}>
           <Reveal onView>
