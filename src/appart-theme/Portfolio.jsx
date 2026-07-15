@@ -959,6 +959,65 @@ function SeeMoreWork() {
   );
 }
 
+const SHIP_COLORS = [
+  { bg: "#ff3c34", text: "#fbf9ef", sub: "#fbf9ef99", chipBorder: "#fbf9ef40" },
+  { bg: "#171412", text: "#fbf9ef", sub: "#fbf9ef99", chipBorder: "#fbf9ef30" },
+  { bg: "#ffc765", text: "#171412", sub: "#17141299", chipBorder: "#17141230" },
+  { bg: "#282421", text: "#fbf9ef", sub: "#fbf9ef99", chipBorder: "#fbf9ef30" },
+];
+
+function ShipFlipCard({ ship, colors, index }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, ease: EASE_OUT, delay: index * 0.06 }}
+      className="group [perspective:1800px] h-[360px] sm:h-[420px]"
+    >
+      <div className="relative w-full h-full transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+        {/* Front */}
+        <div
+          className="absolute inset-0 rounded-[1.75rem] sm:rounded-[2.25rem] p-8 sm:p-12 flex flex-col justify-between [backface-visibility:hidden]"
+          style={{ backgroundColor: colors.bg, color: colors.text }}
+        >
+          <span className={`${MONO} text-sm`} style={{ color: colors.sub }}>
+            ({ship.no})
+          </span>
+          <h3 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(1.8rem,4vw,2.75rem)] leading-[1.02]`}>
+            {ship.title}
+          </h3>
+        </div>
+        {/* Back */}
+        <div
+          className="absolute inset-0 rounded-[1.75rem] sm:rounded-[2.25rem] p-8 sm:p-12 flex flex-col justify-between [backface-visibility:hidden] [transform:rotateY(180deg)]"
+          style={{ backgroundColor: colors.bg, color: colors.text }}
+        >
+          <div>
+            <span className={`${MONO} text-sm`} style={{ color: colors.sub }}>
+              ({ship.no})
+            </span>
+            <p className="mt-4 text-base sm:text-lg leading-relaxed" style={{ color: colors.sub }}>
+              {ship.body}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {ship.chips.map((chip) => (
+              <span
+                key={chip}
+                className={`${MONO} text-[11px] uppercase tracking-[0.1em] rounded-full px-3 py-1`}
+                style={{ border: `1px solid ${colors.chipBorder}` }}
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function Ships() {
   return (
     <section id="about" className="bg-[#f2f0e7] border-y border-[#171412]/10">
@@ -970,36 +1029,9 @@ function Ships() {
             </span>
           </Reveal>
         </h2>
-        <div className="grid md:grid-cols-2 gap-x-14 gap-y-14">
+        <div className="grid md:grid-cols-2 gap-6">
           {SHIPS.map((ship, shipIndex) => (
-            <motion.div
-              key={ship.no}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.55, ease: EASE_OUT, delay: (shipIndex % 2) * 0.12 }}
-              className="border-t border-[#171412] pt-6"
-            >
-              <span className={`${MONO} text-xs text-[#ff3c34]`}>({ship.no})</span>
-              <h3 className={`${DISPLAY} font-bold tracking-[-0.01em] text-2xl sm:text-[1.7rem] mt-3 mb-4`}>
-                {ship.title}
-              </h3>
-              <p className="text-[#171412]/70 leading-relaxed mb-6">{ship.body}</p>
-              <div className="flex flex-wrap gap-2">
-                {ship.chips.map((chip, chipIndex) => (
-                  <motion.span
-                    key={chip}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.35, ease: EASE_OUT, delay: 0.2 + chipIndex * 0.05 }}
-                    className={`${MONO} text-[11px] uppercase tracking-[0.1em] border border-[#171412]/20 rounded-full px-3 py-1 hover:border-[#ff3c34] hover:text-[#ff3c34] transition-colors cursor-default`}
-                  >
-                    {chip}
-                  </motion.span>
-                ))}
-              </div>
-            </motion.div>
+            <ShipFlipCard key={ship.no} ship={ship} colors={SHIP_COLORS[shipIndex % SHIP_COLORS.length]} index={shipIndex} />
           ))}
         </div>
       </div>
