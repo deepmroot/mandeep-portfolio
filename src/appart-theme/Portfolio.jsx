@@ -93,24 +93,28 @@ const SHIPS = [
     no: "01",
     title: "Product engineering, end to end.",
     body: "From empty repo to production URL. I design the architecture, build the interface, wire the backend and ship it — React, Next.js and TypeScript doing the heavy lifting.",
+    highlights: ["Component architecture that survives feature creep", "API design shared cleanly between web and mobile", "CI checks that catch regressions before users do"],
     chips: ["React", "Next.js 15", "TypeScript", "Tailwind", "Zustand"],
   },
   {
     no: "02",
     title: "AI that does real work.",
     body: "Not chatbots bolted on for show. Agent workflows that screen tenants, generate exams and match suppliers — with the prompt engineering, fallbacks and cost control that production demands.",
+    highlights: ["Multi-provider fallbacks so one outage doesn't take down the product", "Structured output parsing instead of hopeful regex", "Token spend tracked per feature, not guessed at"],
     chips: ["LLM Agents", "Gemini", "OpenAI", "Ollama", "RAG"],
   },
   {
     no: "03",
     title: "SaaS infrastructure that takes money.",
     body: "Subscriptions, checkout, auth lifecycles, webhooks. Two of my products run real billing in production — Stripe events, WorkOS identity and all the edge cases in between.",
+    highlights: ["Webhook handling that survives retries and duplicate events", "Auth flows covering invites, roles and session edge cases", "Billing states reconciled instead of trusted blindly"],
     chips: ["Stripe", "WorkOS", "Supabase", "Convex", "PostgreSQL"],
   },
   {
     no: "04",
     title: "Systems and tooling.",
     body: "Below the web layer: a Rust terminal runtime with async streaming, CI/CD pipelines with deploy gates, and the DevOps glue that keeps everything live.",
+    highlights: ["Async streaming without blocking the main thread", "Deploy gates that stop bad builds before prod", "Infra glue documented well enough to hand off"],
     chips: ["Rust", "Tokio", "GitHub Actions", "Docker", "Vercel"],
   },
 ];
@@ -1040,6 +1044,17 @@ function Ships() {
                 <p className="mt-7 text-lg sm:text-xl leading-relaxed max-w-2xl" style={{ color: colors.sub }}>
                   {ship.body}
                 </p>
+                <ul className="mt-8 flex flex-col gap-3 max-w-xl">
+                  {ship.highlights.map((line) => (
+                    <li key={line} className="flex items-start gap-3 text-base sm:text-lg leading-snug">
+                      <span
+                        className="mt-2.5 w-1.5 h-1.5 rounded-full shrink-0"
+                        style={{ backgroundColor: colors.text }}
+                      />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
                 <div className="flex flex-wrap gap-2.5 mt-9">
                   {ship.chips.map((chip) => (
                     <span
