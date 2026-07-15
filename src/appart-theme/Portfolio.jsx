@@ -983,14 +983,15 @@ function Ships() {
       const st = ScrollTrigger.create({
         trigger: stackRef.current,
         start: "top top",
-        end: () => `+=${cards.length * 100}%`,
+        end: () => `+=${(cards.length - 1 + 0.4) * 100}%`,
         pin: true,
         scrub: 0.7,
         onUpdate: (self) => {
-          const total = cards.length;
+          const total = cards.length - 1 + 0.4;
           const raw = self.progress * total;
           cards.forEach((card, i) => {
-            const localT = gsap.utils.clamp(0, 1, raw - i);
+            const segLen = i === cards.length - 1 ? 0.4 : 1;
+            const localT = gsap.utils.clamp(0, 1, (raw - i) / segLen);
             gsap.set(card, {
               rotateX: -localT * 60,
               y: -localT * 900,
