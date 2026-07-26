@@ -1072,14 +1072,20 @@ function Ships() {
         onUpdate: (self) => {
           const total = cards.length - 1 + 0.4;
           const raw = self.progress * total;
+          const lift = window.innerHeight * 1.05;
           cards.forEach((card, i) => {
             const segLen = i === cards.length - 1 ? 0.4 : 1;
-            const localT = gsap.utils.clamp(0, 1, (raw - i) / segLen);
+            // brandappart tiles_stack: waiting cards sit in a deck (y +52px,
+            // z -40px per layer) and promote linearly while the front card
+            // lifts straight off-screen with only a ~15deg tip-back.
+            const exitT = gsap.utils.clamp(0, 1, (raw - i) / segLen);
+            const depth = Math.max(0, i - raw);
             gsap.set(card, {
-              rotateX: -localT * 60,
-              y: -localT * 900,
-              scale: 1 - localT * 0.08,
-              transformOrigin: "top center",
+              y: depth * 52 - exitT * lift,
+              z: -depth * 40,
+              rotateX: exitT * 15,
+              scale: 1,
+              transformOrigin: "50% 0%",
             });
           });
         },
