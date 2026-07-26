@@ -28,5 +28,6 @@ Design spec + working rules. Follow always, no need to re-ask.
 ## Content facts (don't invent)
 
 - User: Mandeep Singh, Systems Analyst at City of Merritt (started June 1 2026), alongside BCS Computing Science at TRU (expected 2026, CGPA 4.0).
-- Real products live: InferenceSaver, RentSpace, SyntaxArk, Generic Alternatives, PromptLine, QuickTest AI, BecomeAfish.
+- Real products live: InferenceSaver, RentSpace, SyntaxArk, Generic Alternatives, PromptLine, QuickTest AI, BecomeAfish, agentmemory (agent-memory.dev), brainrot (OSS), Preflight (Amazon Nova Hackathon).
+- Client work section: The Wandering Bar (thewanderingbar.vercel.app), Kami Drywall & Renovation (kamloops-drywall.vercel.app) — both Kamloops, BC.
 - City of Merritt "NOW" row description text is a placeholder guess — confirm real duties with user before treating as fact.

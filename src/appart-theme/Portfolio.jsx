@@ -68,6 +68,38 @@ const WORKS = [
     aspect: "aspect-[4/3]",
   },
   {
+    title: "agentmemory",
+    type: "AI Infrastructure",
+    year: "2026",
+    blurb: "MCP-native persistent memory for AI coding agents — capture every session, recall in milliseconds, run anywhere.",
+    href: "https://agent-memory.dev",
+    repo: "https://github.com/deepmroot/agentmemory",
+    thumb: "/thumbs/agentmemory.jpg",
+    span: "md:col-span-2",
+    aspect: "aspect-video",
+  },
+  {
+    title: "brainrot",
+    type: "Open Source",
+    year: "2026",
+    blurb: "Cross-agent doomscroll mode — opens a short-form feed while your AI codes, hides it when the agent needs you.",
+    href: "https://github.com/deepmroot/brainrot",
+    thumb: "/thumbs/brainrot.jpg",
+    span: "",
+    aspect: "aspect-[2/1]",
+  },
+  {
+    title: "Preflight",
+    type: "AI Agent",
+    year: "2026",
+    blurb: "Multimodal launch-readiness scanner — reviews code and UI together, flags blockers before demo day.",
+    href: "https://preflight-frontend-sepia.vercel.app",
+    repo: "https://github.com/deepmroot/preflight",
+    thumb: "/thumbs/preflight.jpg",
+    span: "",
+    aspect: "aspect-[2/1]",
+  },
+  {
     title: "Generic Alternatives",
     type: "Supply Chain AI",
     year: "2025",
@@ -79,13 +111,38 @@ const WORKS = [
   },
 ];
 
+const CLIENT_WORK = [
+  {
+    title: "The Wandering Bar",
+    type: "Client · Mobile Bar",
+    year: "2026",
+    blurb: "Luxury mobile bartending service in Kamloops, BC — booking-focused site with packages, gallery and dry-hire flows.",
+    href: "https://thewanderingbar.vercel.app",
+    thumb: "/thumbs/thewanderingbar.jpg",
+    span: "",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    title: "Kami Drywall & Renovation",
+    type: "Client · Contractor",
+    year: "2026",
+    blurb: "Conversion-focused site for a Kamloops drywall and renovation contractor — quote-first, fast, static.",
+    href: "https://kamloops-drywall.vercel.app",
+    thumb: "/thumbs/kamloopsdrywall.jpg",
+    span: "",
+    aspect: "aspect-[4/3]",
+  },
+];
+
 const SEE_MORE_ITEMS = [
   { thumb: "/thumbs/becomeafish.jpg", tilt: -6 },
   { thumb: "/thumbs/rentspace.jpg", tilt: 9 },
   { thumb: "/thumbs/inferencesaver.jpg", tilt: -5 },
   { thumb: "/thumbs/syntaxark.jpg", tilt: 7 },
-  { thumb: "/thumbs/promptline.jpg", tilt: -8 },
-  { thumb: "/thumbs/genericalternatives.jpg", tilt: 6 },
+  { thumb: "/thumbs/agentmemory.jpg", tilt: -8 },
+  { thumb: "/thumbs/promptline.jpg", tilt: 6 },
+  { thumb: "/thumbs/thewanderingbar.jpg", tilt: -7 },
+  { thumb: "/thumbs/genericalternatives.jpg", tilt: 8 },
 ];
 
 const SHIPS = [
@@ -120,12 +177,12 @@ const SHIPS = [
 ];
 
 const KPIS = [
-  { value: 7, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "products live" },
+  { value: 9, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "products live" },
   { value: 2, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "with real billing" },
   { value: 4.0, format: (n) => n.toFixed(1), label: "CGPA at TRU" },
 ];
 
-const TICKER_ITEMS = ["SyntaxArk", "InferenceSaver", "RentSpace", "BecomeAfish", "PromptLine", "React", "Next.js", "Rust", "Convex", "Stripe", "Supabase"];
+const TICKER_ITEMS = ["SyntaxArk", "InferenceSaver", "agentmemory", "RentSpace", "BecomeAfish", "PromptLine", "brainrot", "React", "Next.js", "Rust", "Convex", "Stripe", "Supabase"];
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -231,6 +288,7 @@ export default function Portfolio() {
         />
         <WorksIntro />
         <Works />
+        <ClientWork />
         <SeeMoreWork />
         <Ships />
         <Kpis />
@@ -844,6 +902,31 @@ function Works() {
             </div>
           )
         )}
+      </div>
+    </section>
+  );
+}
+
+function ClientWork() {
+  return (
+    <section id="client-work" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pt-20 sm:pt-28 pb-10 sm:pb-14">
+      <div className="max-w-[92rem] mx-auto">
+        <motion.div {...fadeUp} className="mb-10 sm:mb-14">
+          <span className={`${MONO} text-[10px] uppercase tracking-[0.25em] text-[#ff3c34]`}>
+            Client work
+          </span>
+          <h2 className={`${DISPLAY} mt-3 font-extrabold tracking-[-0.04em] leading-[0.95] text-[clamp(2.2rem,5vw,4rem)]`}>
+            Built for local business.
+          </h2>
+          <p className="mt-4 max-w-xl text-[#171412]/60 text-base sm:text-lg leading-snug">
+            Real clients, real deadlines — sites designed, built and shipped for businesses in Kamloops, BC.
+          </p>
+        </motion.div>
+        <div className="grid md:grid-cols-2 items-start gap-x-5 gap-y-5">
+          {CLIENT_WORK.map((work, i) => (
+            <ProjectShowcase key={work.title} work={work} index={i} />
+          ))}
+        </div>
       </div>
     </section>
   );
