@@ -7,6 +7,8 @@ import {
   UserIcon,
   ReadCvLogoIcon,
   EnvelopeSimpleIcon,
+  GithubLogoIcon,
+  LinkedinLogoIcon,
 } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -1289,20 +1291,20 @@ function Contact() {
       <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-28 sm:py-40 flex flex-col items-center text-center">
         <motion.div {...fadeUp} className="flex items-center gap-2.5 mb-14">
           {[
-            { label: "GH", href: LINKS.github, title: "GitHub", external: true },
-            { label: "LK", href: LINKS.linkedin, title: "LinkedIn", external: true },
-            { label: "CV", href: LINKS.resume, title: "Resume", external: true },
-            { label: "@", href: LINKS.email, title: "Email" },
+            { icon: GithubLogoIcon, href: LINKS.github, title: "GitHub", external: true },
+            { icon: LinkedinLogoIcon, href: LINKS.linkedin, title: "LinkedIn", external: true },
+            { icon: ReadCvLogoIcon, href: LINKS.resume, title: "Resume", external: true },
+            { icon: EnvelopeSimpleIcon, href: LINKS.email, title: "Email" },
           ].map((s) => (
             <a
-              key={s.label}
+              key={s.title}
               href={s.href}
               title={s.title}
               aria-label={s.title}
               {...(s.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className={`${DISPLAY} w-12 h-12 rounded-xl border border-[#fbf9ef]/15 bg-[#fbf9ef]/5 flex items-center justify-center text-sm font-extrabold hover:bg-[#ff3c34] hover:border-[#ff3c34] transition-colors`}
+              className={`w-12 h-12 rounded-xl border border-[#fbf9ef]/15 bg-[#fbf9ef]/5 flex items-center justify-center hover:bg-[#ff3c34] hover:border-[#ff3c34] transition-colors`}
             >
-              {s.label}
+              <s.icon className="w-5 h-5" weight="fill" />
             </a>
           ))}
         </motion.div>
