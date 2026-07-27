@@ -292,6 +292,7 @@ export default function Portfolio() {
         <SeeMoreWork />
         <Ships />
         <Kpis />
+        <ProductFan />
         <Contact />
         <Footer />
       </main>
@@ -528,7 +529,14 @@ function Hero() {
         <h1 className={`${DISPLAY} font-extrabold tracking-[-0.035em] leading-[0.92] text-[clamp(3rem,10.5vw,8.75rem)]`}>
           <Reveal delay={0.1}>
             <span>
-              The developer<span className="text-[#ff3c34] text-[0.85em] align-baseline">©</span>
+              The developer
+              <motion.span
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 7, ease: "linear" }}
+                className="inline-block text-[#ff3c34] text-[0.85em] align-baseline"
+              >
+                ©
+              </motion.span>
             </span>
           </Reveal>
           <Reveal delay={0.22}>who ships real</Reveal>
@@ -1222,47 +1230,100 @@ function Kpis() {
   );
 }
 
+const FAN_CARDS = [
+  { thumb: "/thumbs/inferencesaver.jpg", title: "InferenceSaver", step: -2, rotate: 6.6 },
+  { thumb: "/thumbs/rentspace.jpg", title: "RentSpace", step: -1, rotate: -2.2 },
+  { thumb: "/thumbs/becomeafish.jpg", title: "BecomeAfish", step: 0, rotate: 1.9 },
+  { thumb: "/thumbs/agentmemory.jpg", title: "agentmemory", step: 1, rotate: -1.4 },
+  { thumb: "/thumbs/syntaxark.jpg", title: "SyntaxArk", step: 2, rotate: 8.5 },
+];
+
+// brandappart cards_stack: cards start piled in the middle and fan out
+// horizontally with slight rotations once the section scrolls into view.
+function ProductFan() {
+  return (
+    <section className="bg-[#fbf9ef] text-[#171412] overflow-hidden pb-24 sm:pb-32">
+      <h2
+        className={`${DISPLAY} px-5 text-center font-extrabold tracking-[-0.045em] leading-[0.9] text-[clamp(2.8rem,8vw,6.5rem)]`}
+      >
+        <Reveal onView>Shipped, live,</Reveal>
+        <Reveal onView delay={0.12}>
+          <span className="text-[#8e827c]">in real hands</span>
+        </Reveal>
+      </h2>
+      <div className="relative mt-14 sm:mt-20 h-[19rem] sm:h-[24rem]">
+        {FAN_CARDS.map((card) => (
+          <motion.div
+            key={card.title}
+            initial={{ x: "-50%", rotate: 0, y: 40, opacity: 0 }}
+            whileInView={{
+              x: `${-50 + card.step * 90}%`,
+              rotate: card.rotate,
+              y: card.step % 2 === 0 ? 0 : 14,
+              opacity: 1,
+            }}
+            viewport={{ once: true, margin: "-15%" }}
+            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.15 + Math.abs(card.step) * 0.08 }}
+            className="absolute left-1/2 top-0 w-44 sm:w-56 md:w-64 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-[#171412]/10 bg-[#282421]"
+            style={{ zIndex: 10 - Math.abs(card.step) }}
+          >
+            <div className="aspect-[3/4]">
+              <img src={card.thumb} alt={card.title} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
+            </div>
+            <div className="absolute bottom-0 inset-x-0 flex items-center justify-between bg-[#171412]/80 backdrop-blur-md px-4 py-3">
+              <span className={`${DISPLAY} text-white font-extrabold text-xs sm:text-sm tracking-tight`}>
+                {card.title}
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3c34]" />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Contact() {
   return (
     <section id="contact" data-dark-section className="bg-[#171412] text-[#fbf9ef]">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-24 sm:py-32">
-        <motion.p {...fadeUp} className={`${MONO} text-xs uppercase tracking-[0.25em] text-[#ffc765] mb-6`}>
-          Contact
-        </motion.p>
-        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.03em] leading-[0.98] text-[clamp(2.5rem,7vw,5.5rem)] mb-12`}>
-          <Reveal onView>Make every sprint</Reveal>
-          <Reveal onView delay={0.12}>
-            <span>
-              pay for itself<span className="text-[#ff3c34]">.</span>
-            </span>
-          </Reveal>
-        </h2>
-        <motion.div {...fadeUp} className="flex flex-wrap items-center gap-4">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-28 sm:py-40 flex flex-col items-center text-center">
+        <motion.div {...fadeUp} className="flex items-center gap-2.5 mb-14">
+          {[
+            { label: "GH", href: LINKS.github, title: "GitHub", external: true },
+            { label: "LK", href: LINKS.linkedin, title: "LinkedIn", external: true },
+            { label: "CV", href: LINKS.resume, title: "Resume", external: true },
+            { label: "@", href: LINKS.email, title: "Email" },
+          ].map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              title={s.title}
+              aria-label={s.title}
+              {...(s.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className={`${DISPLAY} w-12 h-12 rounded-xl border border-[#fbf9ef]/15 bg-[#fbf9ef]/5 flex items-center justify-center text-sm font-extrabold hover:bg-[#ff3c34] hover:border-[#ff3c34] transition-colors`}
+            >
+              {s.label}
+            </a>
+          ))}
+        </motion.div>
+        <motion.h2
+          {...fadeUp}
+          className={`${DISPLAY} font-extrabold tracking-[-0.03em] leading-[0.95] text-[clamp(2.8rem,8.5vw,7rem)] mb-12 bg-gradient-to-br from-[#ff3c34] via-[#ffc765] to-[#fbf9ef] bg-clip-text text-transparent`}
+        >
+          Make every sprint
+          <br />
+          pay for itself!
+        </motion.h2>
+        <motion.div {...fadeUp}>
           <motion.a
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             href={LINKS.email}
-            className="group inline-flex items-center gap-2 rounded-full bg-[#ff3c34] text-[#fbf9ef] font-semibold px-8 py-4 hover:bg-[#ffc765] hover:text-[#171412] transition-colors"
+            className="group inline-flex items-center gap-2 rounded-full bg-[#fbf9ef] text-[#171412] font-semibold px-8 py-4 hover:bg-[#ff3c34] hover:text-[#fbf9ef] transition-colors"
           >
             mandeepsinghwani@gmail.com
             <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </motion.a>
-          <a
-            href={LINKS.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${MONO} text-sm uppercase tracking-[0.15em] text-[#fbf9ef]/70 hover:text-[#fbf9ef] transition-colors px-3 py-2`}
-          >
-            LinkedIn
-          </a>
-          <a
-            href={LINKS.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${MONO} text-sm uppercase tracking-[0.15em] text-[#fbf9ef]/70 hover:text-[#fbf9ef] transition-colors px-3 py-2`}
-          >
-            GitHub
-          </a>
         </motion.div>
       </div>
     </section>
