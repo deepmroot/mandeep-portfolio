@@ -399,29 +399,32 @@ function SideNav() {
       </motion.nav>
       </div>
 
-      {/* Mobile: bottom dock */}
-      <motion.nav
-        initial={{ y: 24, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.3 }}
-        aria-label="Site"
-        className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex gap-1.5 p-1.5 rounded-2xl border border-[#171412]/10 bg-[#fbf9ef]/90 backdrop-blur shadow-xl"
-      >
-        {NAV_ITEMS.map((item) => {
-          const Icon = item.icon;
-          return (
-            <a
-              key={item.label}
-              href={item.href}
-              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              aria-label={item.label}
-              className="flex items-center justify-center w-11 h-11 rounded-xl text-[#171412]/70 transition-colors active:bg-[#171412] active:text-[#fbf9ef]"
-            >
-              <Icon className="w-5 h-5" weight="fill" />
-            </a>
-          );
-        })}
-      </motion.nav>
+      {/* Mobile: bottom dock. Outer div owns the centering transform — framer's
+          entrance animation would overwrite it on the same node. */}
+      <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-40">
+        <motion.nav
+          initial={{ y: 24, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.3 }}
+          aria-label="Site"
+          className="flex gap-1.5 p-1.5 rounded-2xl border border-[#171412]/10 bg-[#fbf9ef]/90 backdrop-blur shadow-xl"
+        >
+          {NAV_ITEMS.map((item) => {
+            const Icon = item.icon;
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                aria-label={item.label}
+                className="flex items-center justify-center w-11 h-11 rounded-xl text-[#171412]/70 transition-colors active:bg-[#171412] active:text-[#fbf9ef]"
+              >
+                <Icon className="w-5 h-5" weight="fill" />
+              </a>
+            );
+          })}
+        </motion.nav>
+      </div>
     </>
   );
 }
