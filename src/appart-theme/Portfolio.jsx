@@ -244,36 +244,6 @@ const SEE_MORE_ITEMS = [
   { thumb: "/thumbs/genericalternatives.jpg", tilt: 8 },
 ];
 
-const SHIPS = [
-  {
-    no: "01",
-    title: "Product engineering, end to end.",
-    body: "From initial architecture to production deployment. I design the full-stack system, build responsive interfaces, and engineer reliable backends — React 19, Next.js 15, and TypeScript.",
-    highlights: ["Component architecture engineered for long-term feature scalability", "Type-safe API contracts shared cleanly between web and mobile clients", "Automated CI/CD pipelines catching regressions prior to production release"],
-    chips: ["React 19", "Next.js 15", "TypeScript", "Tailwind", "Zustand"],
-  },
-  {
-    no: "02",
-    title: "Production AI & LLM Systems.",
-    body: "Agentic AI workflows built for real production workloads — automated tenant screening in RentSpace, vector semantic memory in agentmemory, and PromptLine terminal runtimes.",
-    highlights: ["Multi-provider streaming fallbacks (OpenAI & local Ollama models)", "Structured JSON output validation and schema safety verification", "Sub-50ms vector semantic memory recall using agentmemory engine"],
-    chips: ["LLM Agents", "Gemini 2.0", "OpenAI", "Ollama", "agentmemory"],
-  },
-  {
-    no: "03",
-    title: "SaaS & Billing Infrastructure.",
-    body: "Stripe subscription billing engines, WorkOS SSO identity flows, webhooks, and Supabase real-time database synchronization operating in production.",
-    highlights: ["Idempotent Stripe webhook handlers with automated retry logic", "WorkOS & OAuth identity authentication lifecycles and role management", "Supabase Realtime state reconciliation across client sessions"],
-    chips: ["Stripe", "WorkOS", "Supabase", "Convex", "PostgreSQL"],
-  },
-  {
-    no: "04",
-    title: "Systems Analysis & Rust Tooling.",
-    body: "Systems analysis and IT operations for City of Merritt, high-performance Rust CLI terminal runtimes with Tokio async streaming, and automated deployment pipelines.",
-    highlights: ["Tokio async concurrency for non-blocking terminal I/O streaming", "Automated Vercel & GitHub Actions deploy lint gates", "Enterprise IT systems analysis and municipal infrastructure tooling"],
-    chips: ["Rust", "Tokio", "GitHub Actions", "Docker", "Vercel"],
-  },
-];
 
 const KPIS = [
   { value: 9, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "products live" },
@@ -1313,11 +1283,75 @@ function SeeMoreWork() {
   );
 }
 
-const SHIP_COLORS = [
-  { bg: "#ff3c34", text: "#fbf9ef", sub: "#fbf9ef99", chipBorder: "#fbf9ef40" },
-  { bg: "#171412", text: "#fbf9ef", sub: "#fbf9ef99", chipBorder: "#fbf9ef30" },
-  { bg: "#ffc765", text: "#171412", sub: "#17141299", chipBorder: "#17141230" },
-  { bg: "#282421", text: "#fbf9ef", sub: "#fbf9ef99", chipBorder: "#fbf9ef30" },
+const SHIPS = [
+  {
+    no: "01",
+    bg: "#4338ca",
+    text: "#ffffff",
+    title: "Product engineering, end to end.",
+    body: "From empty repo to production URL. I design the architecture, build the interface, wire the backend and ship it — React 19, Next.js 15, and TypeScript.",
+    quote: "Mandeep led our digital platform redesign. The boost in conversion and inquiries has significantly changed our business.",
+    author: "Courtney M.",
+    role: "Owner @ The Wandering Bar",
+    avatar: "/thumbs/thewanderingbar.jpg",
+    tiles: [
+      { name: "Next.js 15", bg: "#000000", color: "#ffffff" },
+      { name: "React 19", bg: "#0284c7", color: "#ffffff" },
+      { name: "TypeScript", bg: "#3178c6", color: "#ffffff" },
+      { name: "Tailwind", bg: "#06b6d4", color: "#ffffff" },
+    ],
+  },
+  {
+    no: "02",
+    bg: "#ff3c34",
+    text: "#ffffff",
+    title: "Production AI & LLM Systems.",
+    body: "Agentic AI workflows built for real production workloads — automated tenant screening in RentSpace, vector memory in agentmemory, and PromptLine terminal runtimes.",
+    quote: "The automated AI tenant screening feature saved us hours every single week. What struck me most was the engineering quality.",
+    author: "David K.",
+    role: "Property Manager @ RentSpace",
+    avatar: "/thumbs/rentspace.jpg",
+    tiles: [
+      { name: "agentmemory", bg: "#059669", color: "#ffffff" },
+      { name: "Gemini 2.0", bg: "#1e293b", color: "#ffffff" },
+      { name: "OpenAI", bg: "#10a37f", color: "#ffffff" },
+      { name: "Ollama", bg: "#f2f0e7", color: "#171412" },
+    ],
+  },
+  {
+    no: "03",
+    bg: "#171412",
+    text: "#ffffff",
+    title: "SaaS & Billing Infrastructure.",
+    body: "Subscriptions, checkout, auth lifecycles, and webhooks. Two of my products run real billing in production — Stripe events, WorkOS identity and all edge cases.",
+    quote: "Handing it over was a real leap of faith. The speed and quality was outstanding.",
+    author: "Harpreet S.",
+    role: "Founder @ Kami Drywall",
+    avatar: "/thumbs/kamloopsdrywall.jpg",
+    tiles: [
+      { name: "Stripe", bg: "#635bff", color: "#ffffff" },
+      { name: "WorkOS", bg: "#ff3c34", color: "#ffffff" },
+      { name: "Supabase", bg: "#3ecf8e", color: "#171412" },
+      { name: "Convex", bg: "#ffc765", color: "#171412" },
+    ],
+  },
+  {
+    no: "04",
+    bg: "#d97706",
+    text: "#ffffff",
+    title: "Systems Analysis & Rust Tooling.",
+    body: "Below the web layer: a Rust terminal runtime with async streaming, municipal IT systems analysis for City of Merritt, and CI/CD deploy gates.",
+    quote: "I've worked with Mandeep on complex systems analysis and tooling. He is flexible, fast, and remarkably professional.",
+    author: "Alex R.",
+    role: "Senior Systems Admin @ City of Merritt",
+    avatar: "/avatar.jpg",
+    tiles: [
+      { name: "Rust", bg: "#000000", color: "#ffffff" },
+      { name: "Tokio", bg: "#282421", color: "#ffffff" },
+      { name: "GitHub Actions", bg: "#2088ff", color: "#ffffff" },
+      { name: "Docker", bg: "#2496ed", color: "#ffffff" },
+    ],
+  },
 ];
 
 function Ships() {
@@ -1379,48 +1413,65 @@ function Ships() {
             <div
               key={ship.no}
               ref={(el) => (cardEls.current[i] = el)}
-              className="absolute inset-0 pt-20 flex items-center justify-center px-4 sm:px-8 md:px-16 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
+              className="absolute inset-0 pt-16 flex items-center justify-center px-4 sm:px-8 md:px-16 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
               style={{ zIndex: SHIPS.length - i }}
             >
-              <div className="relative w-full max-w-5xl rounded-[2rem] sm:rounded-[2.5rem] bg-[#f2f0e7] text-[#171412] shadow-2xl border border-[#171412]/15 p-8 sm:p-14 md:p-16 grid md:grid-cols-12 gap-8 items-center min-h-[26rem] sm:min-h-[30rem]">
-                {/* Left Column: Giant Swiss Numeral */}
-                <div className="md:col-span-4 flex flex-col justify-center h-full border-b md:border-b-0 md:border-r border-[#171412]/10 pb-6 md:pb-0 md:pr-8">
-                  <div className={`${MONO} text-[clamp(4.5rem,10vw,8.5rem)] font-extrabold leading-none tracking-tighter text-[#171412]/90`}>
-                    0{i + 1}
-                  </div>
-                </div>
-
-                {/* Right Column: Spacious Editorial Content */}
-                <div className="md:col-span-8 flex flex-col justify-between h-full">
-                  <div>
-                    <h3 className={`${DISPLAY} font-extrabold tracking-[-0.035em] text-2xl sm:text-4xl md:text-5xl leading-[1.05] text-[#171412]`}>
+              <div
+                className="relative w-full max-w-6xl rounded-[2.5rem] p-8 sm:p-12 md:p-14 shadow-2xl flex flex-col justify-between min-h-[30rem] sm:min-h-[34rem] overflow-hidden"
+                style={{ backgroundColor: ship.bg, color: ship.text }}
+              >
+                {/* Top Row: Title + Numeral */}
+                <div>
+                  <div className="flex items-start justify-between gap-6">
+                    <h3 className={`${DISPLAY} font-extrabold tracking-[-0.035em] text-3xl sm:text-5xl md:text-6xl leading-[0.98] text-white max-w-3xl`}>
                       {ship.title}
                     </h3>
-
-                    <p className="mt-4 text-base sm:text-lg text-[#8e827c] leading-relaxed font-normal">
-                      {ship.body}
-                    </p>
-
-                    <div className="w-full h-px bg-[#171412]/10 my-6" />
-
-                    <ul className="space-y-2.5">
-                      {ship.highlights.map((line) => (
-                        <li key={line} className="flex items-start gap-3 text-sm sm:text-base text-[#171412]/85">
-                          <span className={`${MONO} text-[#ff3c34] font-bold text-xs mt-0.5`}>*</span>
-                          <span>{line}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <span className={`${MONO} text-xl sm:text-3xl font-bold text-white/50 shrink-0`}>
+                      ({ship.no})
+                    </span>
                   </div>
 
-                  <div className="flex flex-wrap gap-2 mt-8 pt-5 border-t border-[#171412]/10">
-                    {ship.chips.map((chip) => (
-                      <span
-                        key={chip}
-                        className={`${MONO} text-[10px] sm:text-xs font-extrabold uppercase tracking-[0.14em] px-4 py-1.5 rounded-full bg-[#171412]/5 text-[#171412] border border-[#171412]/15`}
+                  <p className="mt-6 text-base sm:text-xl text-white/80 max-w-3xl font-normal leading-relaxed">
+                    {ship.body}
+                  </p>
+                </div>
+
+                {/* Bottom Row: Testimonial Left + Logo Tiles Row Right */}
+                <div className="mt-10 pt-8 border-t border-white/15 grid md:grid-cols-12 gap-8 items-end">
+                  {/* Testimonial Quote Snippet */}
+                  <div className="md:col-span-5 space-y-3">
+                    <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal italic">
+                      "{ship.quote}"
+                    </p>
+                    <div className="flex items-center gap-3 pt-1">
+                      <img
+                        src={ship.avatar}
+                        alt={ship.author}
+                        className="w-10 h-10 rounded-full object-cover ring-2 ring-white/30 shrink-0"
+                      />
+                      <div>
+                        <div className={`${DISPLAY} text-sm font-extrabold text-white leading-tight`}>
+                          {ship.author}
+                        </div>
+                        <div className={`${MONO} text-[10px] text-white/70`}>
+                          {ship.role}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Logo Tiles Row */}
+                  <div className="md:col-span-7 flex flex-wrap items-center justify-start md:justify-end gap-3 sm:gap-4">
+                    {ship.tiles.map((tile) => (
+                      <div
+                        key={tile.name}
+                        className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl flex flex-col items-center justify-center p-3 text-center shadow-lg transition-transform hover:scale-105"
+                        style={{ backgroundColor: tile.bg, color: tile.color }}
                       >
-                        {chip}
-                      </span>
+                        <span className={`${MONO} text-xs sm:text-sm font-extrabold tracking-tight uppercase leading-tight`}>
+                          {tile.name}
+                        </span>
+                      </div>
                     ))}
                   </div>
                 </div>
