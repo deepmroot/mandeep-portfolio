@@ -1342,16 +1342,13 @@ function Ships() {
           const lift = window.innerHeight * 1.05;
           cards.forEach((card, i) => {
             const segLen = i === cards.length - 1 ? 0.4 : 1;
-            // brandappart tiles_stack: waiting cards sit in a deck (y +52px,
-            // z -40px per layer) and promote linearly while the front card
-            // lifts straight off-screen with only a ~15deg tip-back.
             const exitT = gsap.utils.clamp(0, 1, (raw - i) / segLen);
             const depth = Math.max(0, i - raw);
             gsap.set(card, {
-              y: depth * 52 - exitT * lift,
-              z: -depth * 40,
-              rotateX: exitT * 15,
-              scale: 1,
+              y: depth * 42 - exitT * lift,
+              z: -depth * 30,
+              rotateX: exitT * 12,
+              scale: Math.max(0.92, 1 - depth * 0.04),
               transformOrigin: "50% 0%",
             });
           });
@@ -1366,7 +1363,7 @@ function Ships() {
   return (
     <section id="about" className="bg-[#fbf9ef]">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 pt-20 sm:pt-28">
-        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] mb-10`}>
+        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] mb-10 text-[#171412]`}>
           <Reveal onView>
             <span>
               What I ship<span className="text-[#ff3c34]">.</span>
@@ -1374,50 +1371,136 @@ function Ships() {
           </Reveal>
         </h2>
       </div>
+
       <div ref={stackRef} className="relative h-screen [perspective:2200px] overflow-hidden">
         {SHIPS.map((ship, i) => {
-          const colors = SHIP_COLORS[i % SHIP_COLORS.length];
           return (
             <div
               key={ship.no}
               ref={(el) => (cardEls.current[i] = el)}
-              className="absolute inset-0 flex items-center justify-center px-5 sm:px-8 md:px-24 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
+              className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 md:px-16 [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]"
               style={{ zIndex: SHIPS.length - i }}
             >
-              <div
-                className="relative w-full max-w-7xl rounded-[1.75rem] sm:rounded-[2.5rem] p-10 sm:p-16 md:p-20 shadow-2xl"
-                style={{ backgroundColor: colors.bg, color: colors.text }}
-              >
-                <span className={`${MONO} absolute top-8 right-8 sm:top-12 sm:right-12 text-sm`} style={{ color: colors.sub }}>
-                  ({ship.no})
-                </span>
-                <h3 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2.4rem,5.5vw,4.25rem)] leading-[1.02] max-w-2xl`}>
-                  {ship.title}
-                </h3>
-                <p className="mt-7 text-lg sm:text-xl leading-relaxed max-w-2xl" style={{ color: colors.sub }}>
-                  {ship.body}
-                </p>
-                <ul className="mt-8 flex flex-col gap-3 max-w-xl">
-                  {ship.highlights.map((line) => (
-                    <li key={line} className="flex items-start gap-3 text-base sm:text-lg leading-snug">
+              <div className="relative w-full max-w-6xl rounded-[2rem] sm:rounded-[2.5rem] bg-[#f2f0e7] text-[#171412] shadow-2xl border border-[#171412]/15 overflow-hidden grid md:grid-cols-12 min-h-[28rem] sm:min-h-[32rem]">
+                {/* Left Panel: Clean Editorial Typography */}
+                <div className="md:col-span-6 p-8 sm:p-12 md:p-14 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#171412]/10 bg-[#f2f0e7]">
+                  <div>
+                    <div className="flex items-center justify-between gap-4 mb-6">
+                      <span className={`${MONO} text-xs font-extrabold uppercase tracking-[0.2em] text-[#ff3c34]`}>
+                        ({ship.no}) // CAPABILITY
+                      </span>
+                      <span className={`${MONO} text-[10px] uppercase tracking-[0.14em] text-[#8e827c] bg-[#171412]/5 px-3 py-1 rounded-full border border-[#171412]/10`}>
+                        PRODUCTION READY
+                      </span>
+                    </div>
+
+                    <h3 className={`${DISPLAY} font-extrabold tracking-[-0.03em] text-3xl sm:text-4xl md:text-5xl leading-[1.05] text-[#171412]`}>
+                      {ship.title}
+                    </h3>
+
+                    <p className="mt-5 text-base sm:text-lg leading-relaxed text-[#8e827c] font-normal">
+                      {ship.body}
+                    </p>
+
+                    <ul className="mt-6 space-y-2.5">
+                      {ship.highlights.map((line) => (
+                        <li key={line} className="flex items-start gap-2.5 text-sm sm:text-base text-[#171412]/80">
+                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#ff3c34] shrink-0" />
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mt-8 pt-6 border-t border-[#171412]/10">
+                    {ship.chips.map((chip) => (
                       <span
-                        className="mt-2.5 w-1.5 h-1.5 rounded-full shrink-0"
-                        style={{ backgroundColor: colors.text }}
-                      />
-                      <span>{line}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-2.5 mt-9">
-                  {ship.chips.map((chip) => (
-                    <span
-                      key={chip}
-                      className={`${MONO} text-xs uppercase tracking-[0.1em] rounded-full px-4 py-1.5`}
-                      style={{ border: `1px solid ${colors.chipBorder}` }}
-                    >
-                      {chip}
-                    </span>
-                  ))}
+                        key={chip}
+                        className={`${MONO} text-[10px] sm:text-xs font-extrabold uppercase tracking-[0.12em] px-3.5 py-1.5 rounded-full bg-[#171412]/5 text-[#171412] border border-[#171412]/15`}
+                      >
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right Panel: Dark Micro-UI / Code Wireframe Card */}
+                <div className="md:col-span-6 bg-[#171412] p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden text-[#fbf9ef]">
+                  {/* Top Bar Window Indicators */}
+                  <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-[#ff3c34]/80" />
+                      <div className="w-3 h-3 rounded-full bg-[#ffc765]/80" />
+                      <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
+                      <span className={`${MONO} text-[10px] text-white/50 ml-2 tracking-widest uppercase`}>
+                        {i === 0 ? "arch.tsx — App Router" : i === 1 ? "runtime.rs — Tokio CLI" : i === 2 ? "billing.ts — Stripe Flow" : "analytics.json — System Spec"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[#ff3c34] text-xs font-mono">
+                      <span className="w-2 h-2 rounded-full bg-[#ff3c34] animate-pulse" />
+                      <span>LIVE WORKFLOW</span>
+                    </div>
+                  </div>
+
+                  {/* Wireframe Mockup Visuals per Card */}
+                  {i === 0 && (
+                    <div className={`${MONO} text-xs leading-relaxed text-white/80 space-y-3 bg-[#191614] p-5 rounded-2xl border border-white/10 shadow-inner my-auto`}>
+                      <div className="text-white/40">// Full-Stack Architecture Blueprint</div>
+                      <div className="text-[#ff3c34]">export const <span className="text-white">ProductArchitecture</span> = &#123;</div>
+                      <div className="pl-4">frontend: <span className="text-[#ffc765]">"Next.js 15 App Router + React 19"</span>,</div>
+                      <div className="pl-4">state: <span className="text-[#ffc765]">"Convex Realtime + Zustand"</span>,</div>
+                      <div className="pl-4">pipeline: <span className="text-[#ffc765]">"Vercel CI/CD + Deploy Lint Gate"</span>,</div>
+                      <div className="pl-4">status: <span className="text-emerald-400">"Production Freshness"</span></div>
+                      <div>&#125;;</div>
+                    </div>
+                  )}
+
+                  {i === 1 && (
+                    <div className={`${MONO} text-xs leading-relaxed text-white/80 space-y-3 bg-[#191614] p-5 rounded-2xl border border-white/10 shadow-inner my-auto`}>
+                      <div className="text-white/40">// Rust Async Tokio Terminal Engine</div>
+                      <div className="text-[#ff3c34]">pub struct <span className="text-white">AgentRuntime</span> &#123;</div>
+                      <div className="pl-4">concurrency: <span className="text-[#ffc765]">TokioAsyncStream</span>,</div>
+                      <div className="pl-4">memory_recall: <span className="text-emerald-400">"sub-50ms vector search"</span>,</div>
+                      <div className="pl-4">encryption: <span className="text-[#ffc765]">"Local AES-256 Key Storage"</span>,</div>
+                      <div>&#125;</div>
+                    </div>
+                  )}
+
+                  {i === 2 && (
+                    <div className={`${MONO} text-xs leading-relaxed text-white/80 space-y-3 bg-[#191614] p-5 rounded-2xl border border-white/10 shadow-inner my-auto`}>
+                      <div className="text-white/40">// Stripe Subscription & Supabase Realtime</div>
+                      <div className="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+                        <span>Subscription Tier</span>
+                        <span className="text-emerald-400 font-bold">$49/mo Active</span>
+                      </div>
+                      <div className="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+                        <span>Property Sync (Zillow API)</span>
+                        <span className="text-[#ff3c34] font-bold">100% Synced</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {i === 3 && (
+                    <div className={`${MONO} text-xs leading-relaxed text-white/80 space-y-3 bg-[#191614] p-5 rounded-2xl border border-white/10 shadow-inner my-auto`}>
+                      <div className="text-white/40">// Municipal & Enterprise Systems Audit</div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="bg-white/5 p-3 rounded-xl border border-white/10">
+                          <span className="block text-[10px] text-white/50">UPTIME</span>
+                          <span className="text-emerald-400 font-bold text-base">99.98%</span>
+                        </div>
+                        <div className="bg-white/5 p-3 rounded-xl border border-white/10">
+                          <span className="block text-[10px] text-white/50">CONVERSION</span>
+                          <span className="text-[#ffc765] font-bold text-base">2.4x Growth</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Micro-UI Node Indicators Footer */}
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[10px] text-white/60 font-mono">
+                    <span>ARCHITECTURAL LOGIC</span>
+                    <span className="text-[#ff3c34]">NODE 0{i + 1} // OK</span>
+                  </div>
                 </div>
               </div>
             </div>
