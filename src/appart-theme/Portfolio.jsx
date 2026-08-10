@@ -1384,18 +1384,10 @@ function Ships() {
             >
               <div className="relative w-full max-w-5xl rounded-[2rem] sm:rounded-[2.5rem] bg-[#f2f0e7] text-[#171412] shadow-2xl border border-[#171412]/15 p-8 sm:p-14 md:p-16 grid md:grid-cols-12 gap-8 items-center min-h-[26rem] sm:min-h-[30rem]">
                 {/* Left Column: Giant Swiss Numeral */}
-                <div className="md:col-span-4 flex flex-col justify-between h-full border-b md:border-b-0 md:border-r border-[#171412]/10 pb-6 md:pb-0 md:pr-8">
-                  <div>
-                    <span className={`${MONO} text-xs font-extrabold uppercase tracking-[0.22em] text-[#ff3c34] block mb-4`}>
-                      ({ship.no}) // CAPABILITY
-                    </span>
-                    <div className={`${MONO} text-[clamp(4.5rem,10vw,8.5rem)] font-extrabold leading-none tracking-tighter text-[#171412]/90`}>
-                      0{i + 1}
-                    </div>
+                <div className="md:col-span-4 flex flex-col justify-center h-full border-b md:border-b-0 md:border-r border-[#171412]/10 pb-6 md:pb-0 md:pr-8">
+                  <div className={`${MONO} text-[clamp(4.5rem,10vw,8.5rem)] font-extrabold leading-none tracking-tighter text-[#171412]/90`}>
+                    0{i + 1}
                   </div>
-                  <span className={`${MONO} text-[10px] uppercase tracking-[0.18em] text-[#8e827c] mt-4 block`}>
-                    SWISS EDITORIAL STACK
-                  </span>
                 </div>
 
                 {/* Right Column: Spacious Editorial Content */}
