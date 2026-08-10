@@ -1628,21 +1628,21 @@ function ProductFan() {
           const isThisHovered = hoveredCard === i;
           const isDark = card.theme === "dark";
 
-          // Compute relative step distance from active index for dynamic stack ordering
-          const relativeStep = i - hoveredCard;
+          // Fixed physical slot index (0..4 centered at slot 2) to prevent horizontal shifting on hover
+          const fixedOffsetFromCenter = i - 2;
 
-          // Calculate step displacement and expansion based on screen size
+          // Calculate fixed step displacement for fan expansion
           let stepOffset;
           if (isMobile) {
-            stepOffset = containerHovered ? relativeStep * 48 : relativeStep * 36;
+            stepOffset = containerHovered ? fixedOffsetFromCenter * 52 : fixedOffsetFromCenter * 36;
           } else {
-            stepOffset = containerHovered ? relativeStep * 110 : relativeStep * 75;
+            stepOffset = containerHovered ? fixedOffsetFromCenter * 115 : fixedOffsetFromCenter * 75;
           }
 
           const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.15 : card.rotate;
           const scale = isThisHovered ? (isMobile ? 1.05 : 1.12) : containerHovered ? 1.02 : 1;
-          const yPos = isThisHovered ? (isMobile ? -10 : -20) : Math.abs(relativeStep) % 2 === 0 ? 0 : 12;
-          const zIndex = isThisHovered ? 40 : 10 - Math.abs(relativeStep);
+          const yPos = isThisHovered ? (isMobile ? -14 : -24) : Math.abs(fixedOffsetFromCenter) % 2 === 0 ? 0 : 12;
+          const zIndex = isThisHovered ? 50 : 20 - Math.abs(fixedOffsetFromCenter);
 
           return (
             <motion.div
