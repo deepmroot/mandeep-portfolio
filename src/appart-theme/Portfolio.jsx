@@ -1609,15 +1609,15 @@ function ProductFan() {
           // Fixed physical slot index (-2, -1, 0, 1, 2) centered symmetrically at slot 2
           const fixedOffsetFromCenter = i - 2;
 
-          // Calculate perfectly symmetrical pixel step displacement for fan expansion
+          // Compact brandappart step displacement: tight overlap when resting, elegant fan out on container hover
           let stepPixelOffset;
           if (isMobile) {
-            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 55 : fixedOffsetFromCenter * 38;
+            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 46 : fixedOffsetFromCenter * 30;
           } else {
-            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 140 : fixedOffsetFromCenter * 95;
+            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 96 : fixedOffsetFromCenter * 58;
           }
 
-          const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.2 : card.rotate;
+          const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.25 : card.rotate;
           const scale = isThisHovered ? (isMobile ? 1.05 : 1.1) : isThisActive ? (isMobile ? 1.02 : 1.05) : 1;
           const yPos = isThisHovered ? (isMobile ? -14 : -24) : isThisActive ? (isMobile ? -8 : -14) : Math.abs(fixedOffsetFromCenter) % 2 === 0 ? 0 : 10;
           const zIndex = isThisHovered ? 50 : isThisActive ? 40 : 20 - Math.abs(fixedOffsetFromCenter);
@@ -1637,8 +1637,8 @@ function ProductFan() {
               }}
               transition={{
                 type: "spring",
-                stiffness: 280,
-                damping: 24,
+                stiffness: 220,
+                damping: 22,
                 mass: 0.6,
               }}
               className={`absolute left-1/2 -translate-x-1/2 top-2 sm:top-4 w-[16.5rem] sm:w-[21rem] md:w-[23rem] h-[25.5rem] sm:h-[31rem] md:h-[33rem] rounded-[1.5rem] sm:rounded-[1.75rem] p-5 sm:p-8 flex flex-col justify-between shadow-2xl cursor-pointer [will-change:transform] ${
