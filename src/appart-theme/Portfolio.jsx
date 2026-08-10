@@ -458,7 +458,6 @@ export default function Portfolio() {
               <ClientWork onSelectProject={handleSelectProject} />
               <SeeMoreWork />
               <Ships />
-              <Kpis />
               <ProductFan />
               <Contact />
               <Footer />
@@ -1486,105 +1485,6 @@ function Ships() {
   );
 }
 
-function Kpis() {
-  return (
-    <section className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-20 sm:py-28 border-t border-[#171412]/10">
-      {/* Section Header */}
-      <div className="mb-12">
-        <span className={`${MONO} text-xs font-extrabold uppercase tracking-[0.22em] text-[#ff3c34] block mb-3`}>
-          METRICS & IMPACT
-        </span>
-        <h2 className={`${DISPLAY} font-extrabold tracking-[-0.03em] text-3xl sm:text-5xl text-[#171412]`}>
-          Proof in numbers<span className="text-[#ff3c34]">.</span>
-        </h2>
-      </div>
-
-      {/* Top Row: 3 Editorial Metric Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-        {KPIS.map((kpi, i) => (
-          <motion.div
-            key={kpi.label}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.55, ease: EASE_OUT, delay: i * 0.1 }}
-            className="bg-[#f2f0e7] rounded-[2rem] p-8 border border-[#171412]/10 shadow-lg flex flex-col justify-between hover:shadow-xl transition-all duration-300"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className={`${MONO} text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#ff3c34] bg-[#ff3c34]/10 px-3 py-1 rounded-full`}>
-                  STAT 0{i + 1}
-                </span>
-                <div className="w-2 h-2 rounded-full bg-[#171412]/20" />
-              </div>
-              <div className={`${DISPLAY} font-extrabold text-5xl sm:text-6xl tracking-[-0.04em] text-[#171412] tabular-nums`}>
-                <CountUp value={kpi.value} format={kpi.format} />
-              </div>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-[#171412]/10">
-              <div className={`${MONO} text-xs uppercase font-extrabold tracking-[0.14em] text-[#171412]/80`}>
-                {kpi.label}
-              </div>
-              <p className="text-xs text-[#8e827c] mt-1 font-normal">
-                {i === 0 ? "Production web apps, SaaS & developer tools" : i === 1 ? "Stripe subscriptions & WorkOS auth in production" : "Academic excellence alongside shipping products"}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Bottom Row: 2 Experience & Education Editorial Cards */}
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-        {[
-          {
-            tag: "NOW // CURRENT ROLE",
-            tagBg: "bg-[#ff3c34]/15 text-[#ff3c34] border-[#ff3c34]/20",
-            role: "Systems Analyst",
-            org: "City of Merritt",
-            time: "June 2026 — Present",
-            note: "Systems analysis, IT operations, and digital infrastructure tooling for city services.",
-          },
-          {
-            tag: "EDUCATION // DEGREE",
-            tagBg: "bg-[#ffc765]/20 text-[#d97706] border-[#ffc765]/30",
-            role: "BCS, Computing Science",
-            org: "Thompson Rivers University",
-            time: "Expected 2026",
-            note: "Perfect CGPA 4.0 — architecting and shipping production software throughout the degree.",
-          },
-        ].map((item, idx) => (
-          <motion.div
-            {...fadeUp}
-            key={item.role}
-            transition={{ duration: 0.55, ease: EASE_OUT, delay: idx * 0.15 }}
-            className="bg-[#f2f0e7] rounded-[2rem] p-8 border border-[#171412]/10 shadow-lg flex flex-col justify-between hover:shadow-xl transition-all duration-300"
-          >
-            <div>
-              <div className="flex items-center justify-between gap-4 mb-4">
-                <span className={`${MONO} text-[10px] font-extrabold uppercase tracking-[0.16em] px-3.5 py-1 rounded-full border ${item.tagBg}`}>
-                  {item.tag}
-                </span>
-                <span className={`${MONO} text-xs text-[#8e827c]`}>{item.time}</span>
-              </div>
-
-              <h3 className={`${DISPLAY} text-2xl sm:text-3xl font-extrabold tracking-tight text-[#171412]`}>
-                {item.role}
-              </h3>
-              <p className={`${MONO} text-sm font-bold text-[#ff3c34] mt-1`}>
-                {item.org}
-              </p>
-
-              <p className="text-sm text-[#8e827c] mt-4 leading-relaxed font-normal">
-                {item.note}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 const FEEDBACK_CARDS = [
   {
