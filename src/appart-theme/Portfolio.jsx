@@ -12,6 +12,8 @@ import {
 } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import { LINKS } from "../data/projects";
 import ProjectCaseStudy from "./ProjectCaseStudy.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -474,6 +476,7 @@ export default function Portfolio() {
                 poster="/media/inferencesaver-poster.png"
                 title="InferenceSaver"
                 href="#work/inferencesaver"
+                onSelect={() => handleSelectProject("inferencesaver")}
                 label="Featured work"
               />
               <WorksIntro
@@ -845,7 +848,7 @@ function Ticker() {
 }
 
 // Cinematic showcase — reusable full-screen product video with a scroll-scrubbed entrance.
-function VideoShowcase({ src, poster, title, href, label }) {
+function VideoShowcase({ src, poster, title, href, onSelect, label }) {
   const sectionRef = useRef(null);
   const frameRef = useRef(null);
   const videoRef = useRef(null);
@@ -875,6 +878,13 @@ function VideoShowcase({ src, poster, title, href, label }) {
     return () => ctx.revert();
   }, []);
 
+  const handleClick = (e) => {
+    if (onSelect) {
+      e.preventDefault();
+      onSelect("inferencesaver");
+    }
+  };
+
   return (
     <section id="video-showcase" ref={sectionRef} className="relative h-[100svh] overflow-hidden flex items-center justify-center">
       <div
@@ -901,11 +911,10 @@ function VideoShowcase({ src, poster, title, href, label }) {
           </div>
           <a
             href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${MONO} absolute bottom-4 right-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors`}
+            onClick={handleClick}
+            className={`${MONO} absolute bottom-4 right-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors cursor-pointer`}
           >
-            Discover live <ArrowUpRight className="w-3 h-3 text-[#ff3c34]" />
+            Explore case study <ArrowUpRight className="w-3 h-3 text-[#ff3c34]" />
           </a>
         </div>
       </div>
