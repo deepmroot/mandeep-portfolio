@@ -1396,7 +1396,7 @@ function Ships() {
   }, []);
 
   return (
-    <section id="about" className="bg-[#fbf9ef] py-12 sm:py-20 relative z-20">
+    <section id="about" className="bg-[#fbf9ef] pt-8 sm:pt-12 pb-0 relative z-20">
       <div ref={stackRef} className="relative h-screen [perspective:2200px] overflow-visible">
         {/* Pinned Section Header */}
         <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 pb-8">
@@ -1575,7 +1575,7 @@ function ProductFan() {
   };
 
   return (
-    <section className="bg-[#fbf9ef] text-[#171412] overflow-hidden pb-24 sm:pb-36">
+    <section className="bg-[#fbf9ef] text-[#171412] overflow-hidden pt-8 sm:pt-16 pb-24 sm:pb-36">
       <h2
         className={`${DISPLAY} px-5 text-center font-extrabold tracking-[-0.045em] leading-[0.9] text-[clamp(2.8rem,8vw,6.5rem)]`}
       >
