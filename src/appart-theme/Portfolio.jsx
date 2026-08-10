@@ -1289,10 +1289,10 @@ const SHIPS = [
     text: "#ffffff",
     title: "Product engineering, end to end.",
     body: "From empty repo to production URL. I design the architecture, build the interface, wire the backend and ship it — React 19, Next.js 15, and TypeScript.",
-    quote: "Mandeep led our digital platform redesign. The boost in conversion and inquiries has significantly changed our business.",
-    author: "Courtney M.",
-    role: "Owner @ The Wandering Bar",
-    avatar: "/thumbs/thewanderingbar.jpg",
+    quote: "Mandeep tackles complex issues with ease and is able to communicate our crazy ideas into simple and understandable actions that let us keep our fast pace ever growing systems growing.",
+    author: "Matthew",
+    role: "Co-Founder @ InferenceSaver",
+    avatar: "/thumbs/matthew.webp",
     tiles: [
       { name: "Next.js 15", bg: "#000000", color: "#ffffff" },
       { name: "React 19", bg: "#0284c7", color: "#ffffff" },
@@ -1510,11 +1510,11 @@ const FEEDBACK_CARDS = [
     theme: "dark",
   },
   {
-    name: "Alex R.",
-    role: "Senior Systems Admin @ City of Merritt",
-    tag: "CITY OF MERRITT",
-    quote: "I've worked with Mandeep on complex systems analysis and tooling. He is flexible, fast, and remarkably professional.",
-    avatar: "/avatar.jpg",
+    name: "Matthew",
+    role: "Co-Founder @ InferenceSaver",
+    tag: "INFERENCESAVER",
+    quote: "Mandeep tackles complex issues with ease and is able to communicate our crazy ideas into simple and understandable actions that let us keep our fast pace ever growing systems growing.",
+    avatar: "/thumbs/matthew.webp",
     stars: 5,
     step: 0,
     rotate: -2.5,
@@ -1575,7 +1575,7 @@ function ProductFan() {
   };
 
   return (
-    <section className="bg-[#fbf9ef] text-[#171412] overflow-hidden pt-8 sm:pt-16 pb-24 sm:pb-36">
+    <section className="bg-[#fbf9ef] text-[#171412] overflow-hidden -mt-16 sm:-mt-28 pt-0 pb-24 sm:pb-36 relative z-30">
       <h2
         className={`${DISPLAY} px-5 text-center font-extrabold tracking-[-0.045em] leading-[0.9] text-[clamp(2.8rem,8vw,6.5rem)]`}
       >
