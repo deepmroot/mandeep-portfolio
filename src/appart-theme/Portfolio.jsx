@@ -376,11 +376,15 @@ function useSmoothScroll() {
       const anchor = event.target.closest('a[href^="#"]');
       if (!anchor) return;
       const target = anchor.getAttribute("href");
-      if (target.length < 2) return;
-      const el = document.querySelector(target);
-      if (!el) return;
-      event.preventDefault();
-      lenis.scrollTo(el, { offset: -64 });
+      if (!target || target.length < 2 || target.startsWith("#work/")) return;
+      try {
+        const el = document.querySelector(target);
+        if (!el) return;
+        event.preventDefault();
+        lenis.scrollTo(el, { offset: -64 });
+      } catch (err) {
+        // Guard against invalid selector strings
+      }
     };
     document.addEventListener("click", onClick);
 
