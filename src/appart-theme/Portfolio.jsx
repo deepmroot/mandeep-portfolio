@@ -1632,15 +1632,13 @@ function ProductFan() {
               onMouseEnter={() => !isMobile && setHoveredCard(i)}
               onMouseLeave={() => !isMobile && setHoveredCard(null)}
               onClick={() => setActiveCard(i)}
-              initial={{ x: "-50%", rotate: 0, y: 40, opacity: 0 }}
-              whileInView={{
+              animate={{
                 x: `calc(-50% + ${stepOffset}%)`,
                 rotate: rotation,
                 y: yPos,
                 scale: scale,
                 opacity: 1,
               }}
-              viewport={{ once: true, margin: "-15%" }}
               transition={{
                 type: "spring",
                 stiffness: 280,
