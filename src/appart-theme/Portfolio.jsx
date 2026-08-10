@@ -1606,15 +1606,15 @@ function ProductFan() {
           const isThisActive = activeCard === i;
           const isDark = card.theme === "dark";
 
-          // Fixed physical slot index (0..4 centered at slot 2)
+          // Fixed physical slot index (-2, -1, 0, 1, 2) centered symmetrically at slot 2
           const fixedOffsetFromCenter = i - 2;
 
-          // Calculate pure numeric pixel step displacement for fan expansion to support Framer Motion drag engine
+          // Calculate perfectly symmetrical pixel step displacement for fan expansion
           let stepPixelOffset;
           if (isMobile) {
             stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 55 : fixedOffsetFromCenter * 38;
           } else {
-            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 130 : fixedOffsetFromCenter * 90;
+            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 140 : fixedOffsetFromCenter * 95;
           }
 
           const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.2 : card.rotate;
@@ -1625,10 +1625,6 @@ function ProductFan() {
           return (
             <motion.div
               key={card.name}
-              drag="x"
-              dragConstraints={{ left: -150, right: 150 }}
-              dragElastic={0.2}
-              onDragEnd={handleDragEnd}
               onMouseEnter={() => !isMobile && setHoveredCard(i)}
               onMouseLeave={() => !isMobile && setHoveredCard(null)}
               onClick={() => setActiveCard(i)}
@@ -1645,7 +1641,7 @@ function ProductFan() {
                 damping: 24,
                 mass: 0.6,
               }}
-              className={`absolute left-1/2 -translate-x-1/2 top-2 sm:top-4 w-[16.5rem] sm:w-[21rem] md:w-[23rem] h-[25.5rem] sm:h-[31rem] md:h-[33rem] rounded-[1.5rem] sm:rounded-[1.75rem] p-5 sm:p-8 flex flex-col justify-between shadow-2xl cursor-grab active:cursor-grabbing [will-change:transform] ${
+              className={`absolute left-1/2 -translate-x-1/2 top-2 sm:top-4 w-[16.5rem] sm:w-[21rem] md:w-[23rem] h-[25.5rem] sm:h-[31rem] md:h-[33rem] rounded-[1.5rem] sm:rounded-[1.75rem] p-5 sm:p-8 flex flex-col justify-between shadow-2xl cursor-pointer [will-change:transform] ${
                 isDark
                   ? "bg-[#786d67] text-[#fbf9ef] ring-1 ring-white/15"
                   : "bg-[#f2f0e7] text-[#171412] ring-1 ring-[#171412]/10"
