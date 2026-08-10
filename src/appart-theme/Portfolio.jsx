@@ -1609,12 +1609,12 @@ function ProductFan() {
           // Fixed physical slot index (0..4 centered at slot 2)
           const fixedOffsetFromCenter = i - 2;
 
-          // Calculate fixed step displacement for fan expansion
-          let stepOffset;
+          // Calculate pure numeric pixel step displacement for fan expansion to support Framer Motion drag engine
+          let stepPixelOffset;
           if (isMobile) {
-            stepOffset = containerHovered ? fixedOffsetFromCenter * 52 : fixedOffsetFromCenter * 36;
+            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 55 : fixedOffsetFromCenter * 38;
           } else {
-            stepOffset = containerHovered ? fixedOffsetFromCenter * 115 : fixedOffsetFromCenter * 75;
+            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 130 : fixedOffsetFromCenter * 90;
           }
 
           const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.2 : card.rotate;
@@ -1626,14 +1626,14 @@ function ProductFan() {
             <motion.div
               key={card.name}
               drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
+              dragConstraints={{ left: -150, right: 150 }}
               dragElastic={0.2}
               onDragEnd={handleDragEnd}
               onMouseEnter={() => !isMobile && setHoveredCard(i)}
               onMouseLeave={() => !isMobile && setHoveredCard(null)}
               onClick={() => setActiveCard(i)}
               animate={{
-                x: `calc(-50% + ${stepOffset}%)`,
+                x: stepPixelOffset,
                 rotate: rotation,
                 y: yPos,
                 scale: scale,
@@ -1645,7 +1645,7 @@ function ProductFan() {
                 damping: 24,
                 mass: 0.6,
               }}
-              className={`absolute left-1/2 top-2 sm:top-4 w-[16.5rem] sm:w-[21rem] md:w-[23rem] h-[25.5rem] sm:h-[31rem] md:h-[33rem] rounded-[1.5rem] sm:rounded-[1.75rem] p-5 sm:p-8 flex flex-col justify-between shadow-2xl cursor-grab active:cursor-grabbing [will-change:transform] ${
+              className={`absolute left-1/2 -translate-x-1/2 top-2 sm:top-4 w-[16.5rem] sm:w-[21rem] md:w-[23rem] h-[25.5rem] sm:h-[31rem] md:h-[33rem] rounded-[1.5rem] sm:rounded-[1.75rem] p-5 sm:p-8 flex flex-col justify-between shadow-2xl cursor-grab active:cursor-grabbing [will-change:transform] ${
                 isDark
                   ? "bg-[#786d67] text-[#fbf9ef] ring-1 ring-white/15"
                   : "bg-[#f2f0e7] text-[#171412] ring-1 ring-[#171412]/10"
