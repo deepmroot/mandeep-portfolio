@@ -1609,12 +1609,12 @@ function ProductFan() {
           // Fixed physical slot index (-2, -1, 0, 1, 2) centered symmetrically at slot 2
           const fixedOffsetFromCenter = i - 2;
 
-          // Compact brandappart step displacement: tight overlap when resting, elegant fan out on container hover
+          // Compact step displacement centered around middle card
           let stepPixelOffset;
           if (isMobile) {
-            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 46 : fixedOffsetFromCenter * 30;
+            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 44 : fixedOffsetFromCenter * 28;
           } else {
-            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 96 : fixedOffsetFromCenter * 58;
+            stepPixelOffset = containerHovered ? fixedOffsetFromCenter * 95 : fixedOffsetFromCenter * 55;
           }
 
           const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.25 : card.rotate;
@@ -1623,68 +1623,72 @@ function ProductFan() {
           const zIndex = isThisHovered ? 50 : isThisActive ? 40 : 20 - Math.abs(fixedOffsetFromCenter);
 
           return (
-            <motion.div
+            <div
               key={card.name}
-              onMouseEnter={() => !isMobile && setHoveredCard(i)}
-              onMouseLeave={() => !isMobile && setHoveredCard(null)}
-              onClick={() => setActiveCard(i)}
-              animate={{
-                x: stepPixelOffset,
-                rotate: rotation,
-                y: yPos,
-                scale: scale,
-                opacity: 1,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 220,
-                damping: 22,
-                mass: 0.6,
-              }}
-              className={`absolute left-1/2 -translate-x-1/2 top-2 sm:top-4 w-[16.5rem] sm:w-[21rem] md:w-[23rem] h-[25.5rem] sm:h-[31rem] md:h-[33rem] rounded-[1.5rem] sm:rounded-[1.75rem] p-5 sm:p-8 flex flex-col justify-between shadow-2xl cursor-pointer [will-change:transform] ${
-                isDark
-                  ? "bg-[#786d67] text-[#fbf9ef] ring-1 ring-white/15"
-                  : "bg-[#f2f0e7] text-[#171412] ring-1 ring-[#171412]/10"
-              } ${isThisHovered ? "ring-2 !ring-[#ff3c34] shadow-[#ff3c34]/30 shadow-2xl" : ""}`}
+              className="absolute left-1/2 top-2 sm:top-4 -translate-x-1/2 w-[16.5rem] sm:w-[21rem] md:w-[23rem] h-[25.5rem] sm:h-[31rem] md:h-[33rem]"
               style={{ zIndex }}
             >
-              {/* Top Row: 5 Stars Left + Tag & Circle Action Button Right */}
-              <div className="flex items-center justify-between pointer-events-none">
-                <div className="flex items-center gap-0.5 sm:gap-1 text-[#ff4500]">
-                  {"★★★★★"}
-                </div>
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className={`${MONO} text-[8px] sm:text-[10px] font-extrabold uppercase tracking-[0.14em] ${isDark ? "text-white/80" : "text-[#171412]"}`}>
-                    {card.tag}
-                  </span>
-                  <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center ${isDark ? "bg-[#fbf9ef] text-[#171412]" : "bg-[#171412] text-[#fbf9ef]"}`}>
-                    <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              <motion.div
+                onMouseEnter={() => !isMobile && setHoveredCard(i)}
+                onMouseLeave={() => !isMobile && setHoveredCard(null)}
+                onClick={() => setActiveCard(i)}
+                animate={{
+                  x: stepPixelOffset,
+                  rotate: rotation,
+                  y: yPos,
+                  scale: scale,
+                  opacity: 1,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 220,
+                  damping: 22,
+                  mass: 0.6,
+                }}
+                className={`w-full h-full rounded-[1.5rem] sm:rounded-[1.75rem] p-5 sm:p-8 flex flex-col justify-between shadow-2xl cursor-pointer [will-change:transform] ${
+                  isDark
+                    ? "bg-[#786d67] text-[#fbf9ef] ring-1 ring-white/15"
+                    : "bg-[#f2f0e7] text-[#171412] ring-1 ring-[#171412]/10"
+                } ${isThisHovered ? "ring-2 !ring-[#ff3c34] shadow-[#ff3c34]/30 shadow-2xl" : ""}`}
+              >
+                {/* Top Row: 5 Stars Left + Tag & Circle Action Button Right */}
+                <div className="flex items-center justify-between pointer-events-none">
+                  <div className="flex items-center gap-0.5 sm:gap-1 text-[#ff4500]">
+                    {"★★★★★"}
+                  </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className={`${MONO} text-[8px] sm:text-[10px] font-extrabold uppercase tracking-[0.14em] ${isDark ? "text-white/80" : "text-[#171412]"}`}>
+                      {card.tag}
+                    </span>
+                    <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center ${isDark ? "bg-[#fbf9ef] text-[#171412]" : "bg-[#171412] text-[#fbf9ef]"}`}>
+                      <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Quote Body */}
-              <p className={`${DISPLAY} text-base sm:text-xl md:text-[1.35rem] font-extrabold leading-[1.18] tracking-tight my-auto pointer-events-none ${isDark ? "text-[#fbf9ef]" : "text-[#171412]"}`}>
-                {card.quote}
-              </p>
+                {/* Quote Body */}
+                <p className={`${DISPLAY} text-base sm:text-xl md:text-[1.35rem] font-extrabold leading-[1.18] tracking-tight my-auto pointer-events-none ${isDark ? "text-[#fbf9ef]" : "text-[#171412]"}`}>
+                  {card.quote}
+                </p>
 
-              {/* Bottom Row: Circular Avatar + Name/Role stacked */}
-              <div className="flex items-center gap-3 pt-3 sm:pt-4 border-t border-current/10 pointer-events-none">
-                <img
-                  src={card.avatar}
-                  alt={card.name}
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover ring-2 ring-white/20 shrink-0"
-                />
-                <div>
-                  <h3 className={`${DISPLAY} font-extrabold text-xs sm:text-base tracking-tight leading-tight ${isDark ? "text-[#fbf9ef]" : "text-[#171412]"}`}>
-                    {card.name}
-                  </h3>
-                  <p className={`${MONO} text-[9px] sm:text-[11px] mt-0.5 ${isDark ? "text-[#fbf9ef]/70" : "text-[#8e827c]"}`}>
-                    {card.role}
-                  </p>
+                {/* Bottom Row: Circular Avatar + Name/Role stacked */}
+                <div className="flex items-center gap-3 pt-3 sm:pt-4 border-t border-current/10 pointer-events-none">
+                  <img
+                    src={card.avatar}
+                    alt={card.name}
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover ring-2 ring-white/20 shrink-0"
+                  />
+                  <div>
+                    <h3 className={`${DISPLAY} font-extrabold text-xs sm:text-base tracking-tight leading-tight ${isDark ? "text-[#fbf9ef]" : "text-[#171412]"}`}>
+                      {card.name}
+                    </h3>
+                    <p className={`${MONO} text-[9px] sm:text-[11px] mt-0.5 ${isDark ? "text-[#fbf9ef]/70" : "text-[#8e827c]"}`}>
+                      {card.role}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           );
         })}
       </div>
