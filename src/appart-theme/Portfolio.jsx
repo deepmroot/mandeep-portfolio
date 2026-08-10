@@ -1281,11 +1281,11 @@ function SeeMoreWork() {
         <div ref={ringRef} className="absolute top-1/2 left-1/2">
           {SEE_MORE_ITEMS.map((item, i) => {
             const angle = angleStep * i;
-            const radius = squeeze ? "70px" : "min(33vw, 380px)";
+            const radius = squeeze ? "90px" : "min(36vw, 440px)";
             return (
               <div
                 key={item.thumb}
-                className="absolute w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 transition-transform duration-700"
+                className="absolute w-36 h-36 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/15 transition-transform duration-700"
                 style={{
                   transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)",
                   transform: `translate(-50%, -50%) rotate(${angle}deg) translate(${radius}) rotate(${-angle + item.tilt}deg)`,
