@@ -1548,9 +1548,9 @@ const FEEDBACK_CARDS = [
 
 function ProductFan() {
   const [containerHovered, setContainerHovered] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState(2);
+  const [activeCard, setActiveCard] = useState(2);
+  const [hoveredCard, setHoveredCard] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const hoverTimerRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
@@ -1559,35 +1559,12 @@ function ProductFan() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const selectCard = (index) => {
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-    }
-    setHoveredCard(index);
-  };
-
-  const handleCardMouseEnter = (index) => {
-    if (isMobile) return;
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-    }
-    hoverTimerRef.current = setTimeout(() => {
-      setHoveredCard(index);
-    }, 140);
-  };
-
-  const handleCardMouseLeave = () => {
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-    }
-  };
-
   const handleNext = () => {
-    selectCard((hoveredCard + 1) % FEEDBACK_CARDS.length);
+    setActiveCard((prev) => (prev + 1) % FEEDBACK_CARDS.length);
   };
 
   const handlePrev = () => {
-    selectCard((hoveredCard - 1 + FEEDBACK_CARDS.length) % FEEDBACK_CARDS.length);
+    setActiveCard((prev) => (prev - 1 + FEEDBACK_CARDS.length) % FEEDBACK_CARDS.length);
   };
 
   const handleDragEnd = (event, info) => {
@@ -1619,16 +1596,17 @@ function ProductFan() {
         onMouseLeave={() => {
           if (!isMobile) {
             setContainerHovered(false);
-            if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+            setHoveredCard(null);
           }
         }}
         className="relative mt-10 sm:mt-16 h-[27rem] sm:h-[34rem] md:h-[36rem] flex items-center justify-center select-none"
       >
         {FEEDBACK_CARDS.map((card, i) => {
           const isThisHovered = hoveredCard === i;
+          const isThisActive = activeCard === i;
           const isDark = card.theme === "dark";
 
-          // Fixed physical slot index (0..4 centered at slot 2) to prevent horizontal shifting on hover
+          // Fixed physical slot index (0..4 centered at slot 2)
           const fixedOffsetFromCenter = i - 2;
 
           // Calculate fixed step displacement for fan expansion
@@ -1639,10 +1617,10 @@ function ProductFan() {
             stepOffset = containerHovered ? fixedOffsetFromCenter * 115 : fixedOffsetFromCenter * 75;
           }
 
-          const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.15 : card.rotate;
-          const scale = isThisHovered ? (isMobile ? 1.05 : 1.12) : containerHovered ? 1.02 : 1;
-          const yPos = isThisHovered ? (isMobile ? -14 : -24) : Math.abs(fixedOffsetFromCenter) % 2 === 0 ? 0 : 12;
-          const zIndex = isThisHovered ? 50 : 20 - Math.abs(fixedOffsetFromCenter);
+          const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.2 : card.rotate;
+          const scale = isThisHovered ? (isMobile ? 1.05 : 1.1) : isThisActive ? (isMobile ? 1.02 : 1.05) : 1;
+          const yPos = isThisHovered ? (isMobile ? -14 : -24) : isThisActive ? (isMobile ? -8 : -14) : Math.abs(fixedOffsetFromCenter) % 2 === 0 ? 0 : 10;
+          const zIndex = isThisHovered ? 50 : isThisActive ? 40 : 20 - Math.abs(fixedOffsetFromCenter);
 
           return (
             <motion.div
@@ -1651,9 +1629,9 @@ function ProductFan() {
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.2}
               onDragEnd={handleDragEnd}
-              onMouseEnter={() => handleCardMouseEnter(i)}
-              onMouseLeave={handleCardMouseLeave}
-              onClick={() => selectCard(i)}
+              onMouseEnter={() => !isMobile && setHoveredCard(i)}
+              onMouseLeave={() => !isMobile && setHoveredCard(null)}
+              onClick={() => setActiveCard(i)}
               initial={{ x: "-50%", rotate: 0, y: 40, opacity: 0 }}
               whileInView={{
                 x: `calc(-50% + ${stepOffset}%)`,
@@ -1732,11 +1710,11 @@ function ProductFan() {
           {FEEDBACK_CARDS.map((card, idx) => (
             <button
               key={card.name}
-              onClick={() => setHoveredCard(idx)}
+              onClick={() => setActiveCard(idx)}
               type="button"
               aria-label={`Go to feedback ${idx + 1}`}
               className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                hoveredCard === idx
+                activeCard === idx
                   ? "w-8 bg-[#ff3c34]"
                   : "w-2.5 bg-[#171412]/20 hover:bg-[#171412]/40"
               }`}
