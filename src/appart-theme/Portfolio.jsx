@@ -1275,7 +1275,7 @@ function SeeMoreWork() {
     <section
       ref={sectionRef}
       data-dark-section
-      className="relative z-40 overflow-hidden min-h-[900px] sm:min-h-[1080px] flex items-center"
+      className="relative z-40 overflow-hidden min-h-[1100px] sm:min-h-[1350px] md:min-h-[1500px] py-32 sm:py-48 flex items-center justify-center"
     >
       <div className="relative z-10 mx-auto h-px w-px flex items-center justify-center">
         <div ref={ringRef} className="absolute top-1/2 left-1/2">
