@@ -104,6 +104,7 @@ export const PROJECT_THEMES = {
     href: "https://promptline-gold.vercel.app/",
     repo: "https://github.com/deepmroot/promptline-rust",
     thumb: "/thumbs/promptline.jpg",
+    iframe: "https://promptline-gold.vercel.app/",
     techChips: ["Rust", "Tokio", "OpenAI API", "Ollama", "Ratatui", "Encrypted Storage"],
     story: "PromptLine delivers agentic AI capabilities directly to developer local terminals. Engineered in Rust with Tokio async concurrency, Ratatui TUI layouts, and local AES-256 encrypted API key storage.",
     highlights: [

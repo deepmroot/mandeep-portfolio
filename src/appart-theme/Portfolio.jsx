@@ -28,26 +28,6 @@ const EASE_OUT = [0.22, 1, 0.36, 1];
 
 const WORKS = [
   {
-    slug: "promptline",
-    title: "PromptLine",
-    type: "Rust CLI AI Runtime",
-    category: "tooling",
-    year: "2025",
-    blurb: "AI-native terminal runtime — multi-provider, async streaming, encrypted key storage.",
-    summary: "High-performance AI-native terminal runtime built in Rust. Delivers agentic AI coding capabilities directly to your local terminal environment.",
-    href: "https://promptline-gold.vercel.app/",
-    repo: "https://github.com/deepmroot/promptline-rust",
-    thumb: "/thumbs/promptline.jpg",
-    span: "md:col-span-2",
-    aspect: "aspect-video",
-    techChips: ["Rust", "Tokio", "OpenAI API", "Ollama", "Ratatui", "Encrypted Storage"],
-    highlights: [
-      "Engineered safe file operation protocols for AI-driven modifications",
-      "Implemented multi-provider streaming support (OpenAI & local Ollama)",
-      "Designed secure API key management with local AES-256 encrypted storage"
-    ]
-  },
-  {
     slug: "inferencesaver",
     title: "InferenceSaver",
     type: "AI Platform & Billing",
@@ -125,6 +105,26 @@ const WORKS = [
       "Designed scalable state architecture using Zustand and Monaco worker tokenization",
       "Built runtime execution pipeline with isolated console streaming",
       "Implemented real-time multi-user collaboration using Convex backend"
+    ]
+  },
+  {
+    slug: "promptline",
+    title: "PromptLine",
+    type: "Rust CLI",
+    category: "tooling",
+    year: "2025",
+    blurb: "AI-native terminal runtime — multi-provider, async streaming, encrypted key storage.",
+    summary: "High-performance AI-native terminal runtime built in Rust. Delivers agentic AI coding capabilities directly to your local terminal environment.",
+    href: "https://promptline-gold.vercel.app/",
+    repo: "https://github.com/deepmroot/promptline-rust",
+    thumb: "/thumbs/promptline.jpg",
+    span: "",
+    aspect: "aspect-[4/3]",
+    techChips: ["Rust", "Tokio", "OpenAI API", "Ollama", "Ratatui", "Encrypted Storage"],
+    highlights: [
+      "Engineered safe file operation protocols for AI-driven modifications",
+      "Implemented multi-provider streaming support (OpenAI & local Ollama)",
+      "Designed secure API key management with local AES-256 encrypted storage"
     ]
   },
 

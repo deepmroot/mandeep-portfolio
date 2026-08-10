@@ -118,7 +118,14 @@ export default function ProjectCaseStudy({ projectSlug, onBack }) {
             transition={{ duration: 0.8 }}
             className="relative aspect-video rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-[#282421] shadow-2xl border border-[#171412]/10"
           >
-            {project.video ? (
+            {project.iframe ? (
+              <iframe
+                src={project.iframe}
+                title={`${project.title} Live Preview`}
+                className="w-full h-full border-0 rounded-[2rem] sm:rounded-[2.5rem]"
+                loading="lazy"
+              />
+            ) : project.video ? (
               <video
                 src={project.video}
                 poster={project.thumb}
