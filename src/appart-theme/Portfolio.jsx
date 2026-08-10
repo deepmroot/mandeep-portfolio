@@ -1550,6 +1550,7 @@ function ProductFan() {
   const [containerHovered, setContainerHovered] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(2);
   const [isMobile, setIsMobile] = useState(false);
+  const hoverTimerRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
@@ -1558,12 +1559,35 @@ function ProductFan() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const selectCard = (index) => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+    }
+    setHoveredCard(index);
+  };
+
+  const handleCardMouseEnter = (index) => {
+    if (isMobile) return;
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+    }
+    hoverTimerRef.current = setTimeout(() => {
+      setHoveredCard(index);
+    }, 140);
+  };
+
+  const handleCardMouseLeave = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+    }
+  };
+
   const handleNext = () => {
-    setHoveredCard((prev) => (prev + 1) % FEEDBACK_CARDS.length);
+    selectCard((hoveredCard + 1) % FEEDBACK_CARDS.length);
   };
 
   const handlePrev = () => {
-    setHoveredCard((prev) => (prev - 1 + FEEDBACK_CARDS.length) % FEEDBACK_CARDS.length);
+    selectCard((hoveredCard - 1 + FEEDBACK_CARDS.length) % FEEDBACK_CARDS.length);
   };
 
   const handleDragEnd = (event, info) => {
@@ -1595,6 +1619,7 @@ function ProductFan() {
         onMouseLeave={() => {
           if (!isMobile) {
             setContainerHovered(false);
+            if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
           }
         }}
         className="relative mt-10 sm:mt-16 h-[27rem] sm:h-[34rem] md:h-[36rem] flex items-center justify-center select-none"
@@ -1626,8 +1651,9 @@ function ProductFan() {
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.2}
               onDragEnd={handleDragEnd}
-              onMouseEnter={() => !isMobile && setHoveredCard(i)}
-              onClick={() => setHoveredCard(i)}
+              onMouseEnter={() => handleCardMouseEnter(i)}
+              onMouseLeave={handleCardMouseLeave}
+              onClick={() => selectCard(i)}
               initial={{ x: "-50%", rotate: 0, y: 40, opacity: 0 }}
               whileInView={{
                 x: `calc(-50% + ${stepOffset}%)`,
