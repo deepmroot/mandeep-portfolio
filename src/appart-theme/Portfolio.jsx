@@ -1367,23 +1367,25 @@ function Ships() {
       const st = ScrollTrigger.create({
         trigger: stackRef.current,
         start: "top top",
-        end: () => `+=${(cards.length - 1 + 0.4) * 100}%`,
+        end: () => `+=${(cards.length - 1 + 0.5) * 100}%`,
         pin: true,
-        scrub: 0.7,
+        scrub: 1,
         onUpdate: (self) => {
-          const total = cards.length - 1 + 0.4;
+          const total = cards.length - 1 + 0.5;
           const raw = self.progress * total;
-          const lift = window.innerHeight * 1.05;
+          const lift = window.innerHeight * 1.1;
           cards.forEach((card, i) => {
-            const segLen = i === cards.length - 1 ? 0.4 : 1;
+            const segLen = i === cards.length - 1 ? 0.5 : 1;
             const exitT = gsap.utils.clamp(0, 1, (raw - i) / segLen);
             const depth = Math.max(0, i - raw);
+            const easeExit = Math.pow(exitT, 1.25);
             gsap.set(card, {
-              y: depth * 40 - exitT * lift,
-              z: -depth * 30,
-              rotateX: exitT * 10,
-              scale: Math.max(0.94, 1 - depth * 0.03),
-              transformOrigin: "50% 0%",
+              y: depth * 28 - easeExit * lift,
+              z: -depth * 35,
+              rotateX: easeExit * 12,
+              scale: Math.max(0.91, 1 - depth * 0.04),
+              filter: `brightness(${Math.max(0.78, 1 - depth * 0.12)})`,
+              transformOrigin: "50% 10%",
             });
           });
         },
