@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion, MotionConfig, useInView, animate, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight, ArrowDown, Mail } from "lucide-react";
+import { motion, MotionConfig, useInView, animate, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, ArrowDownRight, ArrowDown, Mail, Check, Copy, X, Info } from "lucide-react";
 import {
   HouseIcon,
   SquaresFourIcon,
@@ -12,8 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
-import { LINKS } from "../data/projects";
+import ProjectCaseStudy from "./ProjectCaseStudy.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,94 +26,188 @@ const EASE_OUT = [0.22, 1, 0.36, 1];
 
 const WORKS = [
   {
+    slug: "inferencesaver",
+    title: "InferenceSaver",
+    type: "AI Platform & Billing",
+    category: "ai",
+    year: "2026",
+    blurb: "SSR-first AI SaaS platform unlocking premium AI workflows with Stripe subscriptions, WorkOS auth, and conversion funnels.",
+    summary: "Production AI SaaS platform built with Next.js 15 App Router. Features Stripe recurring subscription billing, WorkOS identity integration, dynamic model routing, and conversion-focused product marketing.",
+    href: "https://inferencesaver.com",
+    thumb: "/thumbs/inferencesaver.jpg",
+    video: "/media/inferencesaver-promo.mp4",
+    span: "md:col-span-2",
+    aspect: "aspect-video",
+    techChips: ["Next.js 15", "React 19", "TypeScript", "Stripe", "WorkOS", "Tailwind"],
+    highlights: [
+      "Built server-rendered App Router architecture with dynamic delivery for model freshness",
+      "Integrated Stripe subscriptions checkout and WorkOS identity authentication lifecycle",
+      "Created conversion-focused landing experiences, guide hubs, and affiliate funnels"
+    ]
+  },
+  {
+    slug: "becomeafish",
     title: "BecomeAfish",
     type: "Booking SaaS",
+    category: "saas",
     year: "2026",
     blurb: "Private swim-lesson booking platform — zone scheduling, recurring lessons, progress tracking.",
+    summary: "Production booking platform for private swim instruction. Features custom zone-based scheduling, recurring lesson logic, instructor dashboard, client progress tracking, and Stripe billing integration.",
     href: "https://becomeafish.com",
     thumb: "/thumbs/becomeafish.jpg",
     video: "/media/becomeafish-promo.mp4",
     span: "md:col-span-2",
     aspect: "aspect-video",
+    techChips: ["React", "TypeScript", "Tailwind", "Node.js", "Stripe", "PostgreSQL"],
+    highlights: [
+      "Architected recurring lesson schedule engine handling zone constraints",
+      "Integrated Stripe checkout & customer portal for automated recurring payments",
+      "Built client progress tracking portal with realtime lesson status updates"
+    ]
   },
   {
+    slug: "rentspace",
     title: "RentSpace",
     type: "PropTech",
+    category: "saas",
     year: "2025",
     blurb: "Rental platform with AI tenant screening, Zillow sync and realtime messaging.",
+    summary: "Modern rental property platform featuring automated AI tenant screening, scoring algorithms, Zillow property feed synchronization, and realtime landlord-tenant messaging.",
     href: "https://rentspace4u.ca/",
     thumb: "/thumbs/rentspace.jpg",
     span: "",
     aspect: "aspect-[4/3]",
+    techChips: ["Next.js 16", "TypeScript", "Supabase", "Gemini 2.0", "PostGIS", "Tailwind"],
+    highlights: [
+      "Integrated Zillow API for real-time rental property synchronization",
+      "Architected AI agent workflow for automated tenant screening and credit scoring",
+      "Implemented Supabase Realtime for instant landlord-tenant messaging",
+      "Optimized geolocation search performance using PostGIS and Supabase"
+    ]
   },
   {
+    slug: "syntaxark",
     title: "SyntaxArk",
     type: "Browser IDE",
+    category: "tooling",
     year: "2025",
     blurb: "Multi-file editing, runtime execution and real-time collaboration — in the browser.",
+    summary: "A full-stack browser-based IDE supporting multi-file editing, custom runtime execution pipelines, interactive coding challenges, and real-time collaboration.",
     href: "https://syntaxark.vercel.app/",
     repo: "https://github.com/deepmroot/SyntaxArk",
     thumb: "/thumbs/syntaxark.jpg",
     span: "",
     aspect: "aspect-[646/989]",
+    techChips: ["React", "TypeScript", "Monaco Editor", "xterm.js", "Convex", "Zustand"],
+    highlights: [
+      "Designed scalable state architecture using Zustand and Monaco worker tokenization",
+      "Built runtime execution pipeline with isolated console streaming",
+      "Implemented real-time multi-user collaboration using Convex backend"
+    ]
   },
   {
+    slug: "promptline",
     title: "PromptLine",
     type: "Rust CLI",
+    category: "tooling",
     year: "2025",
     blurb: "AI-native terminal runtime — multi-provider, async streaming, encrypted key storage.",
+    summary: "High-performance AI-native terminal runtime built in Rust. Delivers agentic AI coding capabilities directly to your local terminal environment.",
     href: "https://promptline-gold.vercel.app/",
     repo: "https://github.com/deepmroot/promptline-rust",
     thumb: "/thumbs/promptline.jpg",
     span: "",
     aspect: "aspect-[4/3]",
+    techChips: ["Rust", "Tokio", "OpenAI API", "Ollama", "Ratatui", "Encrypted Storage"],
+    highlights: [
+      "Engineered safe file operation protocols for AI-driven modifications",
+      "Implemented multi-provider streaming support (OpenAI & local Ollama)",
+      "Designed secure API key management with local AES-256 encrypted storage"
+    ]
   },
   {
+    slug: "agentmemory",
     title: "agentmemory",
     type: "AI Infrastructure",
+    category: "ai",
     year: "2026",
     blurb: "MCP-native persistent memory for AI coding agents — capture every session, recall in milliseconds, run anywhere.",
+    summary: "Persistent, cross-session memory server built for AI coding agents. Uses Model Context Protocol (MCP) to capture coding sessions, extract semantic snippets, and recall contextual memory in milliseconds.",
     href: "https://agent-memory.dev",
     repo: "https://github.com/deepmroot/agentmemory",
     thumb: "/thumbs/agentmemory.jpg",
     span: "md:col-span-2",
     aspect: "aspect-video",
+    techChips: ["TypeScript", "MCP Protocol", "Vector DB", "Node.js", "SQLite", "JSONL"],
+    highlights: [
+      "Built MCP-compliant server architecture compatible with Gemini, Claude & Cursor",
+      "Engineered sub-50ms vector search for semantic codebase context recall",
+      "Implemented automatic session recording and workspace state tracking"
+    ]
   },
   {
+    slug: "brainrot",
     title: "brainrot",
     type: "Open Source",
+    category: "tooling",
     year: "2026",
     blurb: "Cross-agent doomscroll mode — opens a short-form feed while your AI codes, hides it when the agent needs you.",
+    summary: "Open-source developer utility that displays a lightweight doomscroll feed while long-running AI agents process code, automatically hiding the overlay when human input is requested.",
     href: "https://github.com/deepmroot/brainrot",
     thumb: "/thumbs/brainrot.jpg",
     span: "",
     aspect: "aspect-[2/1]",
+    techChips: ["TypeScript", "Electron", "React", "Tailwind", "Agent Events"],
+    highlights: [
+      "Listens to agent lifecycle events to show/hide context overlays seamlessly",
+      "Built zero-latency IPC communication between background worker & HUD",
+      "Gained immediate open-source traction among AI-assisted developers"
+    ]
   },
   {
+    slug: "preflight",
     title: "Preflight",
     type: "AI Agent",
+    category: "ai",
     year: "2026",
     blurb: "Multimodal launch-readiness scanner — reviews code and UI together, flags blockers before demo day.",
+    summary: "Multimodal AI launch scanner built for hackathons & product launches. Scans repository code alongside UI screenshots to detect visual bugs, broken routes, and performance bottlenecks.",
     href: "https://preflight-frontend-sepia.vercel.app",
     repo: "https://github.com/deepmroot/preflight",
     thumb: "/thumbs/preflight.jpg",
     span: "",
     aspect: "aspect-[2/1]",
+    techChips: ["Next.js", "Amazon Nova", "TypeScript", "Tailwind", "Playwright", "Multimodal AI"],
+    highlights: [
+      "Built for Amazon Nova Hackathon, combining vision LLMs with automated DOM audits",
+      "Generates step-by-step fix recommendations and pre-launch checklists",
+      "Automates screenshot capture across responsive breakpoints"
+    ]
   },
   {
+    slug: "genericalternatives",
     title: "Generic Alternatives",
     type: "Supply Chain AI",
+    category: "ai",
     year: "2025",
     blurb: "Distributed sourcing platform replacing traditional agents with data-driven workflows.",
+    summary: "AI-driven global supply chain automation and distributed sourcing platform. Replaces traditional procurement intermediaries with data-driven supplier matching algorithms.",
     href: "https://genericalternatives.co.uk/",
     thumb: "/thumbs/genericalternatives.jpg",
     span: "md:col-span-2",
     aspect: "aspect-[21/9]",
+    techChips: ["TypeScript", "React", "Node.js", "PostgreSQL", "Docker", "Job Queues"],
+    highlights: [
+      "Built distributed sourcing engine with AI-powered supplier matching",
+      "Automated logistics workflows using background job queues",
+      "Developed price prediction algorithms for supply chain risk analysis"
+    ]
   },
 ];
 
 const CLIENT_WORK = [
   {
+    slug: "thewanderingbar",
     title: "The Wandering Bar",
     type: "Client · Mobile Bar",
     year: "2026",
@@ -125,6 +218,7 @@ const CLIENT_WORK = [
     aspect: "aspect-[4/3]",
   },
   {
+    slug: "kamloopsdrywall",
     title: "Kami Drywall & Renovation",
     type: "Client · Contractor",
     year: "2026",
@@ -232,6 +326,40 @@ function CountUp({ value, format }) {
   return <span ref={ref}>{display}</span>;
 }
 
+function CopyEmailButton({ className = "", text = "Copy email" }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText("mandeepsinghwani@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2200);
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      type="button"
+      title="Copy email mandeepsinghwani@gmail.com to clipboard"
+      aria-label="Copy email address mandeepsinghwani@gmail.com"
+      className={`inline-flex items-center gap-2 transition-all cursor-pointer ${className}`}
+    >
+      {copied ? (
+        <>
+          <Check className="w-4 h-4 text-emerald-500 stroke-[2.5]" />
+          <span>Copied!</span>
+        </>
+      ) : (
+        <>
+          <Copy className="w-4 h-4" />
+          <span>{text}</span>
+        </>
+      )}
+    </button>
+  );
+}
+
 // Smooth scroll (Lenis) driving GSAP ScrollTrigger, with anchor handling.
 function useSmoothScroll() {
   useEffect(() => {
@@ -266,39 +394,101 @@ function useSmoothScroll() {
 
 export default function Portfolio() {
   useSmoothScroll();
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeProjectSlug, setActiveProjectSlug] = useState(() => {
+    const hash = window.location.hash;
+    if (hash.startsWith("#work/")) {
+      return hash.replace("#work/", "");
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith("#work/")) {
+        setActiveProjectSlug(hash.replace("#work/", ""));
+      } else {
+        setActiveProjectSlug(null);
+      }
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const handleSelectProject = (slug) => {
+    window.location.hash = `#work/${slug}`;
+    setActiveProjectSlug(slug);
+    window.scrollTo(0, 0);
+  };
+
+  const handleBackToPortfolio = () => {
+    window.location.hash = "";
+    setActiveProjectSlug(null);
+    window.scrollTo(0, 0);
+  };
+
   return (
-    <MotionConfig reducedMotion="user">
-      <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
-        <div
-          id="site-bg-overlay"
-          className="fixed inset-0 z-30 pointer-events-none bg-[#171412] opacity-0"
-          aria-hidden="true"
-        />
-        <Header />
-        <SideNav />
-        <CornerName />
-        <ScrollProgress />
-        <FloatingContact />
-        <Hero />
-        <Ticker />
-        <VideoShowcase
-          src="/media/inferencesaver-promo.mp4"
-          poster="/media/inferencesaver-poster.png"
-          title="InferenceSaver"
-          href="https://inferencesaver.com"
-          label="Featured work"
-        />
-        <WorksIntro />
-        <Works />
-        <ClientWork />
-        <SeeMoreWork />
-        <Ships />
-        <Kpis />
-        <ProductFan />
-        <Contact />
-        <Footer />
-      </main>
-    </MotionConfig>
+    <AnimatePresence mode="wait">
+      {activeProjectSlug ? (
+        <motion.div
+          key={activeProjectSlug}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -24 }}
+          transition={{ duration: 0.5, ease: EASE_OUT }}
+        >
+          <ProjectCaseStudy
+            projectSlug={activeProjectSlug}
+            onBack={handleBackToPortfolio}
+          />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="portfolio-home"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <MotionConfig reducedMotion="user">
+            <main className="min-h-screen bg-[#fbf9ef] text-[#171412]">
+              <div
+                id="site-bg-overlay"
+                className="fixed inset-0 z-30 pointer-events-none bg-[#171412] opacity-0"
+                aria-hidden="true"
+              />
+              <Header />
+              <SideNav />
+              <CornerName />
+              <ScrollProgress />
+              <FloatingContact />
+              <Hero />
+              <Ticker />
+              <VideoShowcase
+                src="/media/inferencesaver-promo.mp4"
+                poster="/media/inferencesaver-poster.png"
+                title="InferenceSaver"
+                href="#work/inferencesaver"
+                label="Featured work"
+              />
+              <WorksIntro
+                activeCategory={activeCategory}
+                setActiveCategory={setActiveCategory}
+              />
+              <Works activeCategory={activeCategory} onSelectProject={handleSelectProject} />
+              <ClientWork onSelectProject={handleSelectProject} />
+              <SeeMoreWork />
+              <Ships />
+              <Kpis />
+              <ProductFan />
+              <Contact />
+              <Footer />
+            </main>
+          </MotionConfig>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -595,7 +785,7 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE_OUT, delay: 1 }}
-          className="mt-8 flex items-center justify-center gap-3"
+          className="mt-8 flex flex-wrap items-center justify-center gap-3"
         >
           <a
             href={LINKS.email}
@@ -610,13 +800,7 @@ function Hero() {
           >
             <img src="/avatar.jpg" alt="Mandeep Singh" className="w-full h-full object-cover" />
           </a>
-          <a
-            href={LINKS.email}
-            aria-label="Email Mandeep"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-[#171412] text-[#fbf9ef] hover:scale-110 transition-transform"
-          >
-            <Mail className="w-4 h-4" strokeWidth={2} />
-          </a>
+          <CopyEmailButton text="" className="flex items-center justify-center w-10 h-10 rounded-full bg-[#171412] text-[#fbf9ef] hover:scale-110 transition-transform" />
         </motion.div>
       </div>
 
@@ -757,13 +941,18 @@ function FloatingContact() {
   );
 }
 
-function ProjectShowcase({ work, index }) {
+const CATEGORIES = [
+  { id: "all", label: "All" },
+  { id: "ai", label: "AI & Infra" },
+  { id: "saas", label: "SaaS & Web" },
+  { id: "tooling", label: "Dev Tooling" },
+];
+
+function ProjectShowcase({ work, index, onSelectProject }) {
   const cardRef = useRef(null);
   const mediaRef = useRef(null);
 
   useEffect(() => {
-    // Video cards render full-frame with no overscan (see below), so there's
-    // no slack to pan into — parallax is image-only.
     if (!mediaRef.current) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
     const ctx = gsap.context(() => {
@@ -781,17 +970,23 @@ function ProjectShowcase({ work, index }) {
     return () => ctx.revert();
   }, []);
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (onSelectProject) {
+      onSelectProject(work.slug);
+    }
+  };
+
   return (
     <motion.a
       ref={cardRef}
-      href={work.href}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={`#work/${work.slug}`}
+      onClick={handleClick}
       initial={{ opacity: 0, y: 70 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.8, ease: EASE_OUT }}
-      className={`project-showcase group block ${work.span}`}
+      className={`project-showcase group block cursor-pointer ${work.span}`}
     >
       <div
         className={`relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-[#282421] ${work.aspect || (work.video ? "aspect-video" : "aspect-[16/10]")}`}
@@ -817,22 +1012,23 @@ function ProjectShowcase({ work, index }) {
             alt={`${work.title} — ${work.type}`}
             loading="lazy"
             decoding="async"
-            className="absolute -inset-y-[6%] left-0 w-full h-[112%] object-cover object-top scale-[1.02] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+            className="w-full h-full object-cover object-top transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
           />
         )}
-        <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between gap-3 bg-[#171412]/80 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 [clip-path:inset(0_calc(100%-11rem)_0_0)] group-hover:[clip-path:inset(0_0_0_0)] transition-[clip-path,background-color,padding] duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[#ff3c34]/90 group-hover:py-5 sm:group-hover:py-6">
-          <div className="flex items-stretch gap-2.5">
+
+        <div className="absolute top-0 left-0 z-10 flex items-center justify-between gap-3 bg-[#171412]/85 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-3.5 rounded-br-2xl max-w-[calc(100%-1rem)] transition-all duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:w-full group-hover:max-w-full group-hover:rounded-none group-hover:bg-[#ff3c34]/95 group-hover:py-4 sm:group-hover:py-5">
+          <div className="flex items-center gap-2.5 shrink-0">
             <span className={`${DISPLAY} text-white font-extrabold text-sm sm:text-base tracking-tight leading-tight self-center`}>
               {work.title}
             </span>
-            <span className={`${MONO} flex flex-col justify-center gap-0.5 border-l border-white/20 pl-2.5 text-[8px] sm:text-[9px] uppercase tracking-[0.14em] text-white/60 leading-tight`}>
+            <span className={`${MONO} flex flex-col justify-center gap-0.5 border-l border-white/20 pl-2.5 text-[8px] sm:text-[9px] uppercase tracking-[0.14em] text-white/70 leading-tight shrink-0`}>
               <span>{work.type}</span>
               <span>{work.year}</span>
             </span>
           </div>
           <div className="grid grid-cols-[0fr] group-hover:grid-cols-[1fr] transition-[grid-template-columns] duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]">
-            <span className={`${MONO} flex items-center gap-1.5 overflow-hidden whitespace-nowrap text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.16em] text-white self-center`}>
-              Discover live <ArrowUpRight className="w-3 h-3 shrink-0" />
+            <span className={`${MONO} flex items-center gap-1.5 overflow-hidden whitespace-nowrap text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.16em] text-white self-center pl-2`}>
+              Explore case study <ArrowUpRight className="w-3 h-3 shrink-0" />
             </span>
           </div>
         </div>
@@ -842,9 +1038,9 @@ function ProjectShowcase({ work, index }) {
   );
 }
 
-function WorksIntro() {
+function WorksIntro({ activeCategory, setActiveCategory }) {
   return (
-    <section className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 py-24 sm:py-36 flex flex-col items-center text-center">
+    <section className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 pt-24 sm:pt-36 pb-12 sm:pb-16 flex flex-col items-center text-center">
       <h2 className={`${DISPLAY} font-extrabold tracking-[-0.055em] leading-[0.85] text-[clamp(3.5rem,11vw,9rem)]`}>
         <Reveal>Featured</Reveal>
         <Reveal delay={0.12}>
@@ -870,15 +1066,57 @@ function WorksIntro() {
       >
         I build products end to end — interfaces, backends and the AI in between, designed to ship and stay live.
       </motion.p>
+
+      {/* Category Filter Pills */}
+      <motion.div
+        {...fadeUp}
+        className="mt-12 w-full flex items-center justify-center"
+      >
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 p-1.5 rounded-2xl bg-[#f2f0e7] border border-[#171412]/10 max-w-full">
+          {CATEGORIES.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            const count =
+              cat.id === "all"
+                ? WORKS.length
+                : WORKS.filter((w) => w.category === cat.id).length;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setActiveCategory(cat.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-[0.12em] transition-all cursor-pointer ${
+                  isActive
+                    ? "bg-[#ff3c34] text-[#fbf9ef] shadow-sm scale-[1.02]"
+                    : "text-[#171412]/70 hover:text-[#171412] hover:bg-[#171412]/5"
+                }`}
+              >
+                <span>{cat.label}</span>
+                <span
+                  className={`text-[9px] font-mono px-1.5 py-0.5 rounded-md ${
+                    isActive ? "bg-[#171412]/20 text-[#fbf9ef]" : "bg-[#171412]/10 text-[#8e827c]"
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </motion.div>
     </section>
   );
 }
 
-function Works() {
+function Works({ activeCategory, onSelectProject }) {
+  const filteredWorks =
+    activeCategory === "all"
+      ? WORKS
+      : WORKS.filter((w) => w.category === activeCategory);
+
   const blocks = [];
   let pair = [];
-  WORKS.forEach((work) => {
-    if (work.span) {
+  filteredWorks.forEach((work) => {
+    if (work.span && filteredWorks.length > 2) {
       if (pair.length) {
         blocks.push({ type: "pair", items: pair });
         pair = [];
@@ -893,34 +1131,36 @@ function Works() {
   return (
     <section id="works" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pb-10 sm:pb-14">
       <div className="max-w-[92rem] mx-auto flex flex-col gap-y-5">
-        {blocks.map((block, bi) =>
-          block.type === "full" ? (
-            <ProjectShowcase key={block.item.title} work={block.item} index={bi} />
-          ) : (
-            <div key={`pair-${bi}`} className="grid md:grid-cols-2 items-start gap-x-5">
-              <div className="flex flex-col gap-y-5">
-                {block.items
-                  .filter((_, i) => i % 2 === 0)
-                  .map((w, i) => (
-                    <ProjectShowcase key={w.title} work={w} index={i} />
-                  ))}
+        <motion.div layout className="flex flex-col gap-y-5">
+          {blocks.map((block, bi) =>
+            block.type === "full" ? (
+              <ProjectShowcase key={block.item.title} work={block.item} index={bi} onSelectProject={onSelectProject} />
+            ) : (
+              <div key={`pair-${bi}`} className="grid md:grid-cols-2 items-start gap-x-5 gap-y-5">
+                <div className="flex flex-col gap-y-5">
+                  {block.items
+                    .filter((_, i) => i % 2 === 0)
+                    .map((w, i) => (
+                      <ProjectShowcase key={w.title} work={w} index={i} onSelectProject={onSelectProject} />
+                    ))}
+                </div>
+                <div className="flex flex-col gap-y-5">
+                  {block.items
+                    .filter((_, i) => i % 2 === 1)
+                    .map((w, i) => (
+                      <ProjectShowcase key={w.title} work={w} index={i} onSelectProject={onSelectProject} />
+                    ))}
+                </div>
               </div>
-              <div className="flex flex-col gap-y-5">
-                {block.items
-                  .filter((_, i) => i % 2 === 1)
-                  .map((w, i) => (
-                    <ProjectShowcase key={w.title} work={w} index={i} />
-                  ))}
-              </div>
-            </div>
-          )
-        )}
+            )
+          )}
+        </motion.div>
       </div>
     </section>
   );
 }
 
-function ClientWork() {
+function ClientWork({ onSelectProject }) {
   return (
     <section id="client-work" className="bg-[#fbf9ef] text-[#171412] px-5 sm:px-8 md:pl-24 md:pr-8 pt-20 sm:pt-28 pb-10 sm:pb-14">
       <div className="max-w-[92rem] mx-auto">
@@ -937,7 +1177,7 @@ function ClientWork() {
         </motion.div>
         <div className="grid md:grid-cols-2 items-start gap-x-5 gap-y-5">
           {CLIENT_WORK.map((work, i) => (
-            <ProjectShowcase key={work.title} work={work} index={i} />
+            <ProjectShowcase key={work.title} work={work} index={i} onSelectProject={onSelectProject} />
           ))}
         </div>
       </div>
@@ -1235,54 +1475,244 @@ function Kpis() {
   );
 }
 
-const FAN_CARDS = [
-  { thumb: "/thumbs/inferencesaver.jpg", title: "InferenceSaver", step: -2, rotate: 6.6 },
-  { thumb: "/thumbs/rentspace.jpg", title: "RentSpace", step: -1, rotate: -2.2 },
-  { thumb: "/thumbs/becomeafish.jpg", title: "BecomeAfish", step: 0, rotate: 1.9 },
-  { thumb: "/thumbs/agentmemory.jpg", title: "agentmemory", step: 1, rotate: -1.4 },
-  { thumb: "/thumbs/syntaxark.jpg", title: "SyntaxArk", step: 2, rotate: 8.5 },
+const FEEDBACK_CARDS = [
+  {
+    name: "Courtney M.",
+    role: "Owner @ The Wandering Bar",
+    tag: "CLIENT WORK",
+    quote: "Mandeep led our digital platform redesign. The boost in conversion and inquiries has significantly changed our business.",
+    avatar: "/thumbs/thewanderingbar.jpg",
+    stars: 5,
+    step: -2,
+    rotate: -6,
+    theme: "light",
+  },
+  {
+    name: "Harpreet S.",
+    role: "Founder @ Kami Drywall",
+    tag: "CLIENT WORK",
+    quote: "We needed a fast, high-converting contractor platform. Handing it over was a real leap of faith. The speed and quality was outstanding.",
+    avatar: "/thumbs/kamloopsdrywall.jpg",
+    stars: 5,
+    step: -1,
+    rotate: 3.5,
+    theme: "dark",
+  },
+  {
+    name: "Alex R.",
+    role: "Senior Systems Admin @ City of Merritt",
+    tag: "CITY OF MERRITT",
+    quote: "I've worked with Mandeep on complex systems analysis and tooling. He is flexible, fast, and remarkably professional.",
+    avatar: "/avatar.jpg",
+    stars: 5,
+    step: 0,
+    rotate: -2.5,
+    theme: "light",
+  },
+  {
+    name: "David K.",
+    role: "Property Manager @ RentSpace",
+    tag: "RENTSPACE",
+    quote: "The automated AI tenant screening feature saved us hours every single week. What struck me most is the engineering quality.",
+    avatar: "/thumbs/rentspace.jpg",
+    stars: 5,
+    step: 1,
+    rotate: 4.5,
+    theme: "dark",
+  },
+  {
+    name: "Elena V.",
+    role: "Full-Stack Engineer @ Nomador",
+    tag: "AGENTMEMORY",
+    quote: "SyntaxArk & agentmemory are brilliant tools. Mandeep's work speaks for itself—shipping real products that actually work in production.",
+    avatar: "/thumbs/agentmemory.jpg",
+    stars: 5,
+    step: 2,
+    rotate: -5,
+    theme: "light",
+  },
 ];
 
-// brandappart cards_stack: cards start piled in the middle and fan out
-// horizontally with slight rotations once the section scrolls into view.
 function ProductFan() {
+  const [containerHovered, setContainerHovered] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState(2);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const handleNext = () => {
+    setHoveredCard((prev) => (prev + 1) % FEEDBACK_CARDS.length);
+  };
+
+  const handlePrev = () => {
+    setHoveredCard((prev) => (prev - 1 + FEEDBACK_CARDS.length) % FEEDBACK_CARDS.length);
+  };
+
+  const handleDragEnd = (event, info) => {
+    const swipeThreshold = 35;
+    if (info.offset.x < -swipeThreshold || info.velocity.x < -200) {
+      handleNext();
+    } else if (info.offset.x > swipeThreshold || info.velocity.x > 200) {
+      handlePrev();
+    }
+  };
+
   return (
-    <section className="bg-[#fbf9ef] text-[#171412] overflow-hidden pb-24 sm:pb-32">
+    <section className="bg-[#fbf9ef] text-[#171412] overflow-hidden pb-24 sm:pb-36">
       <h2
         className={`${DISPLAY} px-5 text-center font-extrabold tracking-[-0.045em] leading-[0.9] text-[clamp(2.8rem,8vw,6.5rem)]`}
       >
-        <Reveal onView>Shipped, live,</Reveal>
+        <Reveal onView>Trusted by clients,</Reveal>
         <Reveal onView delay={0.12}>
-          <span className="text-[#8e827c]">in real hands</span>
+          <span className="text-[#8e827c]">founders & peers</span>
         </Reveal>
       </h2>
-      <div className="relative mt-14 sm:mt-20 h-[19rem] sm:h-[24rem]">
-        {FAN_CARDS.map((card) => (
-          <motion.div
-            key={card.title}
-            initial={{ x: "-50%", rotate: 0, y: 40, opacity: 0 }}
-            whileInView={{
-              x: `${-50 + card.step * 90}%`,
-              rotate: card.rotate,
-              y: card.step % 2 === 0 ? 0 : 14,
-              opacity: 1,
-            }}
-            viewport={{ once: true, margin: "-15%" }}
-            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.15 + Math.abs(card.step) * 0.08 }}
-            className="absolute left-1/2 top-0 w-44 sm:w-56 md:w-64 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-[#171412]/10 bg-[#282421]"
-            style={{ zIndex: 10 - Math.abs(card.step) }}
-          >
-            <div className="aspect-[3/4]">
-              <img src={card.thumb} alt={card.title} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-            </div>
-            <div className="absolute bottom-0 inset-x-0 flex items-center justify-between bg-[#171412]/80 backdrop-blur-md px-4 py-3">
-              <span className={`${DISPLAY} text-white font-extrabold text-xs sm:text-sm tracking-tight`}>
-                {card.title}
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3c34]" />
-            </div>
-          </motion.div>
-        ))}
+
+      <p className="mt-4 text-center text-[#8e827c] text-xs sm:text-sm font-mono uppercase tracking-[0.14em]">
+        {isMobile ? "Swipe left / right or tap to switch feedback" : "Hover or swipe card stack to expand feedback"}
+      </p>
+
+      <div
+        onMouseEnter={() => !isMobile && setContainerHovered(true)}
+        onMouseLeave={() => {
+          if (!isMobile) {
+            setContainerHovered(false);
+          }
+        }}
+        className="relative mt-10 sm:mt-16 h-[27rem] sm:h-[34rem] md:h-[36rem] flex items-center justify-center select-none"
+      >
+        {FEEDBACK_CARDS.map((card, i) => {
+          const isThisHovered = hoveredCard === i;
+          const isDark = card.theme === "dark";
+
+          // Compute relative step distance from active index for dynamic stack ordering
+          const relativeStep = i - hoveredCard;
+
+          // Calculate step displacement and expansion based on screen size
+          let stepOffset;
+          if (isMobile) {
+            stepOffset = containerHovered ? relativeStep * 48 : relativeStep * 36;
+          } else {
+            stepOffset = containerHovered ? relativeStep * 110 : relativeStep * 75;
+          }
+
+          const rotation = isThisHovered ? 0 : containerHovered ? card.rotate * 0.15 : card.rotate;
+          const scale = isThisHovered ? (isMobile ? 1.05 : 1.12) : containerHovered ? 1.02 : 1;
+          const yPos = isThisHovered ? (isMobile ? -10 : -20) : Math.abs(relativeStep) % 2 === 0 ? 0 : 12;
+          const zIndex = isThisHovered ? 40 : 10 - Math.abs(relativeStep);
+
+          return (
+            <motion.div
+              key={card.name}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={handleDragEnd}
+              onMouseEnter={() => !isMobile && setHoveredCard(i)}
+              onClick={() => setHoveredCard(i)}
+              initial={{ x: "-50%", rotate: 0, y: 40, opacity: 0 }}
+              whileInView={{
+                x: `calc(-50% + ${stepOffset}%)`,
+                rotate: rotation,
+                y: yPos,
+                scale: scale,
+                opacity: 1,
+              }}
+              viewport={{ once: true, margin: "-15%" }}
+              transition={{
+                type: "spring",
+                stiffness: 280,
+                damping: 24,
+                mass: 0.6,
+              }}
+              className={`absolute left-1/2 top-2 sm:top-4 w-[16.5rem] sm:w-[21rem] md:w-[23rem] h-[25.5rem] sm:h-[31rem] md:h-[33rem] rounded-[1.5rem] sm:rounded-[1.75rem] p-5 sm:p-8 flex flex-col justify-between shadow-2xl cursor-grab active:cursor-grabbing [will-change:transform] ${
+                isDark
+                  ? "bg-[#786d67] text-[#fbf9ef] ring-1 ring-white/15"
+                  : "bg-[#f2f0e7] text-[#171412] ring-1 ring-[#171412]/10"
+              } ${isThisHovered ? "ring-2 !ring-[#ff3c34] shadow-[#ff3c34]/30 shadow-2xl" : ""}`}
+              style={{ zIndex }}
+            >
+              {/* Top Row: 5 Stars Left + Tag & Circle Action Button Right */}
+              <div className="flex items-center justify-between pointer-events-none">
+                <div className="flex items-center gap-0.5 sm:gap-1 text-[#ff4500]">
+                  {"★★★★★"}
+                </div>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className={`${MONO} text-[8px] sm:text-[10px] font-extrabold uppercase tracking-[0.14em] ${isDark ? "text-white/80" : "text-[#171412]"}`}>
+                    {card.tag}
+                  </span>
+                  <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center ${isDark ? "bg-[#fbf9ef] text-[#171412]" : "bg-[#171412] text-[#fbf9ef]"}`}>
+                    <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Quote Body */}
+              <p className={`${DISPLAY} text-base sm:text-xl md:text-[1.35rem] font-extrabold leading-[1.18] tracking-tight my-auto pointer-events-none ${isDark ? "text-[#fbf9ef]" : "text-[#171412]"}`}>
+                {card.quote}
+              </p>
+
+              {/* Bottom Row: Circular Avatar + Name/Role stacked */}
+              <div className="flex items-center gap-3 pt-3 sm:pt-4 border-t border-current/10 pointer-events-none">
+                <img
+                  src={card.avatar}
+                  alt={card.name}
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover ring-2 ring-white/20 shrink-0"
+                />
+                <div>
+                  <h3 className={`${DISPLAY} font-extrabold text-xs sm:text-base tracking-tight leading-tight ${isDark ? "text-[#fbf9ef]" : "text-[#171412]"}`}>
+                    {card.name}
+                  </h3>
+                  <p className={`${MONO} text-[9px] sm:text-[11px] mt-0.5 ${isDark ? "text-[#fbf9ef]/70" : "text-[#8e827c]"}`}>
+                    {card.role}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Swipe & Tap Controls Bar */}
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <button
+          onClick={handlePrev}
+          type="button"
+          aria-label="Previous feedback"
+          className="w-10 h-10 rounded-full border border-[#171412]/15 bg-[#f2f0e7] text-[#171412] flex items-center justify-center hover:bg-[#ff3c34] hover:text-[#fbf9ef] hover:border-[#ff3c34] transition-colors cursor-pointer"
+        >
+          <ArrowDownRight className="w-4 h-4 rotate-[135deg]" />
+        </button>
+
+        <div className="flex items-center gap-2">
+          {FEEDBACK_CARDS.map((card, idx) => (
+            <button
+              key={card.name}
+              onClick={() => setHoveredCard(idx)}
+              type="button"
+              aria-label={`Go to feedback ${idx + 1}`}
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                hoveredCard === idx
+                  ? "w-8 bg-[#ff3c34]"
+                  : "w-2.5 bg-[#171412]/20 hover:bg-[#171412]/40"
+              }`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={handleNext}
+          type="button"
+          aria-label="Next feedback"
+          className="w-10 h-10 rounded-full border border-[#171412]/15 bg-[#f2f0e7] text-[#171412] flex items-center justify-center hover:bg-[#ff3c34] hover:text-[#fbf9ef] hover:border-[#ff3c34] transition-colors cursor-pointer"
+        >
+          <ArrowUpRight className="w-4 h-4" />
+        </button>
       </div>
     </section>
   );
@@ -1319,7 +1749,7 @@ function Contact() {
           <br />
           pay for itself!
         </motion.h2>
-        <motion.div {...fadeUp}>
+        <motion.div {...fadeUp} className="flex flex-wrap items-center justify-center gap-3">
           <motion.a
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
@@ -1329,6 +1759,7 @@ function Contact() {
             mandeepsinghwani@gmail.com
             <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </motion.a>
+          <CopyEmailButton className="inline-flex items-center gap-2 rounded-full border border-[#fbf9ef]/20 bg-[#fbf9ef]/10 text-[#fbf9ef] font-semibold px-6 py-4 hover:bg-[#fbf9ef] hover:text-[#171412] transition-colors" />
         </motion.div>
       </div>
     </section>
