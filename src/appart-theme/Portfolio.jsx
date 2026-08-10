@@ -1587,10 +1587,6 @@ function ProductFan() {
         </Reveal>
       </h2>
 
-      <p className="mt-4 text-center text-[#8e827c] text-xs sm:text-sm font-mono uppercase tracking-[0.14em]">
-        {isMobile ? "Swipe left / right or tap to switch feedback" : "Hover or swipe card stack to expand feedback"}
-      </p>
-
       <div
         onMouseEnter={() => !isMobile && setContainerHovered(true)}
         onMouseLeave={() => {
