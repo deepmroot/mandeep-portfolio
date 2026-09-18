@@ -993,7 +993,9 @@ function VideoShowcase({ src, poster, title, href, onSelect, label }) {
     <section id="video-showcase" ref={sectionRef} className="relative h-[100svh] overflow-hidden flex items-center justify-center">
       <div
         ref={frameRef}
-        className="group relative h-full aspect-video max-w-full overflow-hidden shadow-2xl [will-change:transform]"
+        // Width-driven on phones (w-full + aspect-video => no crop), height-driven
+        // on desktop. Never constrain both axes at once or object-cover crops.
+        className="group relative w-full sm:w-auto sm:h-full aspect-video max-w-full overflow-hidden shadow-2xl [will-change:transform]"
       >
         <div className="relative w-full h-full">
           <SmartVideo
@@ -1003,8 +1005,8 @@ function VideoShowcase({ src, poster, title, href, onSelect, label }) {
             className="absolute inset-0 w-full h-full object-cover"
           />
 
-          {/* Caption + link, reference-style corners */}
-          <div className={`${MONO} absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.2em] text-white/60`}>
+          {/* Caption + link, reference-style corners (caption hidden on phones where the two collide) */}
+          <div className={`${MONO} hidden sm:block absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.2em] text-white/60`}>
             Case study — {title} © 2026
           </div>
           <a
