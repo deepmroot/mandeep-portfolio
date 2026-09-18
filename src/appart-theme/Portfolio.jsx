@@ -336,12 +336,12 @@ function CopyEmailButton({ className = "", text = "Copy email" }) {
     >
       {copied ? (
         <>
-          <Check className="w-4 h-4 text-emerald-500 shrink-0" weight="bold" />
+          <Check className="w-4 h-4 text-emerald-500 shrink-0" weight="fill" />
           {text ? <span>{label}</span> : null}
         </>
       ) : (
         <>
-          <Copy className="w-4 h-4 shrink-0" weight="bold" />
+          <Copy className="w-4 h-4 shrink-0" weight="fill" />
           {text ? <span>{text}</span> : null}
         </>
       )}
@@ -672,7 +672,7 @@ function ResumeModal({ open, onClose }) {
                   aria-label="Close resume"
                   className="flex items-center justify-center w-10 h-10 rounded-full border border-[#171412]/15 text-[#171412] hover:bg-[#ff3c34] hover:text-[#fbf9ef] hover:border-[#ff3c34] transition-colors cursor-pointer"
                 >
-                  <X className="w-4 h-4" weight="bold" />
+                  <X className="w-4 h-4" weight="fill" />
                 </button>
               </div>
             </div>
