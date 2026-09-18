@@ -25,3 +25,7 @@ dist-ssr
 
 # Vite
 public/dist
+
+# Local scratch / agent artifacts
+scratch/
+.vite-agent.log

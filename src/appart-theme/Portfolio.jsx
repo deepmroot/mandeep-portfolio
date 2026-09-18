@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { motion, MotionConfig, useInView, animate, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight, ArrowDown, Mail, Check, Copy, X, Info } from "lucide-react";
 import {
   HouseIcon,
   SquaresFourIcon,
@@ -9,12 +8,20 @@ import {
   EnvelopeSimpleIcon,
   GithubLogoIcon,
   LinkedinLogoIcon,
+  ArrowUpRight,
+  ArrowDownRight,
+  ArrowDown,
+  Check,
+  Copy,
 } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { LINKS } from "../data/projects";
-import ProjectCaseStudy from "./ProjectCaseStudy.jsx";
+import { PROJECT_THEMES } from "../data/projectThemes.js";
+import SmartVideo from "./SmartVideo.jsx";
+
+const ProjectCaseStudy = lazy(() => import("./ProjectCaseStudy.jsx"));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -305,7 +312,11 @@ function CopyEmailButton({ className = "", text = "Copy email" }) {
   const handleCopy = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    navigator.clipboard.writeText("mandeepsinghwani@gmail.com");
+    try {
+      navigator.clipboard.writeText("mandeepsinghwani@gmail.com");
+    } catch (err) {
+      // Clipboard API unavailable (permissions / insecure context) — no-op.
+    }
     setCopied(true);
     setTimeout(() => setCopied(false), 2200);
   };
@@ -340,6 +351,9 @@ function useSmoothScroll() {
 
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
     lenis.on("scroll", ScrollTrigger.update);
+    // Exposed for programmatic jumps (case-study enter/exit) so they don't
+    // fight Lenis by calling window.scrollTo directly.
+    window.__lenis = lenis;
 
     const tick = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
@@ -365,8 +379,22 @@ function useSmoothScroll() {
       document.removeEventListener("click", onClick);
       gsap.ticker.remove(tick);
       lenis.destroy();
+      window.__lenis = undefined;
     };
   }, []);
+}
+
+// Instant jump to top that respects Lenis when it's running.
+function scrollTopInstant() {
+  try {
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { immediate: true });
+      return;
+    }
+  } catch (err) {
+    // Fall through to native scroll.
+  }
+  window.scrollTo(0, 0);
 }
 
 export default function Portfolio() {
@@ -396,18 +424,21 @@ export default function Portfolio() {
   const handleSelectProject = (slug) => {
     window.location.hash = `#work/${slug}`;
     setActiveProjectSlug(slug);
-    window.scrollTo(0, 0);
+    scrollTopInstant();
   };
 
   const handleBackToPortfolio = () => {
     window.location.hash = "";
     setActiveProjectSlug(null);
-    window.scrollTo(0, 0);
+    scrollTopInstant();
   };
+
+  const knownProject = activeProjectSlug ? PROJECT_THEMES[activeProjectSlug] : null;
 
   return (
     <AnimatePresence mode="wait">
       {activeProjectSlug ? (
+        knownProject ? (
         <motion.div
           key={activeProjectSlug}
           initial={{ opacity: 0, y: 24 }}
@@ -415,11 +446,32 @@ export default function Portfolio() {
           exit={{ opacity: 0, y: -24 }}
           transition={{ duration: 0.5, ease: EASE_OUT }}
         >
-          <ProjectCaseStudy
-            projectSlug={activeProjectSlug}
-            onBack={handleBackToPortfolio}
-          />
+          <Suspense
+            fallback={
+              <div className="min-h-screen flex items-center justify-center bg-[#fbf9ef]">
+                <span className={`${MONO} text-xs uppercase tracking-[0.2em] text-[#8e827c]`}>
+                  Loading case study…
+                </span>
+              </div>
+            }
+          >
+            <ProjectCaseStudy
+              projectSlug={activeProjectSlug}
+              onBack={handleBackToPortfolio}
+            />
+          </Suspense>
         </motion.div>
+        ) : (
+          <motion.div
+            key="unknown-project"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -24 }}
+            transition={{ duration: 0.5, ease: EASE_OUT }}
+          >
+            <UnknownProject onBack={handleBackToPortfolio} />
+          </motion.div>
+        )
       ) : (
         <motion.div
           key="portfolio-home"
@@ -466,6 +518,29 @@ export default function Portfolio() {
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function UnknownProject({ onBack }) {
+  return (
+    <main className="min-h-screen bg-[#fbf9ef] text-[#171412] flex flex-col items-center justify-center text-center px-6">
+      <span className={`${MONO} text-[10px] uppercase tracking-[0.25em] text-[#ff3c34]`}>
+        Case study not found
+      </span>
+      <h1 className={`${DISPLAY} mt-4 font-extrabold tracking-tight text-[clamp(2rem,6vw,4rem)]`}>
+        That project doesn't exist.
+      </h1>
+      <p className="mt-4 max-w-md text-[#171412]/60">
+        The link you followed points to an unknown case study. Head back to explore the real work.
+      </p>
+      <button
+        onClick={onBack}
+        type="button"
+        className={`${MONO} mt-8 inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-xs font-bold uppercase tracking-[0.14em] px-8 py-4 hover:bg-[#ff3c34] transition-colors cursor-pointer`}
+      >
+        Back to works
+      </button>
+    </main>
   );
 }
 
@@ -794,12 +869,6 @@ function Hero() {
 }
 
 function Ticker() {
-  const row = TICKER_ITEMS.map((item, i) => (
-    <span key={i} className="inline-flex items-center">
-      <span className={`${MONO} text-sm uppercase tracking-[0.2em] px-6`}>{item}</span>
-      <span className="ticker-star inline-block text-[#ff3c34] font-bold">*</span>
-    </span>
-  ));
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -810,8 +879,14 @@ function Ticker() {
       aria-hidden="true"
     >
       <div className="ticker-track whitespace-nowrap w-max">
-        {row}
-        {row}
+        {[0, 1].map((copy) =>
+          TICKER_ITEMS.map((item, i) => (
+            <span key={`${copy}-${i}`} className="inline-flex items-center">
+              <span className={`${MONO} text-sm uppercase tracking-[0.2em] px-6`}>{item}</span>
+              <span className="ticker-star inline-block text-[#ff3c34] font-bold">*</span>
+            </span>
+          ))
+        )}
       </div>
     </motion.div>
   );
@@ -821,7 +896,6 @@ function Ticker() {
 function VideoShowcase({ src, poster, title, href, onSelect, label }) {
   const sectionRef = useRef(null);
   const frameRef = useRef(null);
-  const videoRef = useRef(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
@@ -862,16 +936,10 @@ function VideoShowcase({ src, poster, title, href, onSelect, label }) {
         className="group relative h-full aspect-video max-w-full overflow-hidden shadow-2xl [will-change:transform]"
       >
         <div className="relative w-full h-full">
-          <video
-            ref={videoRef}
+          <SmartVideo
             src={src}
             poster={poster}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label={`${title} product video`}
+            label={`${title} product video`}
             className="absolute inset-0 w-full h-full object-cover"
           />
 
@@ -917,7 +985,7 @@ function FloatingContact() {
       >
         <span className={`${DISPLAY} text-sm font-semibold whitespace-nowrap`}>Have a product to ship?</span>
         <span className={`${MONO} inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-[10px] font-bold uppercase tracking-[0.14em] px-5 py-3 transition-colors hover:bg-[#ff3c34]`}>
-          Start a conversation <Mail className="w-3.5 h-3.5" />
+          Start a conversation <EnvelopeSimpleIcon className="w-3.5 h-3.5" weight="fill" />
         </span>
       </motion.a>
     </div>
@@ -977,15 +1045,10 @@ function ProjectShowcase({ work, index, onSelectProject }) {
         {work.video ? (
           // Container is aspect-video to match the source exactly — object-cover
           // then has nothing to crop, so on-screen text/UI in the footage stays intact.
-          <video
+          <SmartVideo
             src={work.video}
             poster={work.thumb}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label={`${work.title} — ${work.type} promo video`}
+            label={`${work.title} — ${work.type} promo video`}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
           />
         ) : (
@@ -1172,6 +1235,17 @@ function SeeMoreWork() {
   const ringRef = useRef(null);
   const sectionRef = useRef(null);
   const [squeeze, setSqueeze] = useState(false);
+  // Numeric px radius (recomputed on resize) so the squeeze transition can
+  // actually animate — CSS can't interpolate between "90px" and "min(...)".
+  const [orbitRadius, setOrbitRadius] = useState(() =>
+    typeof window !== "undefined" ? Math.min(window.innerWidth * 0.36, 440) : 440
+  );
+
+  useEffect(() => {
+    const onResize = () => setOrbitRadius(Math.min(window.innerWidth * 0.36, 440));
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   useEffect(() => {
     if (!ringRef.current) return undefined;
@@ -1250,7 +1324,7 @@ function SeeMoreWork() {
         <div ref={ringRef} className="absolute top-1/2 left-1/2">
           {SEE_MORE_ITEMS.map((item, i) => {
             const angle = angleStep * i;
-            const radius = squeeze ? "90px" : "min(36vw, 440px)";
+            const radius = `${squeeze ? 90 : orbitRadius}px`;
             return (
               <div
                 key={item.thumb}
@@ -1267,7 +1341,7 @@ function SeeMoreWork() {
         </div>
         <h2 className="relative z-10">
           <a
-            href="/work"
+            href="#works"
             onMouseEnter={() => setSqueeze(true)}
             onMouseLeave={() => setSqueeze(false)}
             className={`${DISPLAY} block text-center font-extrabold text-[clamp(3.5rem,9vw,8rem)] leading-[0.9] tracking-[-0.04em] whitespace-nowrap cursor-pointer transition-colors duration-500 ${squeeze ? "text-white" : "text-[#8e827c]"}`}
@@ -1401,7 +1475,9 @@ function Ships() {
         {/* Pinned Section Header */}
         <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 pb-8">
           <h2 className={`${DISPLAY} font-extrabold tracking-[-0.02em] text-[clamp(2rem,5vw,3.5rem)] text-[#171412]`}>
-            <Reveal onView>
+            {/* Mount-triggered on purpose: onView reveals don't fire reliably
+                inside/after a GSAP pin container. */}
+            <Reveal>
               <span>
                 What I ship<span className="text-[#ff3c34]">.</span>
               </span>
@@ -1579,8 +1655,10 @@ function ProductFan() {
       <h2
         className={`${DISPLAY} px-5 text-center font-extrabold tracking-[-0.045em] leading-[0.9] text-[clamp(2.8rem,8vw,6.5rem)]`}
       >
-        <Reveal onView>Trusted by clients,</Reveal>
-        <Reveal onView delay={0.12}>
+        {/* Mount-triggered: this section renders right after the pinned Ships
+            stack, where onView reveals fail to fire. */}
+        <Reveal>Trusted by clients,</Reveal>
+        <Reveal delay={0.12}>
           <span className="text-[#8e827c]">founders & peers</span>
         </Reveal>
       </h2>
@@ -1666,7 +1744,7 @@ function ProductFan() {
                 </p>
 
                 {/* Bottom Row: Circular Avatar + Name/Role stacked */}
-                <div className="flex items-center gap-3.5 pt-3.5 sm:pt-5 border-t border-current/10 pointer-events-none">
+                <div className={`flex items-center gap-3.5 pt-3.5 sm:pt-5 border-t ${isDark ? "border-white/10" : "border-[#171412]/10"} pointer-events-none`}>
                   <img
                     src={card.avatar}
                     alt={card.name}

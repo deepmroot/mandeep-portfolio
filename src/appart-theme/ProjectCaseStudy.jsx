@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { ArrowUpRight as PhosphorArrowUpRight, GithubLogo as PhosphorGithubLogo } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowUpRight, GithubLogo } from "@phosphor-icons/react";
+import SmartVideo from "./SmartVideo.jsx";
 import { PROJECT_THEMES } from "../data/projectThemes.js";
 
 const DISPLAY = "[font-family:'Bricolage_Grotesque','Inter',sans-serif]";
@@ -13,7 +13,13 @@ export default function ProjectCaseStudy({ projectSlug, onBack }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    // Lenis owns scrolling — jump through it when present.
+    try {
+      if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
+      else window.scrollTo(0, 0);
+    } catch (err) {
+      window.scrollTo(0, 0);
+    }
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
   }, [projectSlug]);
@@ -126,13 +132,10 @@ export default function ProjectCaseStudy({ projectSlug, onBack }) {
                 loading="lazy"
               />
             ) : project.video ? (
-              <video
+              <SmartVideo
                 src={project.video}
                 poster={project.thumb}
-                autoPlay
-                muted
-                loop
-                playsInline
+                label={`${project.title} promo video`}
                 className="w-full h-full object-cover"
               />
             ) : (
@@ -216,7 +219,7 @@ export default function ProjectCaseStudy({ projectSlug, onBack }) {
                 rel="noopener noreferrer"
                 className={`${DISPLAY} inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-sm font-extrabold uppercase tracking-[0.14em] px-8 py-4 hover:bg-[#ff3c34] transition-colors shadow-xl`}
               >
-                Launch Live Site <PhosphorArrowUpRight className="w-5 h-5" />
+                Launch Live Site <ArrowUpRight className="w-5 h-5" />
               </a>
 
               {project.repo && (
@@ -226,7 +229,7 @@ export default function ProjectCaseStudy({ projectSlug, onBack }) {
                   rel="noopener noreferrer"
                   className={`${MONO} inline-flex items-center gap-2 rounded-full border border-[#171412]/20 text-[#171412] text-xs font-bold uppercase tracking-[0.14em] px-6 py-4 hover:bg-[#171412] hover:text-[#fbf9ef] transition-colors`}
                 >
-                  GitHub <PhosphorGithubLogo className="w-5 h-5" weight="fill" />
+                  GitHub <GithubLogo className="w-5 h-5" weight="fill" />
                 </a>
               )}
             </div>
