@@ -321,6 +321,10 @@ function CopyEmailButton({ className = "", text = "Copy email" }) {
     setTimeout(() => setCopied(false), 2200);
   };
 
+  // Icon-only when no label: swapping in the word "Copied!" would blow out
+  // a fixed-size circular button, so just swap the glyph instead.
+  const label = copied ? "Copied!" : text;
+
   return (
     <button
       onClick={handleCopy}
@@ -332,12 +336,12 @@ function CopyEmailButton({ className = "", text = "Copy email" }) {
       {copied ? (
         <>
           <Check className="w-4 h-4 text-emerald-500 shrink-0" weight="bold" />
-          <span>Copied!</span>
+          {text ? <span>{label}</span> : null}
         </>
       ) : (
         <>
           <Copy className="w-4 h-4 shrink-0" weight="bold" />
-          <span>{text}</span>
+          {text ? <span>{text}</span> : null}
         </>
       )}
     </button>
