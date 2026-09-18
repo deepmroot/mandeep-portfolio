@@ -1635,11 +1635,12 @@ function Ships() {
 
 const FEEDBACK_CARDS = [
   {
-    name: "Courtney M.",
+    name: "Gloria Lyons",
     role: "Owner @ The Wandering Bar",
     tag: "CLIENT WORK",
     quote: "Mandeep led our digital platform redesign. The boost in conversion and inquiries has significantly changed our business.",
-    avatar: "/thumbs/thewanderingbar.jpg",
+    avatar: null,
+    initials: "GL",
     stars: 5,
     step: -2,
     rotate: -6,
@@ -1816,11 +1817,22 @@ function ProductFan() {
 
                 {/* Bottom Row: Circular Avatar + Name/Role stacked */}
                 <div className={`flex items-center gap-3.5 pt-3.5 sm:pt-5 border-t ${isDark ? "border-white/10" : "border-[#171412]/10"} pointer-events-none`}>
-                  <img
-                    src={card.avatar}
-                    alt={card.name}
-                    className="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover ring-2 ring-white/20 shrink-0"
-                  />
+                  {card.avatar ? (
+                    <img
+                      src={card.avatar}
+                      alt={card.name}
+                      className="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover ring-2 ring-white/20 shrink-0"
+                    />
+                  ) : (
+                    <div
+                      aria-hidden="true"
+                      className={`${DISPLAY} w-11 h-11 sm:w-14 sm:h-14 rounded-full font-extrabold text-sm sm:text-lg flex items-center justify-center ring-2 ring-white/20 shrink-0 ${
+                        isDark ? "bg-[#fbf9ef]/15 text-[#fbf9ef]" : "bg-[#171412]/10 text-[#171412]"
+                      }`}
+                    >
+                      {card.initials}
+                    </div>
+                  )}
                   <div>
                     <h3 className={`${DISPLAY} font-extrabold text-sm sm:text-lg tracking-tight leading-tight ${isDark ? "text-[#fbf9ef]" : "text-[#171412]"}`}>
                       {card.name}
