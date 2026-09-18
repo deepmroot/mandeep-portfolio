@@ -1476,10 +1476,10 @@ const SHIPS = [
     text: "#ffffff",
     title: "Systems Analysis & Rust Tooling.",
     body: "Below the web layer: a Rust terminal runtime with async streaming, municipal IT systems analysis for City of Merritt, and CI/CD deploy gates.",
-    quote: "I've worked with Mandeep on complex systems analysis and tooling. He is flexible, fast, and remarkably professional.",
-    author: "Alex R.",
-    role: "Senior Systems Admin @ City of Merritt",
-    avatar: "/avatar.jpg",
+    quote: "Mandeep is proactive, dependable, and highly resourceful. When a task or issue needs to be addressed, he is quick to take ownership and consistently looks for the most efficient and effective way to resolve it. He approaches problems thoughtfully, works independently, and can be relied upon to follow through and get things done properly.",
+    author: "Laura Lefebvre",
+    role: "IT Manager @ City of Merritt",
+    initials: "LL",
     tiles: [
       { name: "Rust", bg: "#000000", color: "#ffffff" },
       { name: "Tokio", bg: "#282421", color: "#ffffff" },
@@ -1583,11 +1583,20 @@ function Ships() {
                       "{ship.quote}"
                     </p>
                     <div className="flex items-center gap-3 pt-1">
-                      <img
-                        src={ship.avatar}
-                        alt={ship.author}
-                        className="w-10 h-10 rounded-full object-cover ring-2 ring-white/30 shrink-0"
-                      />
+                      {ship.avatar ? (
+                        <img
+                          src={ship.avatar}
+                          alt={ship.author}
+                          className="w-10 h-10 rounded-full object-cover ring-2 ring-white/30 shrink-0"
+                        />
+                      ) : (
+                        <div
+                          aria-hidden="true"
+                          className={`${DISPLAY} w-10 h-10 rounded-full bg-white/15 text-white font-extrabold text-sm flex items-center justify-center ring-2 ring-white/30 shrink-0`}
+                        >
+                          {ship.initials}
+                        </div>
+                      )}
                       <div>
                         <div className={`${DISPLAY} text-sm font-extrabold text-white leading-tight`}>
                           {ship.author}
