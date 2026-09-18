@@ -331,12 +331,12 @@ function CopyEmailButton({ className = "", text = "Copy email" }) {
     >
       {copied ? (
         <>
-          <Check className="w-4 h-4 text-emerald-500 stroke-[2.5]" />
+          <Check className="w-4 h-4 text-emerald-500 shrink-0" weight="bold" />
           <span>Copied!</span>
         </>
       ) : (
         <>
-          <Copy className="w-4 h-4" />
+          <Copy className="w-4 h-4 shrink-0" weight="bold" />
           <span>{text}</span>
         </>
       )}
