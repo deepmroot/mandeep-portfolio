@@ -13,6 +13,7 @@ import {
   ArrowDown,
   Check,
   Copy,
+  X,
 } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -453,6 +454,9 @@ export default function Portfolio() {
   useSmoothScroll();
   useCalEmbed();
   const [activeCategory, setActiveCategory] = useState("all");
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const openResume = () => setResumeOpen(true);
+  const closeResume = () => setResumeOpen(false);
   const [activeProjectSlug, setActiveProjectSlug] = useState(() => {
     const hash = window.location.hash;
     if (hash.startsWith("#work/")) {
@@ -541,7 +545,7 @@ export default function Portfolio() {
                 aria-hidden="true"
               />
               <Header />
-              <SideNav />
+              <SideNav onOpenResume={openResume} />
               <CornerName />
               <ScrollProgress />
               <FloatingContact />
@@ -564,8 +568,9 @@ export default function Portfolio() {
               <SeeMoreWork />
               <Ships />
               <ProductFan />
-              <Contact />
+              <Contact onOpenResume={openResume} />
               <Footer />
+              <ResumeModal open={resumeOpen} onClose={closeResume} />
             </main>
           </MotionConfig>
         </motion.div>
@@ -594,6 +599,92 @@ function UnknownProject({ onBack }) {
         Back to works
       </button>
     </main>
+  );
+}
+
+// In-page resume viewer: PDF in a modal sheet, closable via X, backdrop, or Escape.
+function ResumeModal({ open, onClose }) {
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    try {
+      window.__lenis?.stop();
+    } catch (err) {
+      // Lenis not running — native scroll lock above is enough.
+    }
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+      try {
+        window.__lenis?.start();
+      } catch (err) {
+        // Nothing to restart.
+      }
+    };
+  }, [open, onClose]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="resume-modal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Resume"
+        >
+          <div
+            className="absolute inset-0 bg-[#171412]/70 backdrop-blur-sm cursor-pointer"
+            onClick={onClose}
+            aria-hidden="true"
+          />
+          <motion.div
+            initial={{ y: 32, scale: 0.98 }}
+            animate={{ y: 0, scale: 1 }}
+            exit={{ y: 24, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: EASE_OUT }}
+            className="relative w-full max-w-4xl h-[85svh] bg-[#fbf9ef] rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+          >
+            <div className="flex items-center justify-between gap-3 px-5 sm:px-6 py-4 border-b border-[#171412]/10 shrink-0">
+              <span className={`${MONO} text-[10px] uppercase tracking-[0.2em] text-[#8e827c]`}>
+                Resume — Mandeep Singh
+              </span>
+              <div className="flex items-center gap-2">
+                <a
+                  href={LINKS.resume}
+                  download
+                  className={`${MONO} inline-flex items-center rounded-full bg-[#171412] text-[#fbf9ef] text-[10px] font-bold uppercase tracking-[0.14em] px-5 py-2.5 hover:bg-[#ff3c34] transition-colors`}
+                >
+                  Download
+                </a>
+                <button
+                  onClick={onClose}
+                  type="button"
+                  aria-label="Close resume"
+                  className="flex items-center justify-center w-10 h-10 rounded-full border border-[#171412]/15 text-[#171412] hover:bg-[#ff3c34] hover:text-[#fbf9ef] hover:border-[#ff3c34] transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" weight="bold" />
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={LINKS.resume}
+              title="Mandeep Singh — resume"
+              className="w-full flex-1 bg-white"
+            />
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -639,11 +730,11 @@ const NAV_ITEMS = [
   { label: "Home", href: "#top", icon: HouseIcon },
   { label: "Works", href: "#works", icon: SquaresFourIcon },
   { label: "About", href: "#about", icon: UserIcon },
-  { label: "Resume", href: LINKS.resume, icon: ReadCvLogoIcon, external: true },
+  { label: "Resume", icon: ReadCvLogoIcon, action: "resume" },
   { label: "Contact", href: "#contact", icon: EnvelopeSimpleIcon },
 ];
 
-function SideNav() {
+function SideNav({ onOpenResume }) {
   const [onDark, setOnDark] = useState(false);
 
   useEffect(() => {
@@ -681,13 +772,8 @@ function SideNav() {
       >
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
-          return (
-            <a
-              key={item.label}
-              href={item.href}
-              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="rail-link"
-            >
+          const inner = (
+            <>
               <span className="rail-inner">
                 <Icon className="rail-icon" weight="fill" />
                 <span className="rail-dot" />
@@ -695,6 +781,28 @@ function SideNav() {
               <span className={`${DISPLAY} rail-tag text-[11px] font-extrabold uppercase tracking-[0.08em]`}>
                 {item.label}
               </span>
+            </>
+          );
+          if (item.action === "resume") {
+            return (
+              <button
+                key={item.label}
+                type="button"
+                onClick={onOpenResume}
+                aria-label="Open resume"
+                className="rail-link cursor-pointer"
+              >
+                {inner}
+              </button>
+            );
+          }
+          return (
+            <a
+              key={item.label}
+              href={item.href}
+              className="rail-link"
+            >
+              {inner}
             </a>
           );
         })}
@@ -713,11 +821,23 @@ function SideNav() {
         >
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
+            if (item.action === "resume") {
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={onOpenResume}
+                  aria-label="Open resume"
+                  className="flex items-center justify-center w-11 h-11 rounded-xl text-[#171412]/70 transition-colors active:bg-[#171412] active:text-[#fbf9ef] cursor-pointer"
+                >
+                  <Icon className="w-5 h-5" weight="fill" />
+                </button>
+              );
+            }
             return (
               <a
                 key={item.label}
                 href={item.href}
-                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 aria-label={item.label}
                 className="flex items-center justify-center w-11 h-11 rounded-xl text-[#171412]/70 transition-colors active:bg-[#171412] active:text-[#fbf9ef]"
               >
@@ -1888,7 +2008,7 @@ function ProductFan() {
   );
 }
 
-function Contact() {
+function Contact({ onOpenResume }) {
   return (
     <section id="contact" data-dark-section className="bg-[#171412] text-[#fbf9ef]">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-24 py-28 sm:py-40 flex flex-col items-center text-center">
@@ -1896,20 +2016,37 @@ function Contact() {
           {[
             { icon: GithubLogoIcon, href: LINKS.github, title: "GitHub", external: true },
             { icon: LinkedinLogoIcon, href: LINKS.linkedin, title: "LinkedIn", external: true },
-            { icon: ReadCvLogoIcon, href: LINKS.resume, title: "Resume", external: true },
+            { icon: ReadCvLogoIcon, title: "Resume", action: "resume" },
             { icon: EnvelopeSimpleIcon, href: LINKS.email, title: "Email" },
-          ].map((s) => (
-            <a
-              key={s.title}
-              href={s.href}
-              title={s.title}
-              aria-label={s.title}
-              {...(s.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className={`w-12 h-12 rounded-xl border border-[#fbf9ef]/15 bg-[#fbf9ef]/5 flex items-center justify-center hover:bg-[#ff3c34] hover:border-[#ff3c34] transition-colors`}
-            >
-              <s.icon className="w-5 h-5" weight="fill" />
-            </a>
-          ))}
+          ].map((s) => {
+            const cls = `w-12 h-12 rounded-xl border border-[#fbf9ef]/15 bg-[#fbf9ef]/5 flex items-center justify-center hover:bg-[#ff3c34] hover:border-[#ff3c34] transition-colors cursor-pointer`;
+            if (s.action === "resume") {
+              return (
+                <button
+                  key={s.title}
+                  type="button"
+                  onClick={onOpenResume}
+                  title={s.title}
+                  aria-label="Open resume"
+                  className={cls}
+                >
+                  <s.icon className="w-5 h-5" weight="fill" />
+                </button>
+              );
+            }
+            return (
+              <a
+                key={s.title}
+                href={s.href}
+                title={s.title}
+                aria-label={s.title}
+                {...(s.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className={cls}
+              >
+                <s.icon className="w-5 h-5" weight="fill" />
+              </a>
+            );
+          })}
         </motion.div>
         <motion.h2
           {...fadeUp}
