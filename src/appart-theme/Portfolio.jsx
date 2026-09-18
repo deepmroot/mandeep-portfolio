@@ -397,8 +397,33 @@ function scrollTopInstant() {
   window.scrollTo(0, 0);
 }
 
+// Official Cal.com inline snippet: defines the window.Cal queue, loads the
+// embed script, and registers our namespace. Anchors carrying
+// data-cal-namespace="booking" + data-cal-link open the on-site popup;
+// without JS (or if blocked) they degrade to plain new-tab links.
+const CAL_SNIPPET = `(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");Cal("init", "booking", {origin:"https://app.cal.com"});Cal.ns["booking"]("ui", {"layout":"month_view"});`;
+
+// Loads Cal.com's popup embed once so booking anchors open an on-site
+// scheduling popup. If the script is blocked, anchors degrade gracefully
+// to plain new-tab links.
+function useCalEmbed() {
+  useEffect(() => {
+    try {
+      if (document.getElementById("cal-embed")) return undefined;
+      const s = document.createElement("script");
+      s.id = "cal-embed";
+      s.text = CAL_SNIPPET;
+      document.head.appendChild(s);
+    } catch (err) {
+      // CSP / no DOM — anchors still work as plain links.
+    }
+    return undefined;
+  }, []);
+}
+
 export default function Portfolio() {
   useSmoothScroll();
+  useCalEmbed();
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeProjectSlug, setActiveProjectSlug] = useState(() => {
     const hash = window.location.hash;
@@ -565,7 +590,13 @@ function Header() {
         <motion.a
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.97 }}
-          href={LINKS.email}
+          href={LINKS.booking}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-cal-namespace="booking"
+          data-cal-link={LINKS.booking.replace("https://app.cal.com/", "").replace("https://cal.com/", "")}
+          data-cal-config='{"layout":"month_view"}'
+          aria-label="Book a meeting"
           className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-xs font-bold uppercase tracking-[0.12em] px-5 py-3 hover:bg-[#ff3c34] transition-colors shadow-lg"
         >
           Get in touch
