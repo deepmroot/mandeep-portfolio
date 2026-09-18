@@ -716,10 +716,10 @@ function Header() {
           data-cal-namespace="booking"
           data-cal-link={LINKS.booking.replace("https://app.cal.com/", "").replace("https://cal.com/", "")}
           data-cal-config='{"layout":"month_view"}'
-          aria-label="Book a meeting"
+          aria-label="Book a call"
           className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-[#171412] text-[#fbf9ef] text-xs font-bold uppercase tracking-[0.12em] px-5 py-3 hover:bg-[#ff3c34] transition-colors shadow-lg"
         >
-          Get in touch
+          Book a call
         </motion.a>
       </div>
     </motion.header>
