@@ -792,7 +792,7 @@ function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const top = useTransform(scrollYProgress, [0, 1], ["0%", "97%"]);
   return (
-    <div className="hidden lg:block fixed right-6 top-1/2 -translate-y-1/2 h-64 w-px bg-[#171412]/15 z-30" aria-hidden="true">
+    <div className="hidden lg:block fixed right-6 top-1/2 -translate-y-1/2 h-64 w-px bg-[#171412]/15 z-30 pointer-events-none" aria-hidden="true">
       <motion.div style={{ top }} className="absolute -left-[3.5px] w-2 h-2 rounded-full bg-[#171412]" />
     </div>
   );
@@ -1034,7 +1034,7 @@ function FloatingContact() {
   }, []);
 
   return (
-    <div className="hidden md:block fixed z-50 bottom-5 left-1/2 -translate-x-1/2">
+    <div className="hidden md:block fixed z-50 bottom-5 left-1/2 -translate-x-1/2 pointer-events-none">
       <motion.a
         href={LINKS.email}
         initial={false}
