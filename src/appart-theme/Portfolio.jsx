@@ -409,6 +409,17 @@ const CAL_SNIPPET = `(function (C, A, L) { let p = function (a, ar) { a.q.push(a
 function useCalEmbed() {
   useEffect(() => {
     try {
+      // Tracks whether the real embed script finished loading (not just the
+      // inline stub) so clicks can decide between popup vs plain link.
+      window.__calReady = false;
+      const observer = new MutationObserver(() => {
+        const s = document.querySelector('script[src="https://app.cal.com/embed/embed.js"]');
+        if (!s) return;
+        observer.disconnect();
+        s.addEventListener("load", () => { window.__calReady = true; }, { once: true });
+      });
+      observer.observe(document.head, { childList: true });
+
       if (document.getElementById("cal-embed")) return undefined;
       const s = document.createElement("script");
       s.id = "cal-embed";
@@ -419,6 +430,19 @@ function useCalEmbed() {
     }
     return undefined;
   }, []);
+}
+
+// Left-click with Cal ready -> popup only (suppress the anchor's own
+// navigation, which Cal's embed doesn't do for target="_blank" links).
+// Cal not ready -> fall through to the plain new-tab link.
+function handleBookingClick(e) {
+  let calReady = false;
+  try {
+    calReady = !!window.__calReady;
+  } catch (err) {
+    calReady = false;
+  }
+  if (calReady) e.preventDefault();
 }
 
 export default function Portfolio() {
@@ -593,6 +617,7 @@ function Header() {
           href={LINKS.booking}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={handleBookingClick}
           data-cal-namespace="booking"
           data-cal-link={LINKS.booking.replace("https://app.cal.com/", "").replace("https://cal.com/", "")}
           data-cal-config='{"layout":"month_view"}'
