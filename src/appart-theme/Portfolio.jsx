@@ -36,6 +36,25 @@ const EASE_OUT = [0.22, 1, 0.36, 1];
 
 const WORKS = [
   {
+    slug: "listeningkit",
+    title: "Log by ListeningKit",
+    type: "Social Listening",
+    category: "ai",
+    year: "2026",
+    blurb: "Live social-listening logbook for Facebook, X and Reddit — keyword alerts by push notification.",
+    summary: "Real-time social-listening tool that monitors Facebook, X and Reddit for your keywords, scores buyer intent with AI, and notifies you instantly on hits. Built for a Convex hackathon.",
+    href: "https://log.listeningkit.com/",
+    thumb: "/thumbs/listeningkit.png",
+    span: "md:col-span-2",
+    aspect: "aspect-video",
+    techChips: ["TypeScript", "Next.js", "Convex", "Vercel"],
+    highlights: [
+      "Monitors Facebook, X and Reddit for keywords and logs every hit in real time",
+      "Scores buyer intent with AI so high-value mentions surface first",
+      "Sends instant push notifications on keyword hits; built on Convex for a hackathon"
+    ]
+  },
+  {
     slug: "inferencesaver",
     title: "InferenceSaver",
     type: "AI Platform & Billing",
@@ -45,7 +64,6 @@ const WORKS = [
     summary: "Production AI SaaS platform built with Next.js 15 App Router. Features Stripe recurring subscription billing, WorkOS identity integration, dynamic model routing, and conversion-focused product marketing.",
     href: "https://inferencesaver.com",
     thumb: "/thumbs/inferencesaver.jpg",
-    video: "/media/inferencesaver-promo.mp4",
     span: "md:col-span-2",
     aspect: "aspect-video",
     techChips: ["Next.js 15", "React 19", "TypeScript", "Stripe", "WorkOS", "Tailwind"],
@@ -254,12 +272,12 @@ const SEE_MORE_ITEMS = [
 
 
 const KPIS = [
-  { value: 9, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "products live" },
+  { value: 10, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "products live" },
   { value: 2, format: (n) => String(Math.round(n)).padStart(2, "0"), label: "with real billing" },
   { value: 4.0, format: (n) => n.toFixed(1), label: "CGPA at TRU" },
 ];
 
-const TICKER_ITEMS = ["SyntaxArk", "InferenceSaver", "agentmemory", "RentSpace", "BecomeAfish", "PromptLine", "brainrot", "React", "Next.js", "Rust", "Convex", "Stripe", "Supabase"];
+const TICKER_ITEMS = ["SyntaxArk", "InferenceSaver", "agentmemory", "Log", "RentSpace", "BecomeAfish", "PromptLine", "brainrot", "React", "Next.js", "Rust", "Convex", "Stripe", "Supabase"];
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -552,11 +570,11 @@ export default function Portfolio() {
               <Hero />
               <Ticker />
               <VideoShowcase
-                src="/media/inferencesaver-promo.mp4"
-                poster="/media/inferencesaver-poster.png"
-                title="InferenceSaver"
-                href="#work/inferencesaver"
-                onSelect={() => handleSelectProject("inferencesaver")}
+                src="/media/listeningkit-promo.mp4"
+                poster="/media/listeningkit-poster.jpg"
+                title="Log by ListeningKit"
+                href="#work/listeningkit"
+                onSelect={() => handleSelectProject("listeningkit")}
                 label="Featured work"
               />
               <WorksIntro

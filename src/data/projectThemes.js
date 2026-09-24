@@ -139,6 +139,28 @@ export const PROJECT_THEMES = {
       { thumb: "/thumbs/agentmemory.jpg", caption: "Vector Semantic Memory Server" }
     ]
   },
+  listeningkit: {
+    slug: "listeningkit",
+    title: "Log by ListeningKit",
+    tag: "SOCIAL LISTENING",
+    subtitle: "Live social-listening logbook for Facebook, X and Reddit with instant keyword alerts.",
+    bg: "#171412",
+    year: "2026",
+    industry: "Social Listening & Lead Intent",
+    client: "ListeningKit",
+    href: "https://log.listeningkit.com/",
+    thumb: "/thumbs/listeningkit.png",
+    techChips: ["TypeScript", "Next.js", "Convex", "Vercel"],
+    story: "Log by ListeningKit is a real-time social-listening tool that monitors Facebook, X and Reddit for your keywords, scores buyer intent with AI, and notifies you instantly on hits. Built for a Convex hackathon.",
+    highlights: [
+      "Monitors Facebook, X and Reddit for keywords and logs every hit in real time",
+      "Scores buyer intent with AI so high-value mentions surface first",
+      "Sends instant push notifications on keyword hits; built on Convex for a hackathon"
+    ],
+    gallery: [
+      { thumb: "/thumbs/listeningkit.png", caption: "Log — live keyword hit feed" }
+    ]
+  },
   brainrot: {
     slug: "brainrot",
     title: "brainrot",
