@@ -18,6 +18,7 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { track } from "@vercel/analytics";
 import { LINKS } from "../data/projects";
 import { PROJECT_THEMES } from "../data/projectThemes.js";
 import SmartVideo from "./SmartVideo.jsx";
@@ -459,6 +460,7 @@ function useCalEmbed() {
 // navigation, which Cal's embed doesn't do for target="_blank" links).
 // Cal not ready -> fall through to the plain new-tab link.
 function handleBookingClick(e) {
+  track("book_call_click");
   let calReady = false;
   try {
     calReady = !!window.__calReady;
@@ -473,7 +475,10 @@ export default function Portfolio() {
   useCalEmbed();
   const [activeCategory, setActiveCategory] = useState("all");
   const [resumeOpen, setResumeOpen] = useState(false);
-  const openResume = () => setResumeOpen(true);
+  const openResume = () => {
+    track("resume_open");
+    setResumeOpen(true);
+  };
   const closeResume = () => setResumeOpen(false);
   const [activeProjectSlug, setActiveProjectSlug] = useState(() => {
     const hash = window.location.hash;
@@ -497,6 +502,7 @@ export default function Portfolio() {
   }, []);
 
   const handleSelectProject = (slug) => {
+    track("project_view", { slug });
     window.location.hash = `#work/${slug}`;
     setActiveProjectSlug(slug);
     scrollTopInstant();
