@@ -150,6 +150,7 @@ export const PROJECT_THEMES = {
     client: "ListeningKit",
     href: "https://log.listeningkit.com/",
     thumb: "/thumbs/listeningkit.png",
+    video: "/media/listeningkit-case-study.mp4",
     techChips: ["TypeScript", "Next.js", "Convex", "Vercel"],
     story: "Log by ListeningKit is a real-time social-listening tool that monitors Facebook, X and Reddit for your keywords, scores buyer intent with AI, and notifies you instantly on hits. Built for a Convex hackathon.",
     highlights: [
