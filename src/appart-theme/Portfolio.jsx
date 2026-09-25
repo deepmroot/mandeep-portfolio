@@ -8,6 +8,7 @@ import {
   EnvelopeSimpleIcon,
   GithubLogoIcon,
   LinkedinLogoIcon,
+  XLogoIcon,
   ArrowUpRight,
   ArrowDownRight,
   ArrowDown,
@@ -2040,6 +2041,7 @@ function Contact({ onOpenResume }) {
           {[
             { icon: GithubLogoIcon, href: LINKS.github, title: "GitHub", external: true },
             { icon: LinkedinLogoIcon, href: LINKS.linkedin, title: "LinkedIn", external: true },
+            { icon: XLogoIcon, href: LINKS.x, title: "X", external: true },
             { icon: ReadCvLogoIcon, title: "Resume", action: "resume" },
             { icon: EnvelopeSimpleIcon, href: LINKS.email, title: "Email" },
           ].map((s) => {
