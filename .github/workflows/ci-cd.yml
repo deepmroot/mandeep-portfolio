@@ -29,3 +29,6 @@ jobs:
       # 4. Build project (Vercel's Git integration handles deploys)
       - name: Build project
         run: npm run build
+
+      - name: Verify pre-rendered HTML and crawler access
+        run: npm test

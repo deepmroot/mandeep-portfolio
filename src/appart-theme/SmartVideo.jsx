@@ -33,10 +33,8 @@ export default function SmartVideo({ src, poster, label, className }) {
     return () => observer?.disconnect();
   }, []);
 
-  const autoplay =
-    typeof window !== "undefined" &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+  // Keep the first browser render identical to the pre-rendered HTML.
+  // IntersectionObserver starts playback after hydration when appropriate.
   return (
     <video
       ref={ref}
@@ -46,7 +44,6 @@ export default function SmartVideo({ src, poster, label, className }) {
       loop
       playsInline
       preload="metadata"
-      autoPlay={autoplay}
       aria-label={label}
       className={className}
     />

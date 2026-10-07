@@ -481,13 +481,7 @@ export default function Portfolio() {
     setResumeOpen(true);
   };
   const closeResume = () => setResumeOpen(false);
-  const [activeProjectSlug, setActiveProjectSlug] = useState(() => {
-    const hash = window.location.hash;
-    if (hash.startsWith("#work/")) {
-      return hash.replace("#work/", "");
-    }
-    return null;
-  });
+  const [activeProjectSlug, setActiveProjectSlug] = useState(null);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -498,6 +492,7 @@ export default function Portfolio() {
         setActiveProjectSlug(null);
       }
     };
+    handleHashChange();
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
@@ -1287,6 +1282,10 @@ function ProjectShowcase({ work, index, onSelectProject }) {
         </div>
         <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[inherit]" />
       </div>
+      <div className="flex flex-col gap-1 px-1 pt-3 pb-2 text-[#171412]">
+        <h3 className={`${DISPLAY} text-lg font-bold leading-tight`}>{work.title}</h3>
+        <p className="text-sm leading-relaxed text-[#171412]/70">{work.blurb}</p>
+      </div>
     </motion.a>
   );
 }
@@ -1444,12 +1443,11 @@ function SeeMoreWork() {
   const [squeeze, setSqueeze] = useState(false);
   // Numeric px radius (recomputed on resize) so the squeeze transition can
   // actually animate — CSS can't interpolate between "90px" and "min(...)".
-  const [orbitRadius, setOrbitRadius] = useState(() =>
-    typeof window !== "undefined" ? Math.min(window.innerWidth * 0.36, 440) : 440
-  );
+  const [orbitRadius, setOrbitRadius] = useState(440);
 
   useEffect(() => {
     const onResize = () => setOrbitRadius(Math.min(window.innerWidth * 0.36, 440));
+    onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
